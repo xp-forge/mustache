@@ -23,8 +23,28 @@
     #[@test]
     public function replace_two_variables() {
       $this->assertEquals(
-        'Hello Chris, You have just won $10000!',
-        $this->render('Hello {{name}}, You have just won ${{value}}!', array('name' => 'Chris', 'value' => 10000))
+        'The color of bananas is yellow',
+        $this->render('The color of {{fruit}}s is {{color}}', array('fruit' => 'banana', 'color' => 'yellow'))
+      );
+    }
+
+    #[@test]
+    public function typical_mustache_template() {
+      $this->assertEquals(
+        "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.\n",
+        $this->render(
+          "Hello {{name}}\n".
+          "You have just won \${{value}}!\n".
+          "{{#in_ca}}\n".
+          "Well, \${{taxed_value}}, after taxes.\n".
+          "{{/in_ca}}\n",
+          array(
+            'name'        => 'Chris',
+            'value'       => 10000,
+            'taxed_value' => 10000 - (10000 * 0.4),
+            'in_ca'       => TRUE
+          )
+        )
       );
     }
   }
