@@ -80,5 +80,23 @@
       );
     }
 
+    #[@test]
+    public function non_empty_list() {
+      $this->assertEquals(
+        "  <b>resque</b>\n  <b>hub</b>\n  <b>rip</b>\n",
+        $this->render(
+          "{{#repo}}\n".
+          "  <b>{{name}}</b>\n".
+          "{{/repo}}\n", 
+          array(
+            'repo' => array(
+              array('name' => 'resque'),
+              array('name' => 'hub'),
+              array('name' => 'rip')
+            )
+          )
+        )
+      );
+    }
   }
 ?>
