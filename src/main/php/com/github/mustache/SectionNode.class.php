@@ -32,12 +32,14 @@
         } else {
           throw new \lang\IllegalStateException('Function '.$f->getName().' should have either 1 or 2 parameters but has '.$p);
         }
-      } else if (is_array($value)) {
+      } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {
           $output.= $this->nodes->evaluate($values)."\n";
         }
         return $output;
+      } else if (is_array($value)) {
+        return $this->nodes->evaluate($value);
       } else {
         return $this->nodes->evaluate($context);
       }

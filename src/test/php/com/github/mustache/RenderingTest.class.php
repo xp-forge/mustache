@@ -134,5 +134,18 @@
         )
       );
     }
+
+    #[@test]
+    public function hash_value_becomes_context() {
+      $this->assertEquals(
+        'Hi Jon!',
+        $this->render(
+          "{{#person?}}\n".
+          "  Hi {{name}}!\n".
+          "{{/person?}}\n",
+          array('person?' => array('name' => 'Jon'))
+        )
+      );
+    }
   }
 ?>
