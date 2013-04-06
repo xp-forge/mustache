@@ -15,6 +15,8 @@
             return '<?php if ($values[\''.substr($var, 1).'\']) { ?>';
           } else if ('/' === $var{0}) {
             return '<?php } ?>';
+          } else if ('{' === $var{0}) {
+            return '<?=$values[\''.substr($var, 1).'\'];?>';
           } else {
             return '<?=htmlspecialchars($values[\''.$var.'\']);?>'.(isset($matches[2]) ? $matches[2] : "\n");
           }

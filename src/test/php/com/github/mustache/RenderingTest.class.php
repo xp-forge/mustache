@@ -56,5 +56,13 @@
       );
     }
 
+    #[@test]
+    public function triple_mustache_returns_unescaped_html() {
+      $this->assertEquals(
+        'The code for Mustache is hosted on <b>GitHub</b>',
+        $this->render('The code for Mustache is hosted on {{{site}}}', array('site' => '<b>GitHub</b>'))
+      );
+    }
+
   }
 ?>
