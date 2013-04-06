@@ -72,5 +72,13 @@
       );
     }
 
+    #[@test]
+    public function non_existant_key_generates_empty_output() {
+      $this->assertEquals(
+        'There is  missing here',
+        $this->render('There is {{something}} missing here', array())
+      );
+    }
+
   }
 ?>
