@@ -83,7 +83,7 @@
     #[@test]
     public function non_empty_list() {
       $this->assertEquals(
-        "  <b>resque</b>\n  <b>hub</b>\n  <b>rip</b>\n",
+        "<b>resque</b>\n<b>hub</b>\n<b>rip</b>\n",
         $this->render(
           "{{#repo}}\n".
           "  <b>{{name}}</b>\n".
@@ -94,6 +94,24 @@
               array('name' => 'hub'),
               array('name' => 'rip')
             )
+          )
+        )
+      );
+    }
+
+    #[@test]
+    public function lambda() {
+      $this->assertEquals(
+        "<b>Willy is awesome.</b>",
+        $this->render(
+          "{{#wrapped}}\n".
+          "  {{name}} is awesome.\n".
+          "{{/wrapped}}\n",
+          array(
+            'name'    => 'Willy',
+            'wrapped' => function($text) {
+              return '<b>'.$text.'</b>';
+            }
           )
         )
       );

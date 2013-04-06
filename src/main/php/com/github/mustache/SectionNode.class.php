@@ -15,10 +15,13 @@
     public function evaluate($context) {
       if (!isset($context[$this->name])) return '';
 
-      if (is_array($context[$this->name])) {
+      $value= $context[$this->name];
+	  if ($value instanceof \Closure) {
+		return $value(trim(parent::evaluate($context)));
+      } else if (is_array($value)) {
       	$output= '';
-      	foreach ($context[$this->name] as $values) {
-      	  $output.= parent::evaluate($values);
+      	foreach ($value as $values) {
+      	  $output.= ltrim(parent::evaluate($values));
       	}
       	return $output;
       } else {
