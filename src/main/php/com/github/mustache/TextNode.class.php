@@ -9,10 +9,14 @@
     }
 
     public function toString() {
-      return $this->getClassName().'("'.$this->text.'")';
+      return $this->getClassName().'("'.addcslashes($this->text, "\0..\17").'")';
     }
 
     public function evaluate($context) {
+      return $this->text;
+    }
+
+    public function __toString() {
       return $this->text;
     }
   }

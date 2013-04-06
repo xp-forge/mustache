@@ -116,5 +116,23 @@
         )
       );
     }
+
+    #[@test]
+    public function lambda_render_inside() {
+      $this->assertEquals(
+        "<b>WILLY IS AWESOME.</b>",
+        $this->render(
+          "{{#wrapped}}\n".
+          "  {{name}} is awesome.\n".
+          "{{/wrapped}}\n",
+          array(
+            'name'    => 'Willy',
+            'wrapped' => function(Node $node, $context) {
+              return '<b>'.strtoupper(trim($node->evaluate($context))).'</b>';
+            }
+          )
+        )
+      );
+    }
   }
 ?>

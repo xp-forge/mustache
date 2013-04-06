@@ -1,11 +1,17 @@
 <?php
   namespace com\github\mustache;
 
-  class SectionNode extends NodeList {
+  class SectionNode extends Node {
     public $name;
+    public $nodes;
 
     public function __construct($name) {
       $this->name= $name;
+      $this->nodes= new NodeList();
+    }
+
+    public function add(Node $node) {
+      return $this->nodes->add($node);
     }
 
   	public function toString() {
@@ -17,16 +23,28 @@
 
       $value= $context[$this->name];
 	  if ($value instanceof \Closure) {
-		return $value(trim(parent::evaluate($context)));
+	  	$f= new \ReflectionFunction($value);
+	  	$params= $f->getNumberOfParameters();
+	  	if (1 === $params) {
+	  	  return Node::parse($value(trim($this->nodes)))->evaluate($context);
+	  	} else if (2 === $params) {
+	  	  return $value($this->nodes, $context);
+	  	} else {
+	  	  throw new \lang\IllegalStateException('Function '.$f->getName().' should have either 1 or 2 parameters, have '.$params);
+	  	}
       } else if (is_array($value)) {
       	$output= '';
       	foreach ($value as $values) {
-      	  $output.= ltrim(parent::evaluate($values));
+      	  $output.= ltrim($this->nodes->evaluate($values));
       	}
       	return $output;
       } else {
-      	return parent::evaluate($context);
+      	return $this->nodes->evaluate($context);
       }
+    }
+
+    public function __toString() {
+      return sprintf("{#%1\$s}\n%2\$s\n{/%1\$s}\n", $this->name, (string)$this->nodes);
     }
   }
 ?>

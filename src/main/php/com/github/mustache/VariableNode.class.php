@@ -21,5 +21,9 @@
       	: $context[$this->name]
       ;
     }
+
+    public function __toString() {
+      return '{{'.($this->escape ? '' : '& ').$this->name.'}}';
+    }
   }
 ?>
