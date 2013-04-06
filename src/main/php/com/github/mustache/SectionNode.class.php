@@ -23,7 +23,7 @@
     public function evaluate($context) {
       $defined= isset($context[$this->name]) ? (bool)$context[$this->name] : FALSE;
 
-      if ($this->invert ? $defined : !$defined) return '';
+      if (!$this->invert || !$defined) return '';
 
       $value= $context[$this->name];
       if ($value instanceof \Closure) {
