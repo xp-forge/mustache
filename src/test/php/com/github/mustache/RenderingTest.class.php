@@ -163,5 +163,13 @@
         )
       );
     }
+
+    #[@test]
+    public function comments_are_ignored() {
+      $this->assertEquals(
+        '<h1>Today.</h1>',
+        $this->render('<h1>Today{{! ignore me }}.</h1>', array())
+      );
+    }
   }
 ?>
