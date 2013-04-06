@@ -16,7 +16,7 @@
           } else if ('/' === $var{0}) {
             return '<?php } ?>';
           } else {
-            return '<?=$values[\''.$var.'\'];?>'.(isset($matches[2]) ? $matches[2] : "\n");
+            return '<?=htmlspecialchars($values[\''.$var.'\']);?>'.(isset($matches[2]) ? $matches[2] : "\n");
           }
         },
         $template

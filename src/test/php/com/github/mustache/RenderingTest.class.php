@@ -47,5 +47,14 @@
         )
       );
     }
+
+    #[@test]
+    public function html_is_escaped() {
+      $this->assertEquals(
+        'The code for Mustache is hosted on &lt;b&gt;GitHub&lt;/b&gt;',
+        $this->render('The code for Mustache is hosted on {{site}}', array('site' => '<b>GitHub</b>'))
+      );
+    }
+
   }
 ?>
