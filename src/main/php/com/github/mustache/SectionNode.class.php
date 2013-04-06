@@ -22,9 +22,13 @@
 
     public function evaluate($context) {
       $defined= isset($context[$this->name]) ? (bool)$context[$this->name] : FALSE;
+      if (!$this->invert && !$defined) return '';
 
-      if (!$this->invert || !$defined) return '';
-
+      // Have defined value, apply following:
+      // * If the value is a function, call it
+      // * If the value is a list, expand list for all values inside
+      // * If the value is a hash, use it as context
+      // * Otherwise, simply delegate evaluation to node list
       $value= $context[$this->name];
       if ($value instanceof \Closure) {
         $f= new \ReflectionFunction($value);
