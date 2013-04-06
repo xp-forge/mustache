@@ -31,15 +31,7 @@
       // * Otherwise, simply delegate evaluation to node list
       $value= $context[$this->name];
       if ($value instanceof \Closure) {
-        $f= new \ReflectionFunction($value);
-        $params= $f->getNumberOfParameters();
-        if (1 === $params) {
-          return Node::parse($value($this->nodes))->evaluate($context);
-        } else if (2 === $params) {
-          return $value($this->nodes, $context);
-        } else {
-          throw new \lang\IllegalStateException('Function '.$f->getName().' should have either 1 or 2 parameters but has '.$p);
-        }
+        return Node::parse($value($this->nodes, $context))->evaluate($context);
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {
