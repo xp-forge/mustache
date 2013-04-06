@@ -14,32 +14,32 @@
       return $this->nodes->add($node);
     }
 
-  	public function toString() {
-  	  return $this->getClassName().'('.$this->name.')@'.\xp::stringOf($this->nodes);
-  	}
+    public function toString() {
+      return $this->getClassName().'('.$this->name.') -> '.\xp::stringOf($this->nodes);
+    }
 
     public function evaluate($context) {
       if (!isset($context[$this->name])) return '';
 
       $value= $context[$this->name];
-	  if ($value instanceof \Closure) {
-	  	$f= new \ReflectionFunction($value);
-	  	$params= $f->getNumberOfParameters();
-	  	if (1 === $params) {
-	  	  return Node::parse($value(trim($this->nodes)))->evaluate($context);
-	  	} else if (2 === $params) {
-	  	  return $value($this->nodes, $context);
-	  	} else {
-	  	  throw new \lang\IllegalStateException('Function '.$f->getName().' should have either 1 or 2 parameters, have '.$params);
-	  	}
+      if ($value instanceof \Closure) {
+        $f= new \ReflectionFunction($value);
+        $params= $f->getNumberOfParameters();
+        if (1 === $params) {
+          return Node::parse($value($this->nodes))->evaluate($context);
+        } else if (2 === $params) {
+          return $value($this->nodes, $context);
+        } else {
+          throw new \lang\IllegalStateException('Function '.$f->getName().' should have either 1 or 2 parameters but has '.$p);
+        }
       } else if (is_array($value)) {
-      	$output= '';
-      	foreach ($value as $values) {
-      	  $output.= ltrim($this->nodes->evaluate($values));
-      	}
-      	return $output;
+        $output= '';
+        foreach ($value as $values) {
+          $output.= $this->nodes->evaluate($values)."\n";
+        }
+        return $output;
       } else {
-      	return $this->nodes->evaluate($context);
+        return $this->nodes->evaluate($context);
       }
     }
 

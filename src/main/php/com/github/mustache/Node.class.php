@@ -3,9 +3,9 @@
 
   abstract class Node extends \lang\Object {
 
-  	public abstract function evaluate($context);
+    public abstract function evaluate($context);
 
-  	public static function parse($template) {
+    public static function parse($template) {
       $parsed= new NodeList();
       $parents= array();
       $st= new \text\StringTokenizer($template, '{');

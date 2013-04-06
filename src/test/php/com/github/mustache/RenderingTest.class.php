@@ -31,7 +31,7 @@
     #[@test]
     public function typical_mustache_template() {
       $this->assertEquals(
-        "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.\n",
+        "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.",
         $this->render(
           "Hello {{name}}\n".
           "You have just won \${{value}}!\n".
@@ -83,7 +83,7 @@
     #[@test]
     public function non_empty_list() {
       $this->assertEquals(
-        "<b>resque</b>\n<b>hub</b>\n<b>rip</b>\n",
+        "<b>resque</b>\n<b>hub</b>\n<b>rip</b>",
         $this->render(
           "{{#repo}}\n".
           "  <b>{{name}}</b>\n".
@@ -128,7 +128,7 @@
           array(
             'name'    => 'Willy',
             'wrapped' => function(Node $node, $context) {
-              return '<b>'.strtoupper(trim($node->evaluate($context))).'</b>';
+              return '<b>'.strtoupper($node->evaluate($context)).'</b>';
             }
           )
         )

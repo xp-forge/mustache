@@ -4,10 +4,6 @@
   class NodeList extends Node {
     public $nodes;
 
-    public function __construct($nodes= array()) {
-      $this->nodes= $nodes;
-    }
-
     public function add(Node $node) {
       $this->nodes[]= $node;
       return $node;
@@ -22,11 +18,11 @@
       foreach ($this->nodes as $node) {
         $output.= $node->evaluate($context);
       }
-      return $output;
+      return trim($output);
     }
 
     public function __toString() {
-      return implode('', $this->nodes);
+      return trim(implode('', $this->nodes));
     }
   }
 ?>
