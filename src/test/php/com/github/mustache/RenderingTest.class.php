@@ -147,5 +147,21 @@
         )
       );
     }
+
+    #[@test]
+    public function inverted_sections() {
+      $this->assertEquals(
+        'No repos :(',
+        $this->render(
+          "{{#repo}}\n".
+          "  <b>{{name}}</b>\n".
+          "{{/repo}}\n".
+          "{{^repo}}\n".
+          "  No repos :(\n".
+          "{{/repo}}\n",
+          array('repo' => array())
+        )
+      );
+    }
   }
 ?>

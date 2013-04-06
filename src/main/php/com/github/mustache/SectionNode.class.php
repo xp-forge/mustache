@@ -4,10 +4,12 @@
   class SectionNode extends Node {
     public $name;
     public $nodes;
+    public $invert;
 
-    public function __construct($name) {
+    public function __construct($name, $invert= FALSE) {
       $this->name= $name;
       $this->nodes= new NodeList();
+      $this->invert= $invert;
     }
 
     public function add(Node $node) {
@@ -15,11 +17,13 @@
     }
 
     public function toString() {
-      return $this->getClassName().'('.$this->name.') -> '.\xp::stringOf($this->nodes);
+      return $this->getClassName().'('.($this->invert ? '^' : '#').$this->name.') -> '.\xp::stringOf($this->nodes);
     }
 
     public function evaluate($context) {
-      if (!isset($context[$this->name])) return '';
+      $defined= isset($context[$this->name]) ? (bool)$context[$this->name] : FALSE;
+
+      if ($this->invert ? $defined : !$defined) return '';
 
       $value= $context[$this->name];
       if ($value instanceof \Closure) {
@@ -46,7 +50,12 @@
     }
 
     public function __toString() {
-      return sprintf("{#%1\$s}\n%2\$s\n{/%1\$s}\n", $this->name, (string)$this->nodes);
+      return sprintf(
+        "{%1\$s%2\$s}\n%3\$s\n{/%2\$s}\n",
+        $this->invert ? '^' : '#',
+        $this->name,
+        (string)$this->nodes
+      );
     }
   }
 ?>

@@ -11,7 +11,7 @@
       $st= new \text\StringTokenizer($template, '{');
       while ($st->hasMoreTokens()) {
 
-        // Text
+        // Text: TODO handle ""
         $text= $st->nextToken();
         $parsed->add(new TextNode($text));
         if (!$st->hasMoreTokens()) break;
@@ -21,18 +21,18 @@
         $tag= $st->nextToken('}');
         $st->nextToken('}');
 
-        if ('#' === $tag{0}) {          // start section
+        if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
           $name= substr($tag, 1);
           $parents[$name]= $parsed;
-          $parsed= $parsed->add(new SectionNode($name));
+          $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
           $st->nextToken("\n");
-        } else if ('/' === $tag{0}) {   // end section
+        } else if ('/' === $tag{0}) {              // end section
           $name= substr($tag, 1);
           $parsed= $parents[$name];
           $st->nextToken("\n");
-        } else if ('&' === $tag{0}) {   // & for unescaped
+        } else if ('&' === $tag{0}) {              // & for unescaped
           $parsed->add(new VariableNode(ltrim(substr($tag, 1), ' '), FALSE));
-        } else if ('{' === $tag{0}) {   // triple mustache for unescaped
+        } else if ('{' === $tag{0}) {              // triple mustache for unescaped
           $parsed->add(new VariableNode(substr($tag, 1), FALSE));
           $st->nextToken('}');
         } else {
