@@ -11,9 +11,10 @@
       $st= new \text\StringTokenizer($template, '{');
       while ($st->hasMoreTokens()) {
 
-        // Text: TODO handle ""
-        $text= $st->nextToken();
-        $parsed->add(new TextNode($text));
+        // Text
+        if ('' !== ($text= $st->nextToken())) {
+          $parsed->add(new TextNode($text));
+        }
         if (!$st->hasMoreTokens()) break;
 
         // Found a tag
