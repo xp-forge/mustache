@@ -326,5 +326,14 @@
         $this->render('({{=[ ]=}}[text])', array('text' => 'It worked!'))
       );
     }
+
+    #[@test]
+    public function change_delimiters_trimmed() {
+      $this->assertEquals(
+        '(It worked!)',
+        $this->render('({{= | | =}}|text|)', array('text' => 'It worked!'))
+      );
+    }
+
   }
 ?>

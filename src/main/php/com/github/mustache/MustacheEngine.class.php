@@ -79,7 +79,7 @@
         } else if ('!' === $tag{0}) {              // ! ... for comments
           $parsed->add(new CommentNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('=' === $tag{0} && '=' === $tag{strlen($tag)- 1}) {
-          sscanf($tag, '=%[^= ] %[^= ]=', $start, $end);
+          list($start, $end)= explode(' ', trim(substr($tag, 1, -1)));
         } else if ('.' === $tag) {
           $parsed->add(new IteratorNode($tag));
         } else {
