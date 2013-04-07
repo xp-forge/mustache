@@ -6,7 +6,7 @@
    * time loading of the template by the name "partial".
    */
   class PartialNode extends Node {
-    public $name;
+    protected $name;
 
     /**
      * Creates a new partial node

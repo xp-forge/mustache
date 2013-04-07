@@ -6,8 +6,8 @@
    * unescaped representation.
    */
   class VariableNode extends Node {
-    public $name;
-    public $escape;
+    protected $name;
+    protected $escape;
 
     /**
      * Creates a new variable

@@ -8,7 +8,7 @@
    * @see   xp://com.github.mustache.SectionNode
    */
   class NodeList extends Node {
-    public $nodes= array();
+    protected $nodes= array();
 
     /**
      * Add a node

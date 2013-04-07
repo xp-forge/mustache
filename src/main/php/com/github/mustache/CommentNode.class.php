@@ -6,7 +6,7 @@
    * default includes comments in the parsed version.
    */
   class CommentNode extends Node {
-    public $text;
+    protected $text;
 
     /**
      * Creates a new comment

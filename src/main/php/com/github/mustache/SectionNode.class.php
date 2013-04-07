@@ -6,9 +6,9 @@
    * and ends with {{/sec}} and consists of 0..n nested nodes.
    */
   class SectionNode extends Node {
-    public $name;
-    public $nodes;
-    public $invert;
+    protected $name;
+    protected $nodes;
+    protected $invert;
 
     /**
      * Creates a new section node

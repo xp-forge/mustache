@@ -5,7 +5,7 @@
    * An implicit iterator simply selects the current loop variable
    */
   class IteratorNode extends Node {
-    public $escape;
+    protected $escape;
 
     /**
      * Creates an iterator node

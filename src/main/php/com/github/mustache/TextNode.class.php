@@ -13,7 +13,7 @@
    * </code>
    */
   class TextNode extends Node {
-    public $text;
+    protected $text;
 
     /**
      * Creates a new text node
