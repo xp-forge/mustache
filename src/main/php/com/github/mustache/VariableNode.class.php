@@ -41,6 +41,16 @@
     }
 
     /**
+     * Check whether a given value is equal to this node list
+     *
+     * @param  var $cmp The value
+     * @return bool
+     */
+    public function equals($cmp) {
+      return $cmp instanceof self && $this->name === $cmp->name && $this->escape === $cmp->escape;
+    }
+
+    /**
      * Overload (string) cast
      *
      * @return string

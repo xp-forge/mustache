@@ -23,6 +23,14 @@
       );
     }
 
+    #[@test]
+    public function variable() {
+      $this->assertEquals(
+        new NodeList(array(new VariableNode('name'))),
+        $this->parse('{{name}}')
+      );
+    }
+
     #[@test, @expect('com.github.mustache.TemplateFormatException')]
     public function unclosed_tag() {
       $this->parse('Hello {{name, how are you?');
