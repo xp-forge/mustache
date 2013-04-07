@@ -64,9 +64,7 @@
       if ($arg instanceof Context) {
         $context= $arg;
       } else {
-        $context= new Context();
-        $context->variables= $arg;
-        $context->engine= $this;
+        $context= new Context($arg, $this);
       }
       return $this->parse($template)->evaluate($context);
     }
