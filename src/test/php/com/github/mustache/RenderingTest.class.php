@@ -350,5 +350,15 @@
         $this->render('Hello {name}!', array())
       );
     }
+
+    #[@test, @expect('com.github.mustache.TemplateFormatException')]
+    public function unclosed_tag() {
+      $this->render('Hello {{name, how are you?', array());
+    }
+
+    #[@test, @expect('com.github.mustache.TemplateFormatException')]
+    public function incorrectly_closed_tag() {
+      $this->render('Hello {{name}], how are you?', array());
+    }
   }
 ?>
