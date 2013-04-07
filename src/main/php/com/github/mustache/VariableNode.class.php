@@ -42,7 +42,12 @@
         if ($ptr instanceof \lang\Generic) {
           $class= $ptr->getClass();
           if ($class->hasField($segment)) {
-            $ptr= $class->getField($segment)->get($ptr);
+            $field= $class->getField($segment);
+            if ($field->getModifiers() & MODIFIER_PUBLIC) {
+              $ptr= $field->get($ptr);
+            } else if ($class->hasMethod($getter= 'get'.$segment)) {
+              $ptr= $class->getMethod($getter)->invoke($ptr);
+            }
           } else if ($class->hasMethod($segment)) {
             $ptr= $class->getMethod($segment)->invoke($ptr);
           } else {

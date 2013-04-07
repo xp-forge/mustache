@@ -240,5 +240,16 @@
         $this->render('Hello {{ name }}', new \lang\Object())
       );
     }
+
+    #[@test]
+    public function use_object_getter() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
+          protected $name= "World";
+          public function getName() { return $this->name; }
+        }'))
+      );
+    }
   }
 ?>
