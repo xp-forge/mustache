@@ -59,7 +59,7 @@
               $failed++;
             } else {
               $this->out->write('.');
-              $succeed++;
+              $succeeded++;
             }
           } catch (\lang\Throwable $e) {
             $this->out->write('E');
