@@ -57,8 +57,12 @@
         }
         if (!$st->hasMoreTokens()) break;
 
-        // Found a tag
-        for ($i= 1; $i < strlen($start); $i++) { $st->nextToken($start{$i}); }
+        // Found the beginning of a tag sequence
+        for ($i= 1; $i < strlen($start); $i++) { 
+          if ('' === ($t= $st->nextToken($start{$i}))) continue;
+          $parsed->add(new TextNode(substr($start, 0, $i).$t));
+          continue 2;
+        }
         $tag= trim($st->nextToken($end{0}));
         for ($i= 1; $i < strlen($end); $i++) { $st->nextToken($end{$i}); }
 

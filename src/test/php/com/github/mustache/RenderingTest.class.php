@@ -334,5 +334,21 @@
         $this->render('({{= | | =}}|text|)', array('text' => 'It worked!'))
       );
     }
+
+    #[@test]
+    public function delimiters_partially_parsed() {
+      $this->assertEquals(
+        '<?=$var;?>',
+        $this->render('{{=<% %>=}}<?=$var;?>', array())
+      );
+    }
+
+    #[@test]
+    public function non_mustache_syntax_kept() {
+      $this->assertEquals(
+        'Hello {name}!',
+        $this->render('Hello {name}!', array())
+      );
+    }
   }
 ?>
