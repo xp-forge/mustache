@@ -63,6 +63,16 @@
       );
     }
 
+    #[@test]
+    public function section_with_content() {
+      $this->assertEquals(
+        new NodeList(array(new SectionNode('section', FALSE, new NodeList(array(
+          new TextNode('Hello')
+        ))))),
+        $this->parse('{{#section}}Hello{{/section}}')
+      );
+    }
+
     #[@test, @expect('com.github.mustache.TemplateFormatException')]
     public function unclosed_tag() {
       $this->parse('Hello {{name, how are you?');

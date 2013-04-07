@@ -15,11 +15,12 @@
      *
      * @param string $name
      * @param bool $invert
+     * @param com.github.mustache.NodeList $nodes
      */
-    public function __construct($name, $invert= FALSE) {
+    public function __construct($name, $invert= FALSE, NodeList $nodes= NULL) {
       $this->name= $name;
-      $this->nodes= new NodeList();
       $this->invert= $invert;
+      $this->nodes= $nodes ?: new NodeList();
     }
 
     /**
