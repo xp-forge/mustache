@@ -31,7 +31,7 @@
       // * Otherwise, simply delegate evaluation to node list
       $value= $context->variables[$this->name];
       if ($value instanceof \Closure) {
-        return $context->engine->render($value($this->nodes, $context), $context->variables);
+        return $context->engine->render($value($this->nodes, $context), $context);
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {

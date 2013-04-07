@@ -16,15 +16,19 @@
       return $this;
     }
 
-    public function render($template, $variables) {
-      $context= new Context();
-      $context->variables= $variables;
-      $context->engine= $this;
+    public function render($template, $arg) {
+      if ($arg instanceof Context) {
+        $context= $arg;
+      } else {
+        $context= new Context();
+        $context->variables= $arg;
+        $context->engine= $this;
+      }
       return Node::parse($template)->evaluate($context);
     }
 
-    public function transform($name, $variables) {
-      return $this->render($this->templates->load($name), $variables);
+    public function transform($name, $arg) {
+      return $this->render($this->templates->load($name), $arg);
     }
   }
 ?>
