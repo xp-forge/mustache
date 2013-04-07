@@ -4,7 +4,7 @@
   class ParsingTest extends \unittest\TestCase {
 
     protected function parse($template) {
-      return create(new MustacheEngine())->parse($template);
+      return create(new MustacheParser())->parse($template);
     }
 
     #[@test]
