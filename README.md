@@ -102,7 +102,16 @@ $transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
 <b>This is Spartaaaaa!</b>
 ```
 
-
 Releases
 --------
 The current release is version 0.9.0, available via http://builds.planet-xp.net/xp-forge/mustache/0.9.0/xp-mustache-0.9.0.xar (SHA1 checksum: a7c731cd04b431802f789db717b761231dc6fd77)
+
+Spec compliance
+---------------
+Whether this implementation is compliant with the official spec can be tested as follows:
+
+```sh
+$ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
+$ unzip master.zip && rm master.zip
+$ xpcli com.github.mustache.RunSpec spec-master/specs
+```
