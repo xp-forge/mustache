@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Also support invokeable objects as closures.
+  (thekid)
 * Implement helpers. Think of helpers as "omnipresent" context.
   (thekid)
 * Detect illegal nesting and unclosed sections

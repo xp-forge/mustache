@@ -66,7 +66,7 @@
       // * If the value is a list, expand list for all values inside
       // * If the value is a hash, use it as context
       // * Otherwise, simply delegate evaluation to node list
-      if ($value instanceof \Closure) {
+      if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
         return $context->engine->render($value($this->nodes, $context), $context);
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';

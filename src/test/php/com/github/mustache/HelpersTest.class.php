@@ -32,5 +32,17 @@
         ))
       );
     }
+
+    #[@test]
+    public function invokeable() {
+      $this->assertEquals(
+        'Hello <i>World</i>',
+        $this->render('Hello {{#i}}{{name}}{{/i}}', array('name' => 'World'), array(
+          'i' => newinstance('lang.Object', array(), '{
+            function __invoke($text) { return "<i>".$text."</i>"; }
+          }')
+        ))
+      );
+    }
   }
 ?>
