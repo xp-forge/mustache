@@ -19,5 +19,18 @@
         ))
       );
     }
+
+    #[@test]
+    public function dot_notation() {
+      $this->assertEquals(
+        'Hello world, this is BIG',
+        $this->render('Hello {{#case.lower}}World{{/case.lower}}, this is {{#case.upper}}big{{/case.upper}}', array(), array(
+          'case' => array(
+            'lower' => function($text) { return strtolower($text); },
+            'upper' => function($text) { return strtoupper($text); }
+          )
+        ))
+      );
+    }
   }
 ?>
