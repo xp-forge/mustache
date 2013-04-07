@@ -310,5 +310,13 @@
         }'))
       );
     }
+
+    #[@test]
+    public function change_delimiters() {
+      $this->assertEquals(
+        '(Hey!)',
+        $this->render('{{=<% %>=}}(<%text%>)', array('text' => 'Hey!'))
+      );
+    }
   }
 ?>

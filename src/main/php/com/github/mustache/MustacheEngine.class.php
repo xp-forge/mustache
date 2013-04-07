@@ -46,19 +46,21 @@
     public function parse($template) {
       $parsed= new NodeList();
       $parents= array();
-      $st= new \text\StringTokenizer($template, '{');
+      $start= '{{';
+      $end= '}}';
+      $st= new \text\StringTokenizer($template, $start{0});
       while ($st->hasMoreTokens()) {
 
         // Text
-        if ('' !== ($text= $st->nextToken())) {
+        if ('' !== ($text= $st->nextToken($start{0}))) {
           $parsed->add(new TextNode($text));
         }
         if (!$st->hasMoreTokens()) break;
 
         // Found a tag
-        $st->nextToken('{');
-        $tag= trim($st->nextToken('}'));
-        $st->nextToken('}');
+        $st->nextToken($start{1});
+        $tag= trim($st->nextToken($end{0}));
+        $st->nextToken($end{1});
 
         if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
           $name= substr($tag, 1);
@@ -76,6 +78,8 @@
           $parsed->add(new PartialNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('!' === $tag{0}) {              // ! ... for comments
           $parsed->add(new CommentNode(ltrim(substr($tag, 1), ' '), FALSE));
+        } else if ('=' === $tag{0} && '=' === $tag{strlen($tag)- 1}) {
+          sscanf($tag, '=%[^= ] %[^= ]=', $start, $end);
         } else if ('.' === $tag) {
           $parsed->add(new IteratorNode($tag));
         } else {
