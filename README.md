@@ -64,3 +64,15 @@ array(
   }
 )
 ```
+
+Template loading
+----------------
+Per default, templates are loaded from the current working directory. This can be changed by passing a template loader instance to the engine:
+
+```php
+$engine= new \com\github\mustache\MustacheEngine();
+$engine->withTemplates(new InFiles(new Folder('templates')));
+$transformed= $engine->transform('hello', array('name' => 'World'));
+```
+
+This will load the template stored in the file `templates/hello.mustache`. This template loader will also be used for partials.
