@@ -9,6 +9,9 @@
       $this->loader= newinstance('com.github.mustache.TemplateLoader', array(), '{
         public $bytes= array();
         public function load($name) {
+          if (!isset($this->bytes[$name])) {
+            throw new TemplateNotFoundException($name);
+          }
           return $this->bytes[$name];
         }
       }');
@@ -42,6 +45,11 @@
           array('name' => 'Jack')
         )))
       );
+    }
+
+    #[@test, @expect('com.github.mustache.TemplateNotFoundException')]
+    public function non_existant_template_causes_exception() {
+      $this->engine->transform('nonexistant', array());
     }
   }
 ?>
