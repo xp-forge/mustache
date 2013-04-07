@@ -13,17 +13,17 @@
     }
 
     protected function stringOf($arg) {
-      if (is_string($this->actual)) {
-        return create(new Bytes($this->actual))->toString();
+      if (is_string($arg)) {
+        return create(new Bytes($arg))->toString();
       } else {
-        return \xp::stringOf($this->actual);
+        return \xp::stringOf($arg);
       }
     }
 
     public function toString() {
       return $this->getClassName().'("'.$this->test['desc'].'"") {'."\n".
         '  [expected]: '.$this->stringOf($this->test['expected'])."\n".
-        '  [actual  ]: '.$this->stringOf($actual)."\n".
+        '  [actual  ]: '.$this->stringOf($this->actual)."\n".
       '}';
     }
   }
