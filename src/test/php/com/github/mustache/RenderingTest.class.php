@@ -244,10 +244,28 @@
     }
 
     #[@test]
+    public function use_public_object_method_in_sections() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+          public function render() { return TRUE; }
+        }'))
+      );
+    }
+
+    #[@test]
     public function non_existant_object_member_in_variables() {
       $this->assertEquals(
         'Hello',
         $this->render('Hello {{name}}', new \lang\Object())
+      );
+    }
+
+    #[@test]
+    public function non_existant_object_member_in_sections() {
+      $this->assertEquals(
+        '',
+        $this->render('{{#render}}Hello World{{/render}}', new \lang\Object())
       );
     }
 
@@ -263,11 +281,32 @@
     }
 
     #[@test]
+    public function use_object_getter_with_protected_field_in_sections() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+          protected $render= TRUE;
+          public function getRender() { return $this->render; }
+        }'))
+      );
+    }
+
+    #[@test]
     public function use_object_getter_in_variables() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
           public function getName() { return "World"; }
+        }'))
+      );
+    }
+
+    #[@test]
+    public function use_object_getter_in_sections() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+          public function getRender() { return TRUE; }
         }'))
       );
     }
