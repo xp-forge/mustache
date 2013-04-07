@@ -14,12 +14,19 @@
    * @see https://github.com/mustache/spec
    */
   class RunSpec extends \util\cmd\Command {
+    protected $base;
     protected $files;
     protected $verbose= FALSE;
 
     #[@arg(position = 0)]
     public function setBase($base) {
-      $this->base= new FileCollection($base);
+      if (is_file($base)) {
+        $this->base= new FileCollection(dirname($base));
+        $this->files= array($this->base->getElement(basename($base)));
+      } else {
+        $this->base= new FileCollection($base);
+        $this->files= new FilteredIOCollectionIterator($this->base, new ExtensionEqualsFilter('json'));
+      }
     }
 
     #[@arg]
@@ -38,7 +45,7 @@
 
       // Execute all tests
       $this->out->write('[');
-      foreach (new FilteredIOCollectionIterator($this->base, new ExtensionEqualsFilter('json')) as $file) {
+      foreach ($this->files as $file) {
         $spec= $json->decodeFrom($file->getInputStream());
 
         $timer->start();
@@ -48,7 +55,7 @@
             $result= $engine->render($test['template'], $test['data']);
             if ($result !== $test['expected']) {
               $this->out->write('F');
-              $failures[]= array($test, $result);
+              $failures[]= new Failure($test, $result);
               $failed++;
             } else {
               $this->out->write('.');
@@ -56,7 +63,7 @@
             }
           } catch (\lang\Throwable $e) {
             $this->out->write('E');
-            $failures[]= array($test, $e);
+            $failures[]= new Failure($test, $e);
             $failed++;
           }
         }
