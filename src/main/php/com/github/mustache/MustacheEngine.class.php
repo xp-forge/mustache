@@ -41,7 +41,7 @@
 
         // Found a tag
         $st->nextToken('{');
-        $tag= $st->nextToken('}');
+        $tag= trim($st->nextToken('}'));
         $st->nextToken('}');
 
         if ('#' === $tag{0} || '^' === $tag{0}) {  // start section

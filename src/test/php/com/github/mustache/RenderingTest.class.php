@@ -204,5 +204,13 @@
         )
       );
     }
+
+    #[@test]
+    public function replace_single_variable_with_whitespace() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{ name }}', array('name' => 'World'))
+      );
+    }
   }
 ?>
