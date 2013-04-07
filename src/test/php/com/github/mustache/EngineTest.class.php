@@ -32,5 +32,13 @@
       $helper= function($text) { return '<b>'.$text.'</b>'; };
       $this->assertEquals($engine, $engine->withHelper('bold', $helper));
     }
+
+    #[@test]
+    public function compile_template() {
+      $this->assertEquals(
+        new NodeList(array(new TextNode('Hello '), new VariableNode('name'))),
+        create(new MustacheEngine())->compile('Hello {{name}}')
+      );
+    }
   }
 ?>

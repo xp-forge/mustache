@@ -75,6 +75,16 @@
     }
 
     /**
+     * Compile a template.
+     *
+     * @param  string $template The template, as a string
+     * @return com.github.mustache.Node
+     */
+    public function compile($template) {
+      return $this->parser->parse($template);
+    }
+
+    /**
      * Render a template.
      *
      * @param  string $template The template, as a string

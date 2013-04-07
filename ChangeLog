@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Add MustacheEngine::compile() method to compile templates.
+  (thekid)
 * Also support invokeable objects as closures.
   (thekid)
 * Implement helpers. Think of helpers as "omnipresent" context.
