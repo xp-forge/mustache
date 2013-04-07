@@ -45,10 +45,15 @@
             $ptr= $class->getField($segment)->get($ptr);
           } else if ($class->hasMethod($segment)) {
             $ptr= $class->getMethod($segment)->invoke($ptr);
+          } else {
+            return '';
           }
         } else {
-          if (!isset($ptr[$segment])) return '';
-          $ptr= $ptr[$segment];
+          if (isset($ptr[$segment])) {
+            $ptr= $ptr[$segment];
+          } else {
+            return '';
+          }
         }
       }
       return $this->escape ? htmlspecialchars($ptr) : $ptr;

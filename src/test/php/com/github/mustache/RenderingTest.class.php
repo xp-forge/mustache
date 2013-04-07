@@ -214,7 +214,7 @@
     }
 
     #[@test]
-    public function use_public_object_member() {
+    public function use_public_object_field() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
@@ -233,5 +233,12 @@
       );
     }
 
+    #[@test]
+    public function non_existant_object_member() {
+      $this->assertEquals(
+        'Hello',
+        $this->render('Hello {{ name }}', new \lang\Object())
+      );
+    }
   }
 ?>
