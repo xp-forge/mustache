@@ -334,6 +334,5 @@
         $this->render('({{= | | =}}|text|)', array('text' => 'It worked!'))
       );
     }
-
   }
 ?>
