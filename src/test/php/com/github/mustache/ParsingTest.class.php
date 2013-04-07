@@ -31,6 +31,22 @@
       );
     }
 
+    #[@test]
+    public function variable_without_escaping_ampersand() {
+      $this->assertEquals(
+        new NodeList(array(new VariableNode('name', FALSE))),
+        $this->parse('{{& name}}')
+      );
+    }
+
+    #[@test]
+    public function variable_without_escaping_triple_mustache() {
+      $this->assertEquals(
+        new NodeList(array(new VariableNode('name', FALSE))),
+        $this->parse('{{{name}}}')
+      );
+    }
+
     #[@test, @expect('com.github.mustache.TemplateFormatException')]
     public function unclosed_tag() {
       $this->parse('Hello {{name, how are you?');
