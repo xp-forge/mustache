@@ -40,6 +40,17 @@
     }
 
     /**
+     * Sets template parser to be used
+     *
+     * @param  com.github.mustache.TemplateParser $p
+     * @return self this
+     */
+    public function withParser(TemplateParser $p) {
+      $this->parser= $p;
+      return $this;
+    }
+
+    /**
      * Render a template.
      *
      * @param  string $template The template, as a string

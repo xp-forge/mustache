@@ -4,7 +4,7 @@
   /**
    * Parses mustache templates
    */
-  class MustacheParser extends \lang\Object {
+  class MustacheParser extends \lang\Object implements TemplateParser {
 
     /**
      * Parse a template
