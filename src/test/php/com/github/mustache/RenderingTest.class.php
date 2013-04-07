@@ -212,5 +212,15 @@
         $this->render('Hello {{ name }}', array('name' => 'World'))
       );
     }
+
+    #[@test]
+    public function use_public_object_member() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
+          public $name= "World";
+        }'))
+      );
+    }
   }
 ?>

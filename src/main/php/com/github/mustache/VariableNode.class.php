@@ -39,8 +39,15 @@
       $segments= explode('.', $this->name);
       $ptr= $context->variables;
       foreach ($segments as $segment) {
-        if (!isset($ptr[$segment])) return '';
-        $ptr= $ptr[$segment];
+        if ($ptr instanceof \lang\Generic) {
+          $class= $ptr->getClass();
+          if ($class->hasField($segment)) {
+            $ptr= $class->getField($segment)->get($ptr);
+          }
+        } else {
+          if (!isset($ptr[$segment])) return '';
+          $ptr= $ptr[$segment];
+        }
       }
       return $this->escape ? htmlspecialchars($ptr) : $ptr;
     }
