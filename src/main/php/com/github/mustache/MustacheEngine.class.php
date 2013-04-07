@@ -23,8 +23,8 @@
       return Node::parse($template)->evaluate($context);
     }
 
-    public function transform($name, $values) {
-      return $this->render($this->templates->load($name), $values);
+    public function transform($name, $variables) {
+      return $this->render($this->templates->load($name), $variables);
     }
   }
 ?>
