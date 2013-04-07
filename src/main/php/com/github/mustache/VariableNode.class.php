@@ -36,45 +36,8 @@
      * @return string
      */
     public function evaluate($context) {
-      $segments= explode('.', $this->name);
-      $ptr= $context->variables;
-      foreach ($segments as $segment) {
-        if ($ptr instanceof \lang\Generic) {
-          $class= $ptr->getClass();
-
-          // 1. Try public field named <segment>
-          if ($class->hasField($segment)) {
-            $field= $class->getField($segment);
-            if ($field->getModifiers() & MODIFIER_PUBLIC) {
-              $ptr= $field->get($ptr);
-              continue;
-            }
-          }
-
-          // 2. Try public method named <segment>
-          if ($class->hasMethod($segment)) {
-            $method= $class->getMethod($segment);
-            if ($method->getModifiers() & MODIFIER_PUBLIC) {
-              $ptr= $class->getMethod($segment)->invoke($ptr);
-              continue;
-            }
-          }
-
-          // 3. Try accessor named get<segment>()
-          if ($class->hasMethod($getter= 'get'.$segment)) {
-            $ptr= $class->getMethod($getter)->invoke($ptr);
-          } else {
-            return '';
-          }
-        } else {
-          if (isset($ptr[$segment])) {
-            $ptr= $ptr[$segment];
-          } else {
-            return '';
-          }
-        }
-      }
-      return $this->escape ? htmlspecialchars($ptr) : $ptr;
+      if (NULL === ($value= $context->lookup($this->name))) return '';
+      return $this->escape ? htmlspecialchars($value) : $value;
     }
 
     /**

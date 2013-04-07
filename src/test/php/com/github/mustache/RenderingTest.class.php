@@ -214,7 +214,7 @@
     }
 
     #[@test]
-    public function use_public_object_field() {
+    public function use_public_object_field_in_variables() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
@@ -224,7 +224,17 @@
     }
 
     #[@test]
-    public function use_public_object_method() {
+    public function use_public_object_field_in_sections() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+          public $render= TRUE;
+        }'))
+      );
+    }
+
+    #[@test]
+    public function use_public_object_method_in_variables() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
@@ -234,7 +244,7 @@
     }
 
     #[@test]
-    public function non_existant_object_member() {
+    public function non_existant_object_member_in_variables() {
       $this->assertEquals(
         'Hello',
         $this->render('Hello {{name}}', new \lang\Object())
@@ -242,7 +252,7 @@
     }
 
     #[@test]
-    public function use_object_getter_with_protected_field() {
+    public function use_object_getter_with_protected_field_in_variables() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
@@ -253,7 +263,7 @@
     }
 
     #[@test]
-    public function use_object_getter() {
+    public function use_object_getter_in_variables() {
       $this->assertEquals(
         'Hello World',
         $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{

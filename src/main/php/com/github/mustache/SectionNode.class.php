@@ -48,15 +48,14 @@
      * @return string
      */
     public function evaluate($context) {
-      $defined= isset($context->variables[$this->name]) ? (bool)$context->variables[$this->name] : FALSE;
-      if (!$this->invert && !$defined) return '';
+      $value= $context->lookup($this->name);
+      if (!$this->invert && !$value) return '';
 
       // Have defined value, apply following:
       // * If the value is a function, call it
       // * If the value is a list, expand list for all values inside
       // * If the value is a hash, use it as context
       // * Otherwise, simply delegate evaluation to node list
-      $value= $context->variables[$this->name];
       if ($value instanceof \Closure) {
         return $context->engine->render($value($this->nodes, $context), $context);
       } else if (is_array($value) && is_int(key($value))) {
