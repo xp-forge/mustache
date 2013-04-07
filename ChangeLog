@@ -1,0 +1,8 @@
+Mustache for XP Framework ChangeLog
+===================================
+
+0.9.0, 07.04.2013
+-----------------
+* Initial release supporting all non-optional features of the Mustache 
+  spec and the optional lambda feature 
+  (thekid)
