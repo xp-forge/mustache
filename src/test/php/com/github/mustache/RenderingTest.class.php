@@ -173,6 +173,16 @@
     }
 
     #[@test]
+    public function nested_sections() {
+      $this->assertEquals(
+        'qux',
+        $this->render('{{#foo}}{{#bar}}{{baz}}{{/bar}}{{/foo}}', array(
+          'foo' => array('bar' => array('baz' => 'qux'))
+        ))
+      );
+    }
+
+    #[@test]
     public function dot_notation() {
       $this->assertEquals(
         'qux',
