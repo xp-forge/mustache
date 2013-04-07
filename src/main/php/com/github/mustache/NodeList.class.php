@@ -45,6 +45,21 @@
     }
 
     /**
+     * Check whether a given value is equal to this node list
+     *
+     * @param  var $cmp The value
+     * @return bool
+     */
+    public function equals($cmp) {
+      if (!$cmp instanceof self) return FALSE;
+      if (sizeof($this->nodes) !== sizeof($cmp->nodes)) return FALSE;
+      foreach ($this->nodes as $i => $node) {
+        if (!$node->equals($cmp[$i])) return FALSE;
+      }
+      return TRUE;
+    }
+
+    /**
      * Overload (string) cast
      *
      * @return string
