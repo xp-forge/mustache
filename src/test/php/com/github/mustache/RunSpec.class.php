@@ -36,7 +36,23 @@
 
     public function run() {
       $json= JsonFactory::create();
-      $engine= create(new MustacheEngine())->withTemplates(new FilesIn($this->base->getURI()));
+      $templates= newinstance(\lang\XPClass::forName('com.github.mustache.TemplateLoader')->getName(), array(), '{
+        protected $templates= array();
+
+        public function set($partials) {
+          foreach ($partials as $name => $data) {
+            $this->templates[$name.".mustache"]= $data;
+          }
+        }
+
+        public function load($name) {
+          if (!isset($this->templates[$name])) {
+            throw new TemplateNotFoundException($name);
+          }
+          return $this->templates[$name];
+        }
+      }');
+      $engine= create(new MustacheEngine())->withTemplates($templates);
       $timer= new Timer();
       $failures= array();
       $failed= $succeeded= 0;
@@ -51,6 +67,9 @@
         $timer->start();
         foreach ($spec['tests'] as $test) {
           if (0 === ($total++ % 72)) $this->out->writeLine();
+          if (isset($test['partials'])) {
+            $templates->set($test['partials']);
+          }
           try {
             $result= $engine->render($test['template'], $test['data']);
             if ($result !== $test['expected']) {
