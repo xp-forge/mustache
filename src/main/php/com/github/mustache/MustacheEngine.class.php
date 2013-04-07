@@ -22,7 +22,7 @@
      * Constructor. Initializes template loader
      */
     public function __construct() {
-      $this->templates= \xp::$null;
+      $this->templates= new FilesIn('.');
     }
 
     /**
