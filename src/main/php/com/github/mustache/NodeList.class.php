@@ -2,7 +2,7 @@
   namespace com\github\mustache;
 
   class NodeList extends Node {
-    public $nodes;
+    public $nodes= array();
 
     public function add(Node $node) {
       $this->nodes[]= $node;

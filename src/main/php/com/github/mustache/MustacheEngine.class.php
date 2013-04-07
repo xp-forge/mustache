@@ -47,6 +47,8 @@
         } else if ('{' === $tag{0}) {              // triple mustache for unescaped
           $parsed->add(new VariableNode(substr($tag, 1), FALSE));
           $st->nextToken('}');
+        } else if ('>' === $tag{0}) {              // > partial
+          $parsed->add(new PartialNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('!' === $tag{0}) {              // ! ... for comments
           $parsed->add(new CommentNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else {
@@ -70,7 +72,7 @@
     }
 
     public function transform($name, $arg) {
-      return $this->render($this->templates->load($name), $arg);
+      return $this->render($this->templates->load($name.'.mustache'), $arg);
     }
   }
 ?>

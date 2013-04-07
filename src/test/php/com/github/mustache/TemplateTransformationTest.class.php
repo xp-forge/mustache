@@ -21,7 +21,26 @@
 
       $this->assertEquals(
         'Hello World',
-        $this->engine->transform('helloworld.mustache', array('name' => 'World'))
+        $this->engine->transform('helloworld', array('name' => 'World'))
+      );
+    }
+
+    #[@test]
+    public function partials_loads_both_templates() {
+      $this->loader->bytes['base.mustache']= 
+        "<h2>Names</h2>\n".
+        "{{#names}}\n".
+        "  {{> user}}\n".
+        "{{/names}}\n"
+      ;
+      $this->loader->bytes['user.mustache']= '<strong>{{name}}</strong>';
+
+      $this->assertEquals(
+        "<h2>Names</h2>\n<strong>John</strong>\n<strong>Jack</strong>",
+        $this->engine->transform('base', array('names' => array(
+          array('name' => 'John'),
+          array('name' => 'Jack')
+        )))
       );
     }
   }
