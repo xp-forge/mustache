@@ -15,10 +15,10 @@
     }
 
     public function evaluate($context) {
-      if (!isset($context[$this->name])) return '';
+      if (!isset($context->variables[$this->name])) return '';
       return $this->escape 
-      	? htmlspecialchars($context[$this->name])
-      	: $context[$this->name]
+      	? htmlspecialchars($context->variables[$this->name])
+      	: $context->variables[$this->name]
       ;
     }
 

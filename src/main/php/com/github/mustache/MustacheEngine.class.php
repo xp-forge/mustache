@@ -16,8 +16,11 @@
       return $this;
     }
 
-    public function render($template, $values) {
-      return Node::parse($template)->evaluate($values);
+    public function render($template, $variables) {
+      $context= new Context();
+      $context->variables= $variables;
+      $context->engine= $this;
+      return Node::parse($template)->evaluate($context);
     }
 
     public function transform($name, $values) {

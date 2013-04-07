@@ -21,7 +21,7 @@
     }
 
     public function evaluate($context) {
-      $defined= isset($context[$this->name]) ? (bool)$context[$this->name] : FALSE;
+      $defined= isset($context->variables[$this->name]) ? (bool)$context->variables[$this->name] : FALSE;
       if (!$this->invert && !$defined) return '';
 
       // Have defined value, apply following:
@@ -29,17 +29,17 @@
       // * If the value is a list, expand list for all values inside
       // * If the value is a hash, use it as context
       // * Otherwise, simply delegate evaluation to node list
-      $value= $context[$this->name];
+      $value= $context->variables[$this->name];
       if ($value instanceof \Closure) {
         return Node::parse($value($this->nodes, $context))->evaluate($context);
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {
-          $output.= $this->nodes->evaluate($values)."\n";
+          $output.= $this->nodes->evaluate($context->newInstance($values))."\n";
         }
         return $output;
       } else if (is_array($value)) {
-        return $this->nodes->evaluate($value);
+        return $this->nodes->evaluate($context->newInstance($value));
       } else {
         return $this->nodes->evaluate($context);
       }
