@@ -41,15 +41,28 @@
       foreach ($segments as $segment) {
         if ($ptr instanceof \lang\Generic) {
           $class= $ptr->getClass();
+
+          // 1. Try public field named <segment>
           if ($class->hasField($segment)) {
             $field= $class->getField($segment);
             if ($field->getModifiers() & MODIFIER_PUBLIC) {
               $ptr= $field->get($ptr);
-            } else if ($class->hasMethod($getter= 'get'.$segment)) {
-              $ptr= $class->getMethod($getter)->invoke($ptr);
+              continue;
             }
-          } else if ($class->hasMethod($segment)) {
-            $ptr= $class->getMethod($segment)->invoke($ptr);
+          }
+
+          // 2. Try public method named <segment>
+          if ($class->hasMethod($segment)) {
+            $method= $class->getMethod($segment);
+            if ($method->getModifiers() & MODIFIER_PUBLIC) {
+              $ptr= $class->getMethod($segment)->invoke($ptr);
+              continue;
+            }
+          }
+
+          // 3. Try accessor named get<segment>()
+          if ($class->hasMethod($getter= 'get'.$segment)) {
+            $ptr= $class->getMethod($getter)->invoke($ptr);
           } else {
             return '';
           }

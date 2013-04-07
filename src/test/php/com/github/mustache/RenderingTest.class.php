@@ -217,7 +217,7 @@
     public function use_public_object_field() {
       $this->assertEquals(
         'Hello World',
-        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
+        $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
           public $name= "World";
         }'))
       );
@@ -227,7 +227,7 @@
     public function use_public_object_method() {
       $this->assertEquals(
         'Hello World',
-        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
+        $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
           public function name() { return "World"; }
         }'))
       );
@@ -237,7 +237,18 @@
     public function non_existant_object_member() {
       $this->assertEquals(
         'Hello',
-        $this->render('Hello {{ name }}', new \lang\Object())
+        $this->render('Hello {{name}}', new \lang\Object())
+      );
+    }
+
+    #[@test]
+    public function use_object_getter_with_protected_field() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+          protected $name= "World";
+          public function getName() { return $this->name; }
+        }'))
       );
     }
 
@@ -245,9 +256,8 @@
     public function use_object_getter() {
       $this->assertEquals(
         'Hello World',
-        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
-          protected $name= "World";
-          public function getName() { return $this->name; }
+        $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+          public function getName() { return "World"; }
         }'))
       );
     }
