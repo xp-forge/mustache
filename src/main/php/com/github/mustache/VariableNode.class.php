@@ -12,7 +12,7 @@
     /**
      * Creates a new variable
      *
-     * @param string  $name The variable's name
+     * @param string $name The variable's name
      * @param bool $escape Whether to escape special characters
      */
     public function __construct($name, $escape= TRUE) {
