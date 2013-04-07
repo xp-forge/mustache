@@ -2,6 +2,17 @@
   namespace com\github\mustache;
 
   /**
+   * The MustacheEngine is the entry point class for working with this
+   * API. The easiest usage way is to call the render() method and pass
+   * the template as a string and the values as an associative array.
+   *
+   * <code>
+   *   $engine= new MustachEngine();
+   *   $transformed= $engine->render('Hello {{name}}', array(
+   *     'name' => 'World'
+   *   ));
+   * </code>
+   *
    * @see  http://mustache.github.io/mustache.5.html
    */
   class MustacheEngine extends \lang\Object {
