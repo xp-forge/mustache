@@ -22,6 +22,46 @@
     }
 
     /**
+     * Helper method to retrieve a pointer inside a given data structure
+     * using a given segment. Returns NULL if there is no such segment.
+     *
+     * @param  var $ptr
+     * @param  string $segment
+     * @return var
+     */
+    protected function pointer($ptr, $segment) {
+      if ($ptr instanceof \lang\Generic) {
+        $class= $ptr->getClass();
+
+        // 1. Try public field named <segment>
+        if ($class->hasField($segment)) {
+          $field= $class->getField($segment);
+          if ($field->getModifiers() & MODIFIER_PUBLIC) {
+            return $field->get($ptr);
+          }
+        }
+
+        // 2. Try public method named <segment>
+        if ($class->hasMethod($segment)) {
+          $method= $class->getMethod($segment);
+          if ($method->getModifiers() & MODIFIER_PUBLIC) {
+            return $class->getMethod($segment)->invoke($ptr);
+          }
+        }
+
+        // 3. Try accessor named get<segment>()
+        if ($class->hasMethod($getter= 'get'.$segment)) {
+          return $class->getMethod($getter)->invoke($ptr);
+        } else {
+          return NULL;
+        }
+      }
+
+      // Array lookup
+      return isset($ptr[$segment]) ? $ptr[$segment] : NULL;
+    }
+
+    /**
      * Looks up variable
      *
      * @param  string $name The name
@@ -29,44 +69,13 @@
      */
     public function lookup($name) {
       $segments= explode('.', $name);
-      $ptr= $this->variables;
+      $v= $this->variables;
+      $h= $this->engine->helpers;
       foreach ($segments as $segment) {
-        if ($ptr instanceof \lang\Generic) {
-          $class= $ptr->getClass();
-
-          // 1. Try public field named <segment>
-          if ($class->hasField($segment)) {
-            $field= $class->getField($segment);
-            if ($field->getModifiers() & MODIFIER_PUBLIC) {
-              $ptr= $field->get($ptr);
-              continue;
-            }
-          }
-
-          // 2. Try public method named <segment>
-          if ($class->hasMethod($segment)) {
-            $method= $class->getMethod($segment);
-            if ($method->getModifiers() & MODIFIER_PUBLIC) {
-              $ptr= $class->getMethod($segment)->invoke($ptr);
-              continue;
-            }
-          }
-
-          // 3. Try accessor named get<segment>()
-          if ($class->hasMethod($getter= 'get'.$segment)) {
-            $ptr= $class->getMethod($getter)->invoke($ptr);
-          } else {
-            return NULL;
-          }
-        } else {
-          if (isset($ptr[$segment])) {
-            $ptr= $ptr[$segment];
-          } else {
-            return NULL;
-          }
-        }
+        if ($v !== NULL) $v= $this->pointer($v, $segment);
+        if ($h !== NULL) $h= $this->pointer($h, $segment);
       }
-      return $ptr;
+      return $v === NULL ? ($h === NULL ? '' : $h) : $v;
     }
 
     /**

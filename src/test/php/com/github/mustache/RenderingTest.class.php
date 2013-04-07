@@ -3,11 +3,6 @@
 
   class RenderingTest extends \unittest\TestCase {
 
-    #[@test]
-    public function new_engine() {
-      new MustacheEngine();
-    }
-
     protected function render($template, $variables) {
       return create(new MustacheEngine())->render($template, $variables);
     }

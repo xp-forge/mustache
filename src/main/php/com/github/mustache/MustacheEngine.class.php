@@ -19,6 +19,7 @@
   class MustacheEngine extends \lang\Object {
     protected $templates;
     protected $parser;
+    public $helpers= array();
 
     /**
      * Constructor. Initializes template loader
@@ -47,6 +48,29 @@
      */
     public function withParser(TemplateParser $p) {
       $this->parser= $p;
+      return $this;
+    }
+
+    /**
+     * Adds a helper with a given name
+     *
+     * @param  string $name
+     * @param  var $helper
+     * @return self this
+     */
+    public function withHelper($name, $helper) {
+      $this->helpers[$name]= $helper;
+      return $this;
+    }
+
+    /**
+     * Sets helpers
+     *
+     * @param  [:var] $helpers
+     * @return self this
+     */
+    public function withHelpers(array $helpers) {
+      $this->helpers= $helpers;
       return $this;
     }
 

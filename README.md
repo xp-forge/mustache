@@ -77,6 +77,32 @@ $transformed= $engine->transform('hello', array('name' => 'World'));
 
 This will load the template stored in the file `templates/hello.mustache`. This template loader will also be used for partials.
 
+Helpers
+-------
+Think of helpers as "omnipresent" context. They are added to the engine instance via `withHelper()` and will be available in any rendering context invoked on that instance.
+
+### Template
+```mustache
+{{# bold }}
+  This is {{ location }}!
+{{/ bold }}
+```
+
+### Call
+```php
+$engine= new \com\github\mustache\MustacheEngine();
+$engine->withHelper('bold', function($text) {
+  return '<b>'.$text.'</b>';
+});
+$transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
+```
+
+### Output
+```html
+<b>This is Spartaaaaa!</b>
+```
+
+
 Releases
 --------
 The current release is version 0.9.0, available via http://builds.planet-xp.net/xp-forge/mustache/0.9.0/xp-mustache-0.9.0.xar (SHA1 checksum: a7c731cd04b431802f789db717b761231dc6fd77)
