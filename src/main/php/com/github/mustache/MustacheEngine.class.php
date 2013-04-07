@@ -52,25 +52,32 @@
       $st= new \text\StringTokenizer($template, $start{0});
       while ($st->hasMoreTokens()) {
 
-        // Text
-        if ('' !== ($text= $st->nextToken($start{0}))) {
+        // Parse tag and text
+        $text= $st->nextToken($start{0});
+        $tag= NULL;
+        while ($st->hasMoreTokens()) {
+          for ($i= 1; $i < strlen($start); $i++) {
+            if ('' === ($t= $st->nextToken($start{$i}))) continue;
+            $text.= substr($start, 0, $i).$t;
+            break 2;
+          }
+          $tag= trim($st->nextToken($end{0}));
+          for ($i= 1; $i < strlen($end); $i++) {
+            if ('' === ($t= $st->nextToken($end{$i}))) continue;
+            throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end.', have '.substr($end, 0, $i).$t);
+          }
+          break;
+        }
+
+        // Create text
+        if ('' !== $text) {
           $parsed->add(new TextNode($text));
         }
-        if (!$st->hasMoreTokens()) break;
 
-        // Parse tag
-        for ($i= 1; $i < strlen($start); $i++) { 
-          if ('' === ($t= $st->nextToken($start{$i}))) continue;
-          $parsed->add(new TextNode(substr($start, 0, $i).$t));
-          continue 2;
-        }
-        $tag= trim($st->nextToken($end{0}));
-        for ($i= 1; $i < strlen($end); $i++) {
-          if ('' === ($t= $st->nextToken($end{$i}))) continue;
-          throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end.', have '.substr($end, 0, $i).$t);
-        }
-
-        if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
+        // Handle tag
+        if (NULL === $tag) {
+          break;
+        } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
           $name= substr($tag, 1);
           $parents[$name]= $parsed;
           $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));

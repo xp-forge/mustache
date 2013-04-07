@@ -82,5 +82,13 @@
     public function incorrectly_closed_tag() {
       $this->parse('Hello {{name}], how are you?');
     }
+
+    #[@test]
+    public function non_mustache_syntax() {
+      $this->assertEquals(
+        new NodeList(array(new TextNode('Hello {name}'))),
+        $this->parse('Hello {name}')
+      );
+    }
   }
 ?>
