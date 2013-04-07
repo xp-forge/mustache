@@ -318,5 +318,13 @@
         $this->render('{{=<% %>=}}(<%text%>)', array('text' => 'Hey!'))
       );
     }
+
+    #[@test]
+    public function change_delimiters_single_char() {
+      $this->assertEquals(
+        '(It worked!)',
+        $this->render('({{=[ ]=}}[text])', array('text' => 'It worked!'))
+      );
+    }
   }
 ?>

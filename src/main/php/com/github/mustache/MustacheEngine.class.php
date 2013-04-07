@@ -58,9 +58,9 @@
         if (!$st->hasMoreTokens()) break;
 
         // Found a tag
-        $st->nextToken($start{1});
+        for ($i= 1; $i < strlen($start); $i++) { $st->nextToken($start{$i}); }
         $tag= trim($st->nextToken($end{0}));
-        $st->nextToken($end{1});
+        for ($i= 1; $i < strlen($end); $i++) { $st->nextToken($end{$i}); }
 
         if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
           $name= substr($tag, 1);
