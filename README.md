@@ -76,3 +76,7 @@ $transformed= $engine->transform('hello', array('name' => 'World'));
 ```
 
 This will load the template stored in the file `templates/hello.mustache`. This template loader will also be used for partials.
+
+Releases
+--------
+The current release is version 0.9.0, available via http://builds.planet-xp.net/xp-forge/mustache/0.9.0/xp-mustache-0.9.0.xar (SHA1 checksum: a7c731cd04b431802f789db717b761231dc6fd77)
