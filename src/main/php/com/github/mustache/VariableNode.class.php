@@ -15,11 +15,13 @@
     }
 
     public function evaluate($context) {
-      if (!isset($context->variables[$this->name])) return '';
-      return $this->escape 
-      	? htmlspecialchars($context->variables[$this->name])
-      	: $context->variables[$this->name]
-      ;
+      $segments= explode('.', $this->name);
+      $ptr= $context->variables;
+      foreach ($segments as $segment) {
+        if (!isset($ptr[$segment])) return '';
+        $ptr= $ptr[$segment];
+      }
+      return $this->escape ? htmlspecialchars($ptr) : $ptr;
     }
 
     public function __toString() {

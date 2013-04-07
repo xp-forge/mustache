@@ -171,5 +171,15 @@
         $this->render('<h1>Today{{! ignore me }}.</h1>', array())
       );
     }
+
+    #[@test]
+    public function dot_notation() {
+      $this->assertEquals(
+        'qux',
+        $this->render('{{foo.bar.baz}}', array(
+          'foo' => array('bar' => array('baz' => 'qux'))
+        ))
+      );
+    }
   }
 ?>
