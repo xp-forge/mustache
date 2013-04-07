@@ -222,5 +222,16 @@
         }'))
       );
     }
+
+    #[@test]
+    public function use_public_object_method() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{ name }}', newinstance('lang.Object', array(), '{
+          public function name() { return "World"; }
+        }'))
+      );
+    }
+
   }
 ?>

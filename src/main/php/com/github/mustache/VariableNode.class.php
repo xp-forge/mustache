@@ -43,6 +43,8 @@
           $class= $ptr->getClass();
           if ($class->hasField($segment)) {
             $ptr= $class->getField($segment)->get($ptr);
+          } else if ($class->hasMethod($segment)) {
+            $ptr= $class->getMethod($segment)->invoke($ptr);
           }
         } else {
           if (!isset($ptr[$segment])) return '';
