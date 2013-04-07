@@ -24,6 +24,15 @@
     }
 
     /**
+     * Returns this section's name
+     *
+     * @return string
+     */
+    public function name() {
+      return $this->name;
+    }
+
+    /**
      * Add a node
      *
      * @param  com.github.mustache.Node $node

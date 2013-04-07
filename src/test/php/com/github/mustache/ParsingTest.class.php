@@ -90,5 +90,39 @@
         $this->parse('Hello {name}')
       );
     }
+
+    #[@test]
+    public function nested_sections() {
+      $this->assertEquals(
+        new NodeList(array(new SectionNode('parent', FALSE, new NodeList(array(
+          new SectionNode('child')
+        ))))),
+        $this->parse('{{#parent}}{{#child}}{{/child}}{{/parent}}')
+      );
+    }
+
+    #[@test, @expect('com.github.mustache.TemplateFormatException')]
+    public function incorrectly_nested_sections() {
+      $this->parse('{{#parent}}{{#child}}{{/parent}}{{/child}}');
+    }
+
+    #[@test, @expect('com.github.mustache.TemplateFormatException')]
+    public function incorrectly_deeply_nested_sections() {
+      $this->parse('
+        {{#a}}
+          {{#b}}
+            {{#c}}
+              {{#d}}
+              {{/d}}
+            {{/c}}
+          {{/a}}
+        {{/b}}
+      ');
+    }
+
+    #[@test, @expect('com.github.mustache.TemplateFormatException')]
+    public function unclosed_section() {
+      $this->parse('{{#parent}}');
+    }
   }
 ?>

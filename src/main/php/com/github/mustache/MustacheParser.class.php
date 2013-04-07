@@ -48,11 +48,14 @@
           break;
         } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
           $name= substr($tag, 1);
-          $parents[$name]= $parsed;
+          $parents[]= $parsed;
           $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
         } else if ('/' === $tag{0}) {              // end section
           $name= substr($tag, 1);
-          $parsed= $parents[$name];
+          if ($name !== $parsed->name()) {
+            throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
+          }
+          $parsed= array_pop($parents);
         } else if ('&' === $tag{0}) {              // & for unescaped
           $parsed->add(new VariableNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('{' === $tag{0}) {              // triple mustache for unescaped
@@ -69,6 +72,11 @@
         } else {
           $parsed->add(new VariableNode($tag));
         }
+      }
+
+      // Check for unclosed sections
+      if (!empty($parents)) {
+        throw new TemplateFormatException('Unclosed section '.$parsed->name());
       }
 
       // \util\cmd\Console::writeLine($parsed);
