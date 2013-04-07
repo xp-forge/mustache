@@ -11,6 +11,15 @@
     protected $nodes= array();
 
     /**
+     * Create a new node list
+     *
+     * @param  com.github.mustache.Node[] $nodes
+     */
+    public function __construct(array $nodes= array()) {
+      $this->nodes= $nodes;
+    }
+
+    /**
      * Add a node
      *
      * @param  com.github.mustache.Node $node
@@ -54,7 +63,7 @@
       if (!$cmp instanceof self) return FALSE;
       if (sizeof($this->nodes) !== sizeof($cmp->nodes)) return FALSE;
       foreach ($this->nodes as $i => $node) {
-        if (!$node->equals($cmp[$i])) return FALSE;
+        if (!$node->equals($cmp->nodes[$i])) return FALSE;
       }
       return TRUE;
     }
