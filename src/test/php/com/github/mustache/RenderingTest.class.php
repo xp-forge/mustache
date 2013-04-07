@@ -191,5 +191,18 @@
         ))
       );
     }
+
+    #[@test]
+    public function implicit_iterator() {
+      $this->assertEquals(
+        "* red\n* green\n* blue",
+        $this->render(
+          "{{#colors}}\n".
+          "  * {{.}}\n".
+          "{{/colors}}\n",
+          array('colors' => array('red', 'green', 'blue'))
+        )
+      );
+    }
   }
 ?>

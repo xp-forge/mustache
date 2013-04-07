@@ -60,6 +60,8 @@
           $parsed->add(new PartialNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('!' === $tag{0}) {              // ! ... for comments
           $parsed->add(new CommentNode(ltrim(substr($tag, 1), ' '), FALSE));
+        } else if ('.' === $tag) {
+          $parsed->add(new IteratorNode($tag));
         } else {
           $parsed->add(new VariableNode($tag));
         }
