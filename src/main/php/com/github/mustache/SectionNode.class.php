@@ -1,25 +1,52 @@
 <?php
   namespace com\github\mustache;
 
+  /**
+   * A section starts with {{#sec}} (or {{^sec}} for inverted sections)
+   * and ends with {{/sec}} and consists of 0..n nested nodes.
+   */
   class SectionNode extends Node {
     public $name;
     public $nodes;
     public $invert;
 
+    /**
+     * Creates a new section node
+     *
+     * @param string $name
+     * @param bool $invert
+     */
     public function __construct($name, $invert= FALSE) {
       $this->name= $name;
       $this->nodes= new NodeList();
       $this->invert= $invert;
     }
 
+    /**
+     * Add a node
+     *
+     * @param  com.github.mustache.Node $node
+     * @return com.github.mustache.Node $node The added node
+     */
     public function add(Node $node) {
       return $this->nodes->add($node);
     }
 
+    /**
+     * Creates a string representation of this node
+     *
+     * @return string
+     */
     public function toString() {
       return $this->getClassName().'('.($this->invert ? '^' : '#').$this->name.') -> '.\xp::stringOf($this->nodes);
     }
 
+    /**
+     * Evaluates this node
+     *
+     * @param  com.github.mustache.Context $context the rendering context
+     * @return string
+     */
     public function evaluate($context) {
       $defined= isset($context->variables[$this->name]) ? (bool)$context->variables[$this->name] : FALSE;
       if (!$this->invert && !$defined) return '';
@@ -45,6 +72,11 @@
       }
     }
 
+    /**
+     * Overload (string) cast
+     *
+     * @return string
+     */
     public function __toString() {
       return sprintf(
         "{%1\$s%2\$s}\n%3\$s\n{/%2\$s}\n",

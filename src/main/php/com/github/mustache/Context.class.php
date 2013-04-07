@@ -10,11 +10,23 @@
     public $variables= array();
     public $engine= NULL;
 
+    /**
+     * Creates a new context instance
+     *
+     * @param [:var] $variables The view context
+     * @param com.github.mustache.MustacheEngine $engine
+     */
     public function __construct($variables, $engine) {
       $this->variables= $variables;
       $this->engine= $engine;
     }
 
+    /**
+     * Creates a new context using the same engine
+     *
+     * @param  [:var] $variables The new view context
+     * @return self
+     */
     public function newInstance($variables) {
       return new self($variables, $this->engine);
     }

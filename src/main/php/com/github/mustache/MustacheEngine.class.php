@@ -18,15 +18,30 @@
   class MustacheEngine extends \lang\Object {
     protected $templates;
 
+    /**
+     * Constructor. Initializes template loader
+     */
     public function __construct() {
       $this->templates= \xp::$null;
     }
 
+    /**
+     * Sets template loader to be used
+     *
+     * @param  com.github.mustache.TemplateLoader $l
+     * @return self this
+     */
     public function withTemplates(TemplateLoader $l) {
       $this->templates= $l;
       return $this;
     }
 
+    /**
+     * Parse a template
+     *
+     * @param  string $template The template as a string
+     * @return com.github.mustache.Node The parsed template
+     */
     public function parse($template) {
       $parsed= new NodeList();
       $parents= array();
@@ -71,6 +86,13 @@
       return $parsed;
     }
 
+    /**
+     * Render a template.
+     *
+     * @param  string $template The template, as a string
+     * @param  var $arg Either a view context, or a Context instance
+     * @return string The rendered output
+     */
     public function render($template, $arg) {
       if ($arg instanceof Context) {
         $context= $arg;
@@ -80,6 +102,14 @@
       return $this->parse($template)->evaluate($context);
     }
 
+    /**
+     * Transform a template by its name, which is previously loaded from
+     * the template loader.
+     *
+     * @param  string $name The template name.
+     * @param  var $arg Either a view context, or a Context instance
+     * @return string The rendered output
+     */
     public function transform($name, $arg) {
       return $this->render($this->templates->load($name.'.mustache'), $arg);
     }
