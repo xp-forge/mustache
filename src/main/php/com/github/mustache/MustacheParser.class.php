@@ -44,7 +44,7 @@
 
           // Check for standalone tags on a line by themselves
           $padding= '';
-          if (NULL !== $tag && 0 === strcspn($tag, '#^/>!')) {
+          if (NULL !== $tag && 0 === strcspn($tag, '#^/>!=')) {
             if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
               $offset= strlen($line);
               $padding= substr($line, 0, $s);
