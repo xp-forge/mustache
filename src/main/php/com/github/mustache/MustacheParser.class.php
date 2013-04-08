@@ -94,7 +94,7 @@
         throw new TemplateFormatException('Unclosed section '.$parsed->name());
       }
 
-      \util\cmd\Console::writeLine($parsed);
+      // \util\cmd\Console::writeLine($parsed);
       return $parsed;
     }
   }

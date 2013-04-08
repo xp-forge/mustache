@@ -131,6 +131,23 @@
     }
 
     #[@test]
+    public function lambda_variable() {
+      $this->assertEquals(
+        '<b>Willy is awesome.</b>',
+        $this->render(
+          '{{lambda}}',
+          array(
+            'name'    => 'Willy',
+            'lambda'  => function($text) {
+              return '<b>{{name}} is awesome</b>';
+            }
+          )
+        )
+      );
+    }
+
+
+    #[@test]
     public function hash_value_becomes_context() {
       $this->assertEquals(
         "Hi Jon!\n",

@@ -82,7 +82,17 @@
 
         foreach ($spec['tests'] as $test) {
           if (0 === ($total++ % 72)) $this->out->writeLine();
+
+          // Set partials
           $templates->set(isset($test['partials']) ? $test['partials'] : array());
+
+          // Select correct lambdas
+          if (isset($test['data']['lambda'])) {
+            $php= $test['data']['lambda']['php'];
+            $test['data']['lambda']= function($text, $context) use($php) {
+              return eval($php);
+            };
+          }
 
           $timer->start();
           try {
