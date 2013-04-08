@@ -59,7 +59,7 @@
      */
     public function evaluate($context) {
       $value= $context->lookup($this->name);
-      if (!$this->invert && !$value) return '';
+      if ($this->invert ? $value : !$value) return '';
 
       // Have defined value, apply following:
       // * If the value is a function, call it
