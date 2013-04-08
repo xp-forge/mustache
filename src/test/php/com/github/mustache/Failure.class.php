@@ -24,6 +24,8 @@
       return $this->getClassName().'("'.$this->test['desc'].'"") {'."\n".
         '  [expected]: '.$this->stringOf($this->test['expected'])."\n".
         '  [actual  ]: '.$this->stringOf($this->actual)."\n".
+        '  [template]: '.$this->stringOf($this->test['template'])."\n".
+        '  [data    ]: '.\xp::stringOf($this->test['data'], '  ')."\n".
       '}';
     }
   }
