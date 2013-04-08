@@ -1,8 +1,6 @@
 <?php
   namespace com\github\mustache;
 
-  use \lang\types\Bytes;
-
   class Failure extends \lang\Object {
     protected $test;
     protected $actual;
@@ -14,7 +12,7 @@
 
     protected function stringOf($arg) {
       if (is_string($arg)) {
-        return create(new Bytes($arg))->toString();
+        return '`'.addcslashes($arg, "\0..\17").'`';
       } else {
         return \xp::stringOf($arg);
       }
