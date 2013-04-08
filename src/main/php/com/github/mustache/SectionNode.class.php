@@ -71,11 +71,11 @@
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {
-          $output.= $this->nodes->evaluate($context->newInstance($values))."\n";
+          $output.= $this->nodes->evaluate($context->newInstance($values));
         }
         return $output;
       } else if (is_array($value)) {
-        return $this->nodes->evaluate($context->newInstance($value));
+        return $this->nodes->evaluate($context->newInstance(array_merge($context->variables, $value)));
       } else {
         return $this->nodes->evaluate($context);
       }

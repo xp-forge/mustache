@@ -26,7 +26,7 @@
     #[@test]
     public function typical_mustache_template() {
       $this->assertEquals(
-        "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.",
+        "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.\n",
         $this->render(
           "Hello {{name}}\n".
           "You have just won \${{value}}!\n".
@@ -78,10 +78,10 @@
     #[@test]
     public function non_empty_list() {
       $this->assertEquals(
-        "<b>resque</b>\n<b>hub</b>\n<b>rip</b>",
+        "<b>resque</b>\n<b>hub</b>\n<b>rip</b>\n",
         $this->render(
           "{{#repo}}\n".
-          "  <b>{{name}}</b>\n".
+          "<b>{{name}}</b>\n".
           "{{/repo}}\n", 
           array(
             'repo' => array(
@@ -100,7 +100,7 @@
         "<b>Willy is awesome.</b>",
         $this->render(
           "{{#wrapped}}\n".
-          "  {{name}} is awesome.\n".
+          "{{name}} is awesome.\n".
           "{{/wrapped}}\n",
           array(
             'name'    => 'Willy',
@@ -115,10 +115,10 @@
     #[@test]
     public function lambda_render_inside() {
       $this->assertEquals(
-        "<b>WILLY IS AWESOME.</b>",
+        "<b>WILLY IS AWESOME.\n</b>",
         $this->render(
           "{{#wrapped}}\n".
-          "  {{name}} is awesome.\n".
+          "{{name}} is awesome.\n".
           "{{/wrapped}}\n",
           array(
             'name'    => 'Willy',
@@ -133,10 +133,10 @@
     #[@test]
     public function hash_value_becomes_context() {
       $this->assertEquals(
-        'Hi Jon!',
+        "Hi Jon!\n",
         $this->render(
           "{{#person?}}\n".
-          "  Hi {{name}}!\n".
+          "Hi {{name}}!\n".
           "{{/person?}}\n",
           array('person?' => array('name' => 'Jon'))
         )
@@ -146,13 +146,13 @@
     #[@test]
     public function inverted_sections() {
       $this->assertEquals(
-        'No repos :(',
+        "No repos :(\n",
         $this->render(
           "{{#repo}}\n".
-          "  <b>{{name}}</b>\n".
+          "<b>{{name}}</b>\n".
           "{{/repo}}\n".
           "{{^repo}}\n".
-          "  No repos :(\n".
+          "No repos :(\n".
           "{{/repo}}\n",
           array('repo' => array())
         )
@@ -190,10 +190,10 @@
     #[@test]
     public function implicit_iterator() {
       $this->assertEquals(
-        "* red\n* green\n* blue",
+        "* red\n* green\n* blue\n",
         $this->render(
           "{{#colors}}\n".
-          "  * {{.}}\n".
+          "* {{.}}\n".
           "{{/colors}}\n",
           array('colors' => array('red', 'green', 'blue'))
         )
@@ -259,7 +259,7 @@
     #[@test]
     public function non_existant_object_member_in_variables() {
       $this->assertEquals(
-        'Hello',
+        'Hello ',
         $this->render('Hello {{name}}', new \lang\Object())
       );
     }

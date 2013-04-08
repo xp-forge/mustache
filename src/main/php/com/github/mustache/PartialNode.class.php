@@ -7,14 +7,17 @@
    */
   class PartialNode extends Node {
     protected $name;
+    protected $indent;
 
     /**
      * Creates a new partial node
      *
      * @param string $name The template name
+     * @param string $indent What to indent with
      */
-    public function __construct($name) {
+    public function __construct($name, $indent= '') {
       $this->name= $name;
+      $this->indent= $indent;
     }
 
     /**
@@ -23,7 +26,7 @@
      * @return string
      */
     public function toString() {
-      return $this->getClassName().'{{> '.$this->name.'}}';
+      return $this->getClassName().'{{> '.$this->name.'}}, indent= "'.$this->indent.'"';
     }
 
     /**
@@ -33,7 +36,14 @@
      * @return string
      */
     public function evaluate($context) {
-      return $context->engine->transform($this->name, $context);
+      try {
+        return $this->indent.strtr(
+          $context->engine->transform($this->name, $context), 
+          array("\n" => "\n".$this->indent)
+        );
+      } catch (TemplateNotFoundException $e) {
+        return '';    // Spec dictates this, though I think this is not good behaviour.
+      }
     }
 
     /**

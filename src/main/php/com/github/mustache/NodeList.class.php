@@ -50,7 +50,7 @@
       foreach ($this->nodes as $node) {
         $output.= $node->evaluate($context);
       }
-      return trim($output);
+      return $output;
     }
 
     /**

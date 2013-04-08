@@ -18,60 +18,75 @@
       $parents= array();
       $start= '{{';
       $end= '}}';
-      $st= new \text\StringTokenizer($template, $start{0});
-      while ($st->hasMoreTokens()) {
+      $lt= new \text\StringTokenizer($template, "\n", TRUE);
+      while ($lt->hasMoreTokens()) {
+        $line= $lt->nextToken().$lt->nextToken();
 
-        // Parse tag and text
-        $text= $st->nextToken($start{0});
-        $tag= NULL;
-        while ($st->hasMoreTokens()) {
-          for ($i= 1; $i < strlen($start); $i++) {
-            if ('' === ($t= $st->nextToken($start{$i}))) continue;
-            $text.= substr($start, 0, $i).$t;
-            break 2;
-          }
-          $tag= trim($st->nextToken($end{0}));
-          for ($i= 1; $i < strlen($end); $i++) {
-            if ('' === ($t= $st->nextToken($end{$i}))) continue;
-            throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end.', have '.substr($end, 0, $i).$t);
-          }
-          break;
-        }
+        //\util\cmd\Console::writeLine('"', addcslashes($line, "\0..\17"), '" ', strlen($line));
 
-        // Create text
-        if ('' !== $text) {
-          $parsed->add(new TextNode($text));
-        }
-
-        // Handle tag
-        if (NULL === $tag) {
-          break;
-        } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
-          $name= trim(substr($tag, 1));
-          $parents[]= $parsed;
-          $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
-        } else if ('/' === $tag{0}) {              // end section
-          $name= trim(substr($tag, 1));
-          if ($name !== $parsed->name()) {
-            throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
+        $offset= 0;
+        do {
+          if (FALSE === ($s= strpos($line, $start, $offset))) {
+            $text= substr($line, $offset);
+            $tag= NULL;
+            $offset= strlen($line);
+          } else {
+            while (FALSE === ($e= strpos($line, $end, $s+ strlen($start)))) {
+              if (!$lt->hasMoreTokens()) {
+                throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end);
+              }
+              $line.= $lt->nextToken().$lt->nextToken();
+            }
+            $text= substr($line, $offset, $s- $offset);
+            $tag= substr($line, $s+ strlen($start), $e- $s- strlen($end));
+            $offset= $e + strlen($end);
           }
-          $parsed= array_pop($parents);
-        } else if ('&' === $tag{0}) {              // & for unescaped
-          $parsed->add(new VariableNode(ltrim(substr($tag, 1), ' '), FALSE));
-        } else if ('{' === $tag{0}) {              // triple mustache for unescaped
-          $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), FALSE));
-          $st->nextToken('}');
-        } else if ('>' === $tag{0}) {              // > partial
-          $parsed->add(new PartialNode(ltrim(substr($tag, 1), ' '), FALSE));
-        } else if ('!' === $tag{0}) {              // ! ... for comments
-          $parsed->add(new CommentNode(ltrim(substr($tag, 1), ' '), FALSE));
-        } else if ('=' === $tag{0} && '=' === $tag{strlen($tag)- 1}) {
-          list($start, $end)= explode(' ', trim(substr($tag, 1, -1)));
-        } else if ('.' === $tag) {
-          $parsed->add(new IteratorNode($tag));
-        } else {
-          $parsed->add(new VariableNode($tag));
-        }
+
+          // Check for standalone tags on a line by themselves
+          $padding= '';
+          if (NULL !== $tag && 0 === strcspn($tag, '#^/>!')) {
+            if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
+              $offset= strlen($line);
+              $padding= substr($line, 0, $s);
+              $text= '';
+            }
+          }
+          //\util\cmd\Console::writeLine('>> `', addcslashes($text, "\0..\17"), '`');
+          //\util\cmd\Console::writeLine($standalone ? 'STANDALONE' : 'INLINE', '>> |', $tag, '|');
+
+          if ('' !== $text) {
+            $parsed->add(new TextNode($text));
+          }
+
+          // Handle tag
+          if (NULL === $tag) {
+            continue;
+          } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
+            $name= trim(substr($tag, 1));
+            $parents[]= $parsed;
+            $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
+          } else if ('/' === $tag{0}) {              // end section
+            $name= trim(substr($tag, 1));
+            if ($name !== $parsed->name()) {
+              throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
+            }
+            $parsed= array_pop($parents);
+          } else if ('&' === $tag{0}) {              // & for unescaped
+            $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), FALSE));
+          } else if ('{' === $tag{0}) {              // triple mustache for unescaped
+            $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), FALSE));
+            if ('}' !== $tag{strlen($tag)- 1}) $offset++;
+          } else if ('>' === $tag{0}) {              // > partial
+            $parsed->add(new PartialNode(trim(substr($tag, 1), ' '), $padding));
+          } else if ('!' === $tag{0}) {              // ! ... for comments
+            $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
+          } else if ('=' === $tag{0} && '=' === $tag{strlen($tag)- 1}) {
+            list($start, $end)= explode(' ', trim(substr($tag, 1, -1)));
+          } else {
+            $variable= trim($tag);
+            $parsed->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
+          }
+        } while ($offset < strlen($line));
       }
 
       // Check for unclosed sections
@@ -79,7 +94,7 @@
         throw new TemplateFormatException('Unclosed section '.$parsed->name());
       }
 
-      // \util\cmd\Console::writeLine($parsed);
+      \util\cmd\Console::writeLine($parsed);
       return $parsed;
     }
   }

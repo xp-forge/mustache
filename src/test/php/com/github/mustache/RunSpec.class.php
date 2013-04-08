@@ -55,6 +55,7 @@
         protected $templates= array();
 
         public function set($partials) {
+          $this->templates= array();
           foreach ($partials as $name => $data) {
             $this->templates[$name.".mustache"]= $data;
           }
@@ -81,9 +82,8 @@
 
         foreach ($spec['tests'] as $test) {
           if (0 === ($total++ % 72)) $this->out->writeLine();
-          if (isset($test['partials'])) {
-            $templates->set($test['partials']);
-          }
+          $templates->set(isset($test['partials']) ? $test['partials'] : array());
+
           $timer->start();
           try {
             $result= $engine->render($test['template'], $test['data']);
@@ -102,6 +102,7 @@
           }
           $timer->stop();
           $time+= $timer->elapsedTime();
+
           if ($this->stop && $failed) break 2;
         }
       }
