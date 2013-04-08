@@ -23,7 +23,7 @@
      * @return string
      */
     public function toString() {
-      return $this->getClassName().'("'.addcslashes($this->text, "\0..\17").'"")';
+      return $this->getClassName().'("'.addcslashes($this->text, "\0..\17").'")';
     }
 
     /**
