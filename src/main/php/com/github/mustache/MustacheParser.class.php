@@ -59,7 +59,7 @@
         } else if ('&' === $tag{0}) {              // & for unescaped
           $parsed->add(new VariableNode(ltrim(substr($tag, 1), ' '), FALSE));
         } else if ('{' === $tag{0}) {              // triple mustache for unescaped
-          $parsed->add(new VariableNode(substr($tag, 1), FALSE));
+          $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), FALSE));
           $st->nextToken('}');
         } else if ('>' === $tag{0}) {              // > partial
           $parsed->add(new PartialNode(ltrim(substr($tag, 1), ' '), FALSE));

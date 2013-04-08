@@ -209,6 +209,14 @@
     }
 
     #[@test]
+    public function replace_single_variable_in_triple_mustaches_with_whitespace() {
+      $this->assertEquals(
+        'Hello World',
+        $this->render('Hello {{{ name }}}', array('name' => 'World'))
+      );
+    }
+
+    #[@test]
     public function use_public_object_field_in_variables() {
       $this->assertEquals(
         'Hello World',
