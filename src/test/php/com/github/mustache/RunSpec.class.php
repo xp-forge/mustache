@@ -19,22 +19,31 @@
     protected $verbose= FALSE;
     protected $stop= FALSE;
 
+    /**
+     * Sets targets to run
+     */
     #[@arg(position = 0)]
-    public function setBase($base) {
-      if (is_file($base)) {
-        $this->base= new FileCollection(dirname($base));
-        $this->files= array($this->base->getElement(basename($base)));
+    public function setTarget($target) {
+      if (is_file($target)) {
+        $this->base= new FileCollection(dirname($target));
+        $this->files= array($this->base->getElement(basename($target)));
       } else {
-        $this->base= new FileCollection($base);
+        $this->base= new FileCollection($target);
         $this->files= new FilteredIOCollectionIterator($this->base, new ExtensionEqualsFilter('json'));
       }
     }
 
+    /**
+     * Show verbose output
+     */
     #[@arg]
     public function setVerbose() {
       $this->verbose= TRUE;
     }
 
+    /**
+     * Stop after the first failed test
+     */
     #[@arg]
     public function setStop() {
       $this->stop= TRUE;
