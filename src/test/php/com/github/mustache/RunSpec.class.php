@@ -17,6 +17,7 @@
     protected $base;
     protected $files;
     protected $verbose= FALSE;
+    protected $stop= FALSE;
 
     #[@arg(position = 0)]
     public function setBase($base) {
@@ -32,6 +33,11 @@
     #[@arg]
     public function setVerbose() {
       $this->verbose= TRUE;
+    }
+
+    #[@arg]
+    public function setStop() {
+      $this->stop= TRUE;
     }
 
     public function run() {
@@ -64,12 +70,12 @@
       foreach ($this->files as $file) {
         $spec= $json->decodeFrom($file->getInputStream());
 
-        $timer->start();
         foreach ($spec['tests'] as $test) {
           if (0 === ($total++ % 72)) $this->out->writeLine();
           if (isset($test['partials'])) {
             $templates->set($test['partials']);
           }
+          $timer->start();
           try {
             $result= $engine->render($test['template'], $test['data']);
             if ($result !== $test['expected']) {
@@ -85,9 +91,10 @@
             $failures[]= new Failure($test, $e);
             $failed++;
           }
+          $timer->stop();
+          $time+= $timer->elapsedTime();
+          if ($this->stop && $failed) break 2;
         }
-        $timer->stop();
-        $time+= $timer->elapsedTime();
       }
       $this->out->writeLine(']');
       $this->out->writeLine();
