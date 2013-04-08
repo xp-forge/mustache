@@ -139,7 +139,7 @@
           array(
             'name'    => 'Willy',
             'lambda'  => function($text) {
-              return '<b>{{name}} is awesome</b>';
+              return '<b>{{name}} is awesome.</b>';
             }
           )
         )
