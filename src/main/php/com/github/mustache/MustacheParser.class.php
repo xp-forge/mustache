@@ -47,11 +47,11 @@
         if (NULL === $tag) {
           break;
         } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
-          $name= substr($tag, 1);
+          $name= trim(substr($tag, 1));
           $parents[]= $parsed;
           $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
         } else if ('/' === $tag{0}) {              // end section
-          $name= substr($tag, 1);
+          $name= trim(substr($tag, 1));
           if ($name !== $parsed->name()) {
             throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
           }
