@@ -104,7 +104,7 @@ $transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
 
 Releases
 --------
-The current release is version 0.9.0, available via http://builds.planet-xp.net/xp-forge/mustache/0.9.0/xp-mustache-0.9.0.xar (SHA1 checksum: a7c731cd04b431802f789db717b761231dc6fd77)
+The current release is version 1.0.0, available via http://builds.planet-xp.net/xp-forge/mustache/1.0.0/xp-mustache-1.0.0.xar.
 
 Spec compliance
 ---------------

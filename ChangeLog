@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+
+1.0.0, 09.04.2013
+-----------------
 * Fulfill current specification to 100%
   (thekid)
 * Add MustacheEngine::compile() method to compile templates.
