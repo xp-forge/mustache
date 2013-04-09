@@ -7,6 +7,18 @@
   use \io\collections\FileElement;
   use \webservices\json\JsonFactory;
 
+  /**
+   * Executes the Mustache specifications
+   *
+   * To run, use:
+   * <pre>
+   *   $ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
+   *   $ unzip master.zip && rm master.zip
+   *   $ unittest com.github.mustache.SpecificationTest -a spec-master/specs
+   * </pre>
+   *
+   * @see https://github.com/mustache/spec
+   */
   class SpecificationTest extends \unittest\TestCase {
     protected $target= NULL;
 
