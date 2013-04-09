@@ -38,9 +38,11 @@
     public function evaluate($context) {
       if (NULL === ($value= $context->lookup($this->name))) return '';
       if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
-        return $context->engine->render($value($this, $context), $context);
+        $rendered= $context->engine->render($value($this, $context), $context);
+      } else {
+        $rendered= $value;
       }
-      return $this->escape ? htmlspecialchars($value) : $value;
+      return $this->escape ? htmlspecialchars($rendered) : $rendered;
     }
 
     /**
