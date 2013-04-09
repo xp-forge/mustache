@@ -133,13 +133,13 @@
     #[@test]
     public function lambda_variable() {
       $this->assertEquals(
-        '<b>Willy is awesome.</b>',
+        'Willy is awesome.',
         $this->render(
           '{{lambda}}',
           array(
             'name'    => 'Willy',
             'lambda'  => function($text) {
-              return '<b>{{name}} is awesome.</b>';
+              return '{{name}} is awesome.';
             }
           )
         )
