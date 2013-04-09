@@ -25,6 +25,7 @@
         do {
 
           // Parse line
+          $padding= '';
           if (FALSE === ($s= strpos($line, $start, $offset))) {
             $text= substr($line, $offset);
             $tag= NULL;
@@ -39,15 +40,14 @@
             $text= substr($line, $offset, $s- $offset);
             $tag= substr($line, $s+ strlen($start), $e- $s- strlen($end));
             $offset= $e + strlen($end);
-          }
 
-          // Check for standalone tags on a line by themselves
-          $padding= '';
-          if (NULL !== $tag && 0 === strcspn($tag, '#^/>!=')) {
-            if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
-              $offset= strlen($line);
-              $padding= substr($line, 0, $s);
-              $text= '';
+            // Check for standalone tags on a line by themselves
+            if (0 === strcspn($tag, '#^/>!=')) {
+              if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
+                $offset= strlen($line);
+                $padding= substr($line, 0, $s);
+                $text= '';
+              }
             }
           }
 
