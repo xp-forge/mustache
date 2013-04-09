@@ -6,21 +6,13 @@
     protected $engine;
 
     public function setUp() {
-      $this->loader= newinstance('com.github.mustache.TemplateLoader', array(), '{
-        public $bytes= array();
-        public function load($name) {
-          if (!isset($this->bytes[$name])) {
-            throw new TemplateNotFoundException($name);
-          }
-          return $this->bytes[$name];
-        }
-      }');
+      $this->loader= new InMemory();
       $this->engine= create(new MustacheEngine())->withTemplates($this->loader);
     }
 
     #[@test]
     public function transform_loads_the_template() {
-      $this->loader->bytes['helloworld.mustache']= 'Hello {{name}}';
+      $this->loader->add('helloworld', 'Hello {{name}}');
 
       $this->assertEquals(
         'Hello World',
@@ -30,13 +22,13 @@
 
     #[@test]
     public function partials_loads_both_templates() {
-      $this->loader->bytes['base.mustache']= 
+      $this->loader->add('base',
         "<h2>Names</h2>\n".
         "{{#names}}\n".
         "  {{> user}}\n".
         "{{/names}}\n"
-      ;
-      $this->loader->bytes['user.mustache']= "<strong>{{name}}</strong>\n";
+      );
+      $this->loader->add('user', "<strong>{{name}}</strong>\n");
 
       $this->assertEquals(
         "<h2>Names</h2>\n  <strong>John</strong>\n  <strong>Jack</strong>\n",

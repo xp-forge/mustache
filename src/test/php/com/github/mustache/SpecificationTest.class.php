@@ -9,38 +9,12 @@
 
   class SpecificationTest extends \unittest\TestCase {
     protected $target= NULL;
-    protected $templates= NULL;
 
     public function __construct($name, $target= NULL) {
       parent::__construct($name);
       $this->target= $target;
     }
 
-    public function setUp() {
-      $this->templates= newinstance('com.github.mustache.TemplateLoader', array(), '{
-        protected $templates= array();
-
-        public function set($partials) {
-          $this->templates= array();
-          foreach ($partials as $name => $data) {
-            $this->templates[$name.".mustache"]= $data;
-          }
-        }
-
-        public function load($name) {
-          if (!isset($this->templates[$name])) {
-            throw new TemplateNotFoundException($name);
-          }
-          return $this->templates[$name];
-        }
-      }');
-    }
-
-    /**
-     * This method provides the values
-     *
-     * @return var[][]
-     */
     public function specifications() {
       if (is_file($this->target)) {
         $files= array(new FileElement($this->target));
@@ -63,9 +37,6 @@
     #[@test, @values('specifications')]
     public function specification_met($name, $test) {
 
-      // Set partials
-      $this->templates->set(isset($test['partials']) ? $test['partials'] : array());
-
       // Select correct lambda
       if (isset($test['data']['lambda'])) {
         $php= $test['data']['lambda']['php'];
@@ -75,9 +46,9 @@
       }
 
       // Render, and assert result
-      $this->assertEquals(
-        $test['expected'],
-        create(new MustacheEngine())->withTemplates($this->templates)->render($test['template'], $test['data'])
+      $this->assertEquals($test['expected'], create(new MustacheEngine())
+        ->withTemplates(new InMemory(isset($test['partials']) ? $test['partials'] : array()))
+        ->render($test['template'], $test['data'])
       );
     }
   }
