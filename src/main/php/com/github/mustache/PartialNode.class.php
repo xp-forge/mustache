@@ -37,10 +37,7 @@
      */
     public function evaluate($context) {
       try {
-        return $this->indent.strtr(
-          $context->engine->transform($this->name, $context), 
-          array("\n" => "\n".$this->indent)
-        );
+        return $context->engine->transform($this->name, $context, '{{', '}}', $this->indent);
       } catch (TemplateNotFoundException $e) {
         return '';    // Spec dictates this, though I think this is not good behaviour.
       }

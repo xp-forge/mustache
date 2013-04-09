@@ -80,10 +80,11 @@
      * @param  string $template The template, as a string
      * @param  string $start Initial start tag, defaults to "{{"
      * @param  string $end Initial end tag, defaults to "}}"
+     * @param  string $indent Indenting level, defaults to no indenting
      * @return com.github.mustache.Node
      */
-    public function compile($template, $start= '{{', $end= '}}') {
-      return $this->parser->parse($template, $start, $end);
+    public function compile($template, $start= '{{', $end= '}}', $indent= '') {
+      return $this->parser->parse($template, $start, $end, $indent);
     }
 
     /**
@@ -93,15 +94,16 @@
      * @param  var $arg Either a view context, or a Context instance
      * @param  string $start Initial start tag, defaults to "{{"
      * @param  string $end Initial end tag, defaults to "}}"
+     * @param  string $indent Indenting level, defaults to no indenting
      * @return string The rendered output
      */
-    public function render($template, $arg, $start= '{{', $end= '}}') {
+    public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
       if ($arg instanceof Context) {
         $context= $arg;
       } else {
         $context= new Context($arg, $this);
       }
-      return $this->parser->parse($template, $start, $end)->evaluate($context);
+      return $this->compile($template, $start, $end, $indent)->evaluate($context, $indent);
     }
 
     /**
@@ -112,10 +114,17 @@
      * @param  var $arg Either a view context, or a Context instance
      * @param  string $start Initial start tag, defaults to "{{"
      * @param  string $end Initial end tag, defaults to "}}"
+     * @param  string $indent Indenting level, defaults to no indenting
      * @return string The rendered output
      */
-    public function transform($name, $arg, $start= '{{', $end= '}}') {
-      return $this->render($this->templates->load($name.'.mustache'), $arg, $start, $end);
+    public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
+      return $this->render(
+        $this->templates->load($name.'.mustache'),
+        $arg,
+        $start,
+        $end,
+        $indent
+      );
     }
   }
 ?>

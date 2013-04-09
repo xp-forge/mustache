@@ -39,7 +39,7 @@
       $this->loader->bytes['user.mustache']= "<strong>{{name}}</strong>\n";
 
       $this->assertEquals(
-        "<h2>Names</h2>\n  <strong>John</strong>\n    <strong>Jack</strong>\n  ",
+        "<h2>Names</h2>\n  <strong>John</strong>\n  <strong>Jack</strong>\n",
         $this->engine->transform('base', array('names' => array(
           array('name' => 'John'),
           array('name' => 'Jack')

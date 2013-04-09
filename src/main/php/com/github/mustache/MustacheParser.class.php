@@ -12,15 +12,16 @@
      * @param  string $template The template as a string
      * @param  string $start Initial start tag, defaults to "{{"
      * @param  string $end Initial end tag, defaults to "}}"
+     * @param  string $indent What to prefix before each line
      * @return com.github.mustache.Node The parsed template
      * @throws com.github.mustache.TemplateFormatException
      */
-    public function parse($template, $start= '{{', $end= '}}') {
+    public function parse($template, $start= '{{', $end= '}}', $indent= '') {
       $parsed= new NodeList();
       $parents= array();
       $lt= new \text\StringTokenizer($template, "\n", TRUE);
       while ($lt->hasMoreTokens()) {
-        $line= $lt->nextToken().$lt->nextToken();
+        $line= $indent.$lt->nextToken().$lt->nextToken();
         $offset= 0;
         do {
 
@@ -35,7 +36,7 @@
               if (!$lt->hasMoreTokens()) {
                 throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end);
               }
-              $line.= $lt->nextToken().$lt->nextToken();
+              $line.= $indent.$lt->nextToken().$lt->nextToken();
             }
             $text= substr($line, $offset, $s- $offset);
             $tag= substr($line, $s+ strlen($start), $e- $s- strlen($end));

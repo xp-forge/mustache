@@ -35,7 +35,7 @@
      * @param  com.github.mustache.Context $context the rendering context
      * @return string
      */
-    public function evaluate($context) {
+    public function evaluate($context, $indent= '') {
       if (NULL === ($value= $context->lookup($this->name))) return '';
       if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
         $rendered= $context->engine->render($value($this, $context), $context);

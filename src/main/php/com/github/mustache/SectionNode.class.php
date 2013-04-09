@@ -61,7 +61,7 @@
      * @param  com.github.mustache.Context $context the rendering context
      * @return string
      */
-    public function evaluate($context) {
+    public function evaluate($context, $indent= '') {
       $value= $context->lookup($this->name);
       if ($this->invert ? $value : !$value) return '';
 
