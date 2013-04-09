@@ -10,22 +10,21 @@
      * Parse a template
      *
      * @param  string $template The template as a string
+     * @param  string $start Initial start tag, defaults to "{{"
+     * @param  string $end Initial end tag, defaults to "}}"
      * @return com.github.mustache.Node The parsed template
      * @throws com.github.mustache.TemplateFormatException
      */
-    public function parse($template) {
+    public function parse($template, $start= '{{', $end= '}}') {
       $parsed= new NodeList();
       $parents= array();
-      $start= '{{';
-      $end= '}}';
       $lt= new \text\StringTokenizer($template, "\n", TRUE);
       while ($lt->hasMoreTokens()) {
         $line= $lt->nextToken().$lt->nextToken();
-
-        //\util\cmd\Console::writeLine('"', addcslashes($line, "\0..\17"), '" ', strlen($line));
-
         $offset= 0;
         do {
+
+          // Parse line
           if (FALSE === ($s= strpos($line, $start, $offset))) {
             $text= substr($line, $offset);
             $tag= NULL;
@@ -51,9 +50,8 @@
               $text= '';
             }
           }
-          //\util\cmd\Console::writeLine('>> `', addcslashes($text, "\0..\17"), '`');
-          //\util\cmd\Console::writeLine($standalone ? 'STANDALONE' : 'INLINE', '>> |', $tag, '|');
 
+          // Handle text
           if ('' !== $text) {
             $parsed->add(new TextNode($text));
           }
@@ -64,7 +62,7 @@
           } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
             $name= trim(substr($tag, 1));
             $parents[]= $parsed;
-            $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}));
+            $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}, NULL, $start, $end));
           } else if ('/' === $tag{0}) {              // end section
             $name= trim(substr($tag, 1));
             if ($name !== $parsed->name()) {
