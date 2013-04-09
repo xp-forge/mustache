@@ -113,5 +113,5 @@ Whether this implementation is compliant with the official spec can be tested as
 ```sh
 $ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
 $ unzip master.zip && rm master.zip
-$ xpcli com.github.mustache.RunSpec spec-master/specs
+$ unittest com.github.mustache.** -a spec-master/specs/ spec-master/specs
 ```
