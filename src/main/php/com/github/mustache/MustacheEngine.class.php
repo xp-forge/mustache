@@ -78,6 +78,8 @@
      * Compile a template.
      *
      * @param  string $template The template, as a string
+     * @param  string $start Initial start tag, defaults to "{{"
+     * @param  string $end Initial end tag, defaults to "}}"
      * @return com.github.mustache.Node
      */
     public function compile($template, $start= '{{', $end= '}}') {
@@ -89,6 +91,8 @@
      *
      * @param  string $template The template, as a string
      * @param  var $arg Either a view context, or a Context instance
+     * @param  string $start Initial start tag, defaults to "{{"
+     * @param  string $end Initial end tag, defaults to "}}"
      * @return string The rendered output
      */
     public function render($template, $arg, $start= '{{', $end= '}}') {
@@ -106,6 +110,8 @@
      *
      * @param  string $name The template name.
      * @param  var $arg Either a view context, or a Context instance
+     * @param  string $start Initial start tag, defaults to "{{"
+     * @param  string $end Initial end tag, defaults to "}}"
      * @return string The rendered output
      */
     public function transform($name, $arg, $start= '{{', $end= '}}') {

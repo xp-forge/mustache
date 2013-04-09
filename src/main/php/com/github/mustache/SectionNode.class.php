@@ -9,6 +9,8 @@
     protected $name;
     protected $nodes;
     protected $invert;
+    protected $start;
+    protected $end;
 
     /**
      * Creates a new section node
@@ -17,10 +19,12 @@
      * @param bool $invert
      * @param com.github.mustache.NodeList $nodes
      */
-    public function __construct($name, $invert= FALSE, NodeList $nodes= NULL) {
+    public function __construct($name, $invert= FALSE, NodeList $nodes= NULL, $start= '{{', $end= '}}') {
       $this->name= $name;
       $this->invert= $invert;
       $this->nodes= $nodes ?: new NodeList();
+      $this->start= $start;
+      $this->end= $end;
     }
 
     /**
@@ -67,7 +71,7 @@
       // * If the value is a hash, use it as context
       // * Otherwise, simply delegate evaluation to node list
       if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
-        return $context->engine->render($value($this->nodes, $context), $context);
+        return $context->engine->render($value($this->nodes, $context), $context, $this->start, $this->end);
       } else if (is_array($value) && is_int(key($value))) {
         $output= '';
         foreach ($value as $values) {
