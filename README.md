@@ -104,7 +104,7 @@ $transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
 
 Releases
 --------
-The current release is version 1.0.0, available via http://builds.planet-xp.net/xp-forge/mustache/1.0.0/xp-mustache-1.0.0.xar.
+The current release is version 1.0.0, available via http://builds.planet-xp.net/xp-forge/mustache/1.0.0/xp-mustache-1.0.0.xar. As long as xp-framework/rfc#267 has not been implemented yet, you also need https://github.com/xp-forge/mustache/blob/master/lib/rfc-267.xar in your class path.
 
 Spec compliance
 ---------------
