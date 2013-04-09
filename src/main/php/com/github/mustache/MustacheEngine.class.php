@@ -80,8 +80,8 @@
      * @param  string $template The template, as a string
      * @return com.github.mustache.Node
      */
-    public function compile($template) {
-      return $this->parser->parse($template);
+    public function compile($template, $start= '{{', $end= '}}') {
+      return $this->parser->parse($template, $start, $end);
     }
 
     /**
@@ -91,13 +91,13 @@
      * @param  var $arg Either a view context, or a Context instance
      * @return string The rendered output
      */
-    public function render($template, $arg) {
+    public function render($template, $arg, $start= '{{', $end= '}}') {
       if ($arg instanceof Context) {
         $context= $arg;
       } else {
         $context= new Context($arg, $this);
       }
-      return $this->parser->parse($template)->evaluate($context);
+      return $this->parser->parse($template, $start, $end)->evaluate($context);
     }
 
     /**
@@ -108,8 +108,8 @@
      * @param  var $arg Either a view context, or a Context instance
      * @return string The rendered output
      */
-    public function transform($name, $arg) {
-      return $this->render($this->templates->load($name.'.mustache'), $arg);
+    public function transform($name, $arg, $start= '{{', $end= '}}') {
+      return $this->render($this->templates->load($name.'.mustache'), $arg, $start, $end);
     }
   }
 ?>
