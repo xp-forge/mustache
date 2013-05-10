@@ -1,10 +1,10 @@
 <?php namespace com\github\mustache;
 
-use \io\collections\iterate\ExtensionEqualsFilter;
-use \io\collections\iterate\FilteredIOCollectionIterator;
-use \io\collections\FileCollection;
-use \io\collections\FileElement;
-use \webservices\json\JsonFactory;
+use io\collections\iterate\ExtensionEqualsFilter;
+use io\collections\iterate\FilteredIOCollectionIterator;
+use io\collections\FileCollection;
+use io\collections\FileElement;
+use webservices\json\JsonFactory;
 
 /**
  * Executes the Mustache specifications

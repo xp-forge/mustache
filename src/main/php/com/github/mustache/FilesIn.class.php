@@ -1,8 +1,8 @@
 <?php namespace com\github\mustache;
 
-use \io\Folder;
-use \io\File;
-use \io\FileUtil;
+use io\Folder;
+use io\File;
+use io\FileUtil;
 
 /**
  * File-based template loading loads templates from the file system.
