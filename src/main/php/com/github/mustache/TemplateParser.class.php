@@ -1,18 +1,16 @@
-<?php
-  namespace com\github\mustache;
+<?php namespace com\github\mustache;
+
+/**
+ * Parses mustache templates
+ */
+interface TemplateParser {
 
   /**
-   * Parses mustache templates
+   * Parse a template
+   *
+   * @param  string $template The template as a string
+   * @return com.github.mustache.Node The parsed template
+   * @throws com.github.mustache.TemplateFormatException
    */
-  interface TemplateParser {
-
-    /**
-     * Parse a template
-     *
-     * @param  string $template The template as a string
-     * @return com.github.mustache.Node The parsed template
-     * @throws com.github.mustache.TemplateFormatException
-     */
-    public function parse($template);
-  }
-?>
+  public function parse($template);
+}

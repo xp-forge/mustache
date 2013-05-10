@@ -1,9 +1,8 @@
-<?php
-  namespace com\github\mustache;
+<?php namespace com\github\mustache;
 
-  /**
-   * Indicates a template is malformed.
-   */
-  class TemplateFormatException extends \lang\FormatException {
-  }
-?>
+/**
+ * Indicates a template is malformed.
+ */
+class TemplateFormatException extends \lang\FormatException {
+
+}

@@ -1,26 +1,24 @@
-<?php
-  namespace com\github\mustache;
+<?php namespace com\github\mustache;
+
+/**
+ * A node represents any tag inside a mustache document, e.g.
+ * variables, sections or partials.
+ */
+abstract class Node extends \lang\Object {
 
   /**
-   * A node represents any tag inside a mustache document, e.g.
-   * variables, sections or partials.
+   * Evaluates this node
+   *
+   * @param  com.github.mustache.Context $context the rendering context
+   * @return string
    */
-  abstract class Node extends \lang\Object {
+  public abstract function evaluate($context);
 
-    /**
-     * Evaluates this node
-     *
-     * @param  com.github.mustache.Context $context the rendering context
-     * @return string
-     */
-    public abstract function evaluate($context);
+  /**
+   * Overload (string) cast
+   *
+   * @return string
+   */
+  public abstract function __toString();
 
-    /**
-     * Overload (string) cast
-     *
-     * @return string
-     */
-    public abstract function __toString();
-
-  }
-?>
+}
