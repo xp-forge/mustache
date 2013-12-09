@@ -71,7 +71,7 @@ Per default, templates are loaded from the current working directory. This can b
 
 ```php
 $engine= new \com\github\mustache\MustacheEngine();
-$engine->withTemplates(new InFiles(new Folder('templates')));
+$engine->withTemplates(new \com\github\mustache\FilesIn(new Folder('templates')));
 $transformed= $engine->transform('hello', array('name' => 'World'));
 ```
 
