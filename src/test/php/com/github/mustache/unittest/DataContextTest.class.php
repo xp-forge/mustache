@@ -13,7 +13,7 @@ class DataContextTest extends \unittest\TestCase {
    * @return com.github.mustache.Context
    */
   public function newFixture($variables, $helpers= array()) {
-    return new DataContext($variables, create(new MustacheEngine())->withHelpers($helpers));
+    return create(new DataContext($variables))->withEngine(create(new MustacheEngine())->withHelpers($helpers));
   }
 
   #[@test]

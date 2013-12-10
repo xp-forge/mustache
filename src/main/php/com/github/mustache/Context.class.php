@@ -13,11 +13,21 @@ abstract class Context extends \lang\Object {
    * Creates a new context instance
    *
    * @param  [:var] $variables The view context
-   * @param  com.github.mustache.MustacheEngine $engine
    */
-  public function __construct($variables, $engine) {
+  public function __construct($variables) {
     $this->variables= $variables;
+    $this->engine= \xp::null();
+  }
+
+  /**
+   * Sets engine and returns this context instance.
+   *
+   * @param  com.github.mustache.MustacheEngine $engine
+   * @return self
+   */
+  public function withEngine($engine) {
     $this->engine= $engine;
+    return $this;
   }
 
   /**
@@ -54,6 +64,6 @@ abstract class Context extends \lang\Object {
    * @return self
    */
   public function newInstance($variables) {
-    return new static($variables, $this->engine);
+    return create(new static($variables))->withEngine($this->engine);
   }
 }
