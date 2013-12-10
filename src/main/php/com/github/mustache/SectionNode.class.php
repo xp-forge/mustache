@@ -69,16 +69,16 @@ class SectionNode extends Node {
     // * If the value is a list, expand list for all values inside
     // * If the value is a hash, use it as context
     // * Otherwise, simply delegate evaluation to node list
-    if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
+    if ($context->isCallable($value)) {
       return $context->engine->render($value($this->nodes, $context), $context, $this->start, $this->end);
-    } else if (is_array($value) && is_int(key($value))) {
+    } else if ($context->isList($value)) {
       $output= '';
-      foreach ($value as $values) {
-        $output.= $this->nodes->evaluate($context->newInstance($values));
+      foreach ($context->asTraversable($value) as $element) {
+        $output.= $this->nodes->evaluate($context->newInstance($element));
       }
       return $output;
-    } else if (is_array($value)) {
-      return $this->nodes->evaluate($context->newInstance(array_merge($context->variables, $value)));
+    } else if ($context->isHash($value)) {
+      return $this->nodes->evaluate($context->asContext($value));
     } else {
       return $this->nodes->evaluate($context);
     }

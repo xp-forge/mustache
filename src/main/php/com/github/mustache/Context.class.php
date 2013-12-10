@@ -43,16 +43,63 @@ abstract class Context extends \lang\Object {
   protected abstract function pointer($ptr, $segment);
 
   /**
-   * Helper method to retrieve the value used for evaluation. Called 
-   * on the result of the `lookup()` method. This implementation here
-   * only returns the value passed in. To subclass, overwrite and call
-   * any necessary transformation.
+   * Returns whether a looked up value is callable
+   *
+   * @param  var $result
+   * @return bool
+   */
+  public function isCallable($result) {
+    return $result instanceof \Closure || ($result instanceof \lang\Generic && is_callable($result));
+  }
+
+  /**
+   * Returns whether a looked up value is a list
+   *
+   * @param  var $result
+   * @return bool
+   */
+  public function isList($result) {
+    return is_array($result) && is_int(key($result));
+  }
+
+  /**
+   * Returns whether a looked up value is conceptually a hash
+   *
+   * @param  var $result
+   * @return bool
+   */
+  public function isHash($result) {
+    return is_array($result);
+  }
+
+  /**
+   * Returns a value usable as string
+   *
+   * @param  var $result
+   * @return string
+   */
+  public function asString($result) {
+    return (string)$result;
+  }
+
+  /**
+   * Returns a list traversable by the foreach statement
    *
    * @param  var $result
    * @return var
    */
-  protected function value($result) {
-    return $result;
+  public function asTraversable($result) {
+    return (array)$result;
+  }
+
+  /**
+   * Returns a context inherited from this context
+   *
+   * @param  var $result
+   * @return self
+   */
+  public function asContext($result) {
+    return $this->newInstance(array_merge($this->variables, $result));
   }
 
   /**
@@ -71,7 +118,7 @@ abstract class Context extends \lang\Object {
       if ($h !== null) $h= isset($h[$segment]) ? $h[$segment] : null;
     }
 
-    return $this->value(null === $v ? $h : $v);
+    return null === $v ? $h : $v;
   }
 
   /**

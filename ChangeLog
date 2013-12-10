@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Made Context implementation easier by moving data interpretation
+  and conversion rules there from the VariableNode and SectionNode's
+  `evaluate()` methods - @thekid
 
 1.2.0, 10.12.2013
 -----------------
