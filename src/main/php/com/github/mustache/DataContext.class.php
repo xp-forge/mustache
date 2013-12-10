@@ -38,10 +38,12 @@ class DataContext extends Context {
 
       // 3. Try accessor named get<segment>()
       if ($class->hasMethod($getter= 'get'.$segment)) {
-        return $class->getMethod($getter)->invoke($ptr);
-      } else {
-        return null;
+        $method= $class->getMethod($getter);
+        if ($method->getModifiers() & MODIFIER_PUBLIC) {
+          return $method->invoke($ptr);
+        }
       }
+      return null;
     }
 
     // Array lookup
