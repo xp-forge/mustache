@@ -32,7 +32,7 @@ class DataContext extends Context {
       if ($class->hasMethod($segment)) {
         $method= $class->getMethod($segment);
         if ($method->getModifiers() & MODIFIER_PUBLIC) {
-          return $class->getMethod($segment)->invoke($ptr);
+          return $method->invoke($ptr);
         }
       }
 
@@ -43,6 +43,8 @@ class DataContext extends Context {
           return $method->invoke($ptr);
         }
       }
+
+      // Non applicable - give up
       return null;
     }
 
