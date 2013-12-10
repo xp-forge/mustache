@@ -43,6 +43,16 @@ abstract class Context extends \lang\Object {
   protected abstract function pointer($ptr, $segment);
 
   /**
+   * Returns whether a looked up value is "truthy"
+   *
+   * @param  var $result
+   * @return bool
+   */
+  public function isTruthy($result) {
+    return (bool)$result;
+  }
+
+  /**
    * Returns whether a looked up value is callable
    *
    * @param  var $result

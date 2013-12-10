@@ -62,7 +62,8 @@ class SectionNode extends Node {
    */
   public function evaluate($context, $indent= '') {
     $value= $context->lookup($this->name);
-    if ($this->invert ? $value : !$value) return '';
+    $truthy= $context->isTruthy($value);
+    if ($this->invert ? $truthy : !$truthy) return '';
 
     // Have defined value, apply following:
     // * If the value is a function, call it
