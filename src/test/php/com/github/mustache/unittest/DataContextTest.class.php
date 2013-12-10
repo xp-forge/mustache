@@ -109,4 +109,15 @@ class DataContextTest extends \unittest\TestCase {
     }'));
     $this->assertEquals('', $fixture->lookup('test'));
   }
+
+  #[@test]
+  public function supports_array_access_overloading() {
+    $fixture= $this->newFixture(newinstance('php.ArrayAccess', array(), '{
+      public function offsetExists($h) { return "test" === $h; }
+      public function offsetGet($h) { return "test" === $h ? "data" : null; }
+      public function offsetSet($h, $v) { /* Empty */ }
+      public function offsetUnset($h) { /* Empty */ }
+    }'));
+    $this->assertEquals('data', $fixture->lookup('test'));
+  }
 }

@@ -17,7 +17,9 @@ class DataContext extends Context {
    * @return var
    */
   protected function pointer($ptr, $segment) {
-    if ($ptr instanceof \lang\Generic) {
+    if ($ptr instanceof \ArrayAccess) {
+      return $ptr->offsetExists($segment) ? $ptr->offsetGet($segment) : null;
+    } else if ($ptr instanceof \lang\Generic) {
       $class= $ptr->getClass();
 
       // 1. Try public field named <segment>
@@ -46,9 +48,8 @@ class DataContext extends Context {
 
       // Non applicable - give up
       return null;
+    } else {
+      return isset($ptr[$segment]) ? $ptr[$segment] : null;
     }
-
-    // Array lookup
-    return isset($ptr[$segment]) ? $ptr[$segment] : null;
   }
 }

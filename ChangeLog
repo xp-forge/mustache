@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Added support for context data with array overloading via 
+  PHP's `ArrayAccess` interface - @thekid
 * Moved tests to com.github.mustache.*unittest* package - @thekid
 * Make `Context` an abstract base class and add an implementation 
   called `DataContext` - @thekid
