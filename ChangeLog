@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+
+1.2.0, 10.12.2013
+-----------------
 * Added `ResourcesIn` loader to load templates from the class path
   @thekid
 * Added support for context data with array overloading via PHP's 
