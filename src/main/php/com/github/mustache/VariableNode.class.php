@@ -35,8 +35,10 @@ class VariableNode extends Node {
    * @return string
    */
   public function evaluate($context, $indent= '') {
-    if (null === ($value= $context->lookup($this->name))) return '';
-    if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
+    $value= $context->lookup($this->name);
+    if (null === $value) {
+      return '';
+    } else if ($value instanceof \Closure || ($value instanceof \lang\Generic && is_callable($value))) {
       $rendered= $context->engine->render($value($this, $context), $context);
     } else {
       $rendered= $value;

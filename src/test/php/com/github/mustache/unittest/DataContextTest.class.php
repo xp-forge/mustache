@@ -24,7 +24,7 @@ class DataContextTest extends \unittest\TestCase {
   #[@test, @values(['test', 'test.sub', 'test.sub.child'])]
   public function lookup_on_empty_data($key) {
     $fixture= $this->newFixture(array());
-    $this->assertEquals('', $fixture->lookup($key));
+    $this->assertNull($fixture->lookup($key));
   }
 
   #[@test]
@@ -52,7 +52,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       protected $test = "data";
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
@@ -60,7 +60,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       private $test = "data";
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
@@ -76,7 +76,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       private function test() { return "data"; }
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
@@ -84,7 +84,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       protected function test() { return "data"; }
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
@@ -100,7 +100,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       private function getTest() { return "data"; }
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
@@ -108,7 +108,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
       protected function getTest() { return "data"; }
     }'));
-    $this->assertEquals('', $fixture->lookup('test'));
+    $this->assertNull($fixture->lookup('test'));
   }
 
   #[@test]
