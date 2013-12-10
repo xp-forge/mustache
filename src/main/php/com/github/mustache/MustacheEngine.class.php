@@ -100,7 +100,7 @@ class MustacheEngine extends \lang\Object {
     if ($arg instanceof Context) {
       $context= $arg;
     } else {
-      $context= new Context($arg, $this);
+      $context= new DataContext($arg, $this);
     }
     return $this->compile($template, $start, $end, $indent)->evaluate($context, $indent);
   }

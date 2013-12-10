@@ -1,7 +1,17 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
+
+use com\github\mustache\MustacheEngine;
+use com\github\mustache\Node;
 
 class RenderingTest extends \unittest\TestCase {
 
+  /**
+   * Renders a given template with some variables
+   *
+   * @param  string $template
+   * @param  [:var] $variables
+   * @return string output
+   */
   protected function render($template, $variables) {
     return create(new MustacheEngine())->render($template, $variables);
   }

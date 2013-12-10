@@ -1,4 +1,6 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
+
+use com\github\mustache\MustacheEngine;
 
 class HelpersTest extends \unittest\TestCase {
 

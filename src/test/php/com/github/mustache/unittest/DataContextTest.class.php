@@ -1,7 +1,16 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
+
+use com\github\mustache\DataContext;
+use com\github\mustache\MustacheEngine;
 
 class DataContextTest extends \unittest\TestCase {
 
+  /**
+   * Creates new fixture
+   *
+   * @param  [:string] $variables
+   * @return com.github.mustache.Context
+   */
   public function newFixture($variables) {
     return new DataContext($variables, new MustacheEngine());
   }

@@ -54,6 +54,6 @@ abstract class Context extends \lang\Object {
    * @return self
    */
   public function newInstance($variables) {
-    return new self($variables, $this->engine);
+    return new static($variables, $this->engine);
   }
 }

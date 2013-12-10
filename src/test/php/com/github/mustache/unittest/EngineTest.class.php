@@ -1,4 +1,11 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
+
+use com\github\mustache\MustacheEngine;
+use com\github\mustache\MustacheParser;
+use com\github\mustache\FilesIn;
+use com\github\mustache\NodeList;
+use com\github\mustache\TextNode;
+use com\github\mustache\VariableNode;
 
 class EngineTest extends \unittest\TestCase {
 

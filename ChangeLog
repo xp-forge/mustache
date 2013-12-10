@@ -3,6 +3,7 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Moved tests to com.github.mustache.*unittest* package - @thekid
 * Make `Context` an abstract base class and add an implementation 
   called `DataContext` - @thekid
 

@@ -1,5 +1,6 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
 
+use com\github\mustache\MustacheEngine;
 use io\collections\iterate\ExtensionEqualsFilter;
 use io\collections\iterate\FilteredIOCollectionIterator;
 use io\collections\FileCollection;

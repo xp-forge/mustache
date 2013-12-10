@@ -1,9 +1,15 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\unittest;
+
+use com\github\mustache\MustacheEngine;
+use com\github\mustache\InMemory;
 
 class TemplateTransformationTest extends \unittest\TestCase {
   protected $loader;
   protected $engine;
 
+  /**
+   * Sets up unittest
+   */
   public function setUp() {
     $this->loader= new InMemory();
     $this->engine= create(new MustacheEngine())->withTemplates($this->loader);
