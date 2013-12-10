@@ -5,15 +5,15 @@
  * forming the view context and a reference to the engine for template
  * resolution of partials.
  */
-class Context extends \lang\Object {
+abstract class Context extends \lang\Object {
   public $variables= array();
   public $engine= null;
 
   /**
    * Creates a new context instance
    *
-   * @param [:var] $variables The view context
-   * @param com.github.mustache.MustacheEngine $engine
+   * @param  [:var] $variables The view context
+   * @param  com.github.mustache.MustacheEngine $engine
    */
   public function __construct($variables, $engine) {
     $this->variables= $variables;
@@ -28,37 +28,7 @@ class Context extends \lang\Object {
    * @param  string $segment
    * @return var
    */
-  protected function pointer($ptr, $segment) {
-    if ($ptr instanceof \lang\Generic) {
-      $class= $ptr->getClass();
-
-      // 1. Try public field named <segment>
-      if ($class->hasField($segment)) {
-        $field= $class->getField($segment);
-        if ($field->getModifiers() & MODIFIER_PUBLIC) {
-          return $field->get($ptr);
-        }
-      }
-
-      // 2. Try public method named <segment>
-      if ($class->hasMethod($segment)) {
-        $method= $class->getMethod($segment);
-        if ($method->getModifiers() & MODIFIER_PUBLIC) {
-          return $class->getMethod($segment)->invoke($ptr);
-        }
-      }
-
-      // 3. Try accessor named get<segment>()
-      if ($class->hasMethod($getter= 'get'.$segment)) {
-        return $class->getMethod($getter)->invoke($ptr);
-      } else {
-        return null;
-      }
-    }
-
-    // Array lookup
-    return isset($ptr[$segment]) ? $ptr[$segment] : null;
-  }
+  protected abstract function pointer($ptr, $segment);
 
   /**
    * Looks up variable
@@ -72,7 +42,7 @@ class Context extends \lang\Object {
     $h= $this->engine->helpers;
     foreach ($segments as $segment) {
       if ($v !== null) $v= $this->pointer($v, $segment);
-      if ($h !== null) $h= $this->pointer($h, $segment);
+      if ($h !== null) $h= isset($h[$segment]) ? $h[$segment] : null;
     }
     return $v === null ? ($h === null ? '' : $h) : $v;
   }
