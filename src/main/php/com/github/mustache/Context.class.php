@@ -7,15 +7,18 @@
  */
 abstract class Context extends \lang\Object {
   public $variables= array();
+  public $parent= null;
   public $engine= null;
 
   /**
    * Creates a new context instance
    *
    * @param  [:var] $variables The view context
+   * @param  self parent The optional parent context
    */
-  public function __construct($variables) {
+  public function __construct($variables, self $parent= null) {
     $this->variables= $variables;
+    $this->parent= $parent ?: \xp::null();
     $this->engine= \xp::null();
   }
 
@@ -119,9 +122,14 @@ abstract class Context extends \lang\Object {
    * @return var the variable, or null if nothing is found
    */
   public function lookup($name) {
-    $segments= explode('.', $name);
+    if (0 === strncmp('../', $name, 3)) {
+      $segments= explode('.', substr($name, 3));
+      $v= $this->parent->variables;
+    } else {
+      $segments= explode('.', $name);
+      $v= $this->variables;
+    }
 
-    $v= $this->variables;
     $h= $this->engine->helpers;
     foreach ($segments as $segment) {
       if ($v !== null) $v= $this->pointer($v, $segment);
@@ -138,6 +146,6 @@ abstract class Context extends \lang\Object {
    * @return self
    */
   public function newInstance($variables) {
-    return create(new static($variables))->withEngine($this->engine);
+    return create(new static($variables, $this))->withEngine($this->engine);
   }
 }

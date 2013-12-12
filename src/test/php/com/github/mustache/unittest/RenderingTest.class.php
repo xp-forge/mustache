@@ -379,4 +379,25 @@ class RenderingTest extends \unittest\TestCase {
       $this->render('Hello {name}!', array())
     );
   }
+
+  #[@test]
+  public function parent_context() {
+    $this->assertEquals(
+      "* Image test/one\n* Image test/two\n",
+      $this->render(
+        "{{#album}}\n".
+        "{{#images}}\n".
+        "* Image {{../name}}/{{name}}\n".
+        "{{/images}}\n".
+        "{{/album}}\n",
+        array('album' => array(
+          'name'   => 'test',
+          'images' => array(
+            array('name' => 'one'),
+            array('name' => 'two')
+          )
+        ))
+      )
+    );
+  }
 }
