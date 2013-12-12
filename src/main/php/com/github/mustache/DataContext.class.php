@@ -4,7 +4,7 @@
  * Context subclass to work with any data (arrays, hashses, objects,
  * ...) generically.
  *
- * @test  xp://com.github.mustache.DataContextTest
+ * @test  xp://com.github.mustache.unittest.DataContextTest
  */
 class DataContext extends Context {
 

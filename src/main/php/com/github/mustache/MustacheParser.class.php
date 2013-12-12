@@ -2,6 +2,8 @@
 
 /**
  * Parses mustache templates
+ *
+ * @test  xp://com.github.mustache.unittest.ParsingTest
  */
 class MustacheParser extends \lang\Object implements TemplateParser {
 

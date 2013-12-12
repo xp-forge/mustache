@@ -12,6 +12,10 @@
  *   ));
  * </code>
  *
+ * @test xp://com.github.mustache.unittest.EngineTest
+ * @test xp://com.github.mustache.unittest.RenderingTest
+ * @test xp://com.github.mustache.unittest.HelpersTest
+ * @test xp://com.github.mustache.unittest.SpecificationTest
  * @see  https://github.com/mustache/spec
  * @see  http://mustache.github.io/mustache.5.html
  */

@@ -2,6 +2,8 @@
 
 /**
  * Template loading
+ *
+ * @test xp://com.github.mustache.unittest.TemplateTransformationTest
  */
 interface TemplateLoader {
 
