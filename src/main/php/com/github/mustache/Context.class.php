@@ -18,8 +18,12 @@ abstract class Context extends \lang\Object {
    */
   public function __construct($variables, self $parent= null) {
     $this->variables= $variables;
-    $this->parent= $parent ?: \xp::null();
-    $this->engine= \xp::null();
+    if ($parent) {
+      $this->parent= $parent;
+      $this->engine= $parent->engine;
+    } else {
+      $this->parent= $this->engine= \xp::null();
+    }
   }
 
   /**
@@ -140,12 +144,12 @@ abstract class Context extends \lang\Object {
   }
 
   /**
-   * Creates a new context using the same engine
+   * Creates a new context with its parent set to this context.
    *
    * @param  [:var] $variables The new view context
    * @return self
    */
   public function newInstance($variables) {
-    return create(new static($variables, $this))->withEngine($this->engine);
+    return create(new static($variables, $this));
   }
 }
