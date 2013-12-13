@@ -25,7 +25,7 @@ This implementation supports all standard features of the [current specification
 * Partials: `{{> partial}}` will load a template called `partial.mustache` from the template loader.
 * Implicit iterators: Written as `{{.}}`, the current loop value will be selected.
 
-The optional *lambdas* module is also supported. 
+The optional *lambdas* module as well as the parent context extension (`../name`) are also supported.
 
 Lambdas
 -------
