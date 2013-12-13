@@ -7,6 +7,7 @@
  */
 class MustacheParser extends \lang\Object implements TemplateParser {
   protected $handlers= array();
+  protected $standalone= array();
 
   /**
    * Set up handlers
@@ -14,18 +15,33 @@ class MustacheParser extends \lang\Object implements TemplateParser {
   public function __construct() {
 
     // Sections
-    $this->handlers['#']= $this->handlers['^']= function($tag, $state) {
+    $this->withHandler('#^', true, function($tag, $state) {
       $name= trim(substr($tag, 1));
       $state->parents[]= $state->target;
       $state->target= $state->target->add(new SectionNode($name, '^' === $tag{0}, null, $state->start, $state->end));
-    };
-    $this->handlers['/']= function($tag, $state) {
+    });
+    $this->withHandler('/', true, function($tag, $state) {
       $name= trim(substr($tag, 1));
       if ($name !== $state->target->name()) {
         throw new TemplateFormatException('Illegal nesting, expected /'.$state->target->name().', have /'.$name);
       }
       $state->target= array_pop($state->parents);
-    };
+    });
+
+    // > partial
+    $this->withHandler('>', true, function($tag, $state) {
+      $state->target->add(new PartialNode(trim(substr($tag, 1), ' '), $state->padding));
+    });
+
+    // ! ... for comments
+    $this->withHandler('!', true, function($tag, $state) {
+      $state->target->add(new CommentNode(trim(substr($tag, 1), ' ')));
+    });
+
+    // Change start and end
+    $this->withHandler('=', true, function($tag, $state) {
+      list($state->start, $state->end)= explode(' ', trim(substr($tag, 1, -1)));
+    });
 
     // & for unescaped
     $this->handlers['&']= function($tag, $state) {
@@ -38,26 +54,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
       if ('}' !== $tag{strlen($tag)- 1}) return +1;  // skip "}"
     };
 
-    // > partial
-    $this->handlers['>']= function($tag, $state) {
-      $state->target->add(new PartialNode(trim(substr($tag, 1), ' '), $state->padding));
-    };
-
-    // ! ... for comments
-    $this->handlers['!']= function($tag, $state) {
-      $state->target->add(new CommentNode(trim(substr($tag, 1), ' ')));
-    };
-
-    // ! ... for comments
-    $this->handlers['!']= function($tag, $state) {
-      $state->target->add(new CommentNode(trim(substr($tag, 1), ' ')));
-    };
-
-    // Change start and end
-    $this->handlers['=']= function($tag, $state) {
-      list($state->start, $state->end)= explode(' ', trim(substr($tag, 1, -1)));
-    };
-
+    // Default
     $this->handlers[null]= function($tag, $state) {
       $variable= trim($tag);
       $state->target->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
@@ -68,11 +65,15 @@ class MustacheParser extends \lang\Object implements TemplateParser {
    * Add a handler
    *
    * @param  string $token
+   * @param  bool $standalone
    * @param  var $handler A function
    * @return self
    */
-  public function withHandler($token, $handler) {
-    $this->handlers[$token]= $handler;
+  public function withHandler($tokens, $standalone, $handler) {
+    for ($i= 0; $i < strlen($tokens); $i++) {
+      $this->handlers[$tokens{$i}]= $handler;
+      $standalone && $this->standalone[$tokens{$i}]= true;
+    }
     return $this;
   }
 
@@ -92,6 +93,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
     $state->start= $start;
     $state->end= $end;
     $state->parents= array();
+    $standalone= implode('', array_keys($this->standalone));
 
     $lt= new \text\StringTokenizer($template, "\n", true);
     while ($lt->hasMoreTokens()) {
@@ -117,7 +119,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
           $offset= $e + strlen($state->end);
 
           // Check for standalone tags on a line by themselves
-          if (0 === strcspn($tag, '#^/>!=')) {
+          if (0 === strcspn($tag, $standalone)) {
             if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
               $offset= strlen($line);
               $state->padding= substr($line, 0, $s);
