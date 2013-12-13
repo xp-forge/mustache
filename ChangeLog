@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Added possibility to extend / overwrite parser's tag interpretation
+  by using `MustacheParser::withHandler()` - @thekid
 * Added support for `../` selector to access parent context - @thekid
 * Made Context implementation easier by moving data interpretation
   and conversion rules there from the VariableNode and SectionNode's

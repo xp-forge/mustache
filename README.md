@@ -104,7 +104,7 @@ $transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
 
 Releases
 --------
-The current release is version 1.1.0, available via XP Installer:
+The releases are available via XP Installer:
 
 ```sh
 # First installation
