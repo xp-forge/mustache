@@ -6,6 +6,75 @@
  * @test  xp://com.github.mustache.unittest.ParsingTest
  */
 class MustacheParser extends \lang\Object implements TemplateParser {
+  protected $handlers= array();
+
+  /**
+   * Set up handlers
+   */
+  public function __construct() {
+
+    // Sections
+    $this->handlers['#']= $this->handlers['^']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $name= trim(substr($tag, 1));
+      $parents[]= $parsed;
+      $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}, null, $start, $end));
+    };
+    $this->handlers['/']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $name= trim(substr($tag, 1));
+      if ($name !== $parsed->name()) {
+        throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
+      }
+      $parsed= array_pop($parents);
+    };
+
+    // & for unescaped
+    $this->handlers['&']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
+    };
+
+    // triple mustache for unescaped
+    $this->handlers['{']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
+      if ('}' !== $tag{strlen($tag)- 1}) $offset++;
+    };
+
+    // > partial
+    $this->handlers['>']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $parsed->add(new PartialNode(trim(substr($tag, 1), ' '), $padding));
+    };
+
+    // ! ... for comments
+    $this->handlers['!']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
+    };
+
+    // ! ... for comments
+    $this->handlers['!']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
+    };
+
+    // Change start and end
+    $this->handlers['=']= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      list($start, $end)= explode(' ', trim(substr($tag, 1, -1)));
+    };
+
+    $this->handlers[null]= function($tag, &$parsed, &$parents, &$start, &$end, $padding, &$offset) {
+      $variable= trim($tag);
+      $parsed->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
+    };
+  }
+
+  /**
+   * Add a handler
+   *
+   * @param  string $token
+   * @param  var $handler A function
+   * @return self
+   */
+  public function withHandler($token, $handler) {
+    $this->handlers[$token]= $handler;
+    return $this;
+  }
 
   /**
    * Parse a template
@@ -61,30 +130,12 @@ class MustacheParser extends \lang\Object implements TemplateParser {
         // Handle tag
         if (null === $tag) {
           continue;
-        } else if ('#' === $tag{0} || '^' === $tag{0}) {  // start section
-          $name= trim(substr($tag, 1));
-          $parents[]= $parsed;
-          $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}, null, $start, $end));
-        } else if ('/' === $tag{0}) {              // end section
-          $name= trim(substr($tag, 1));
-          if ($name !== $parsed->name()) {
-            throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
-          }
-          $parsed= array_pop($parents);
-        } else if ('&' === $tag{0}) {              // & for unescaped
-          $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
-        } else if ('{' === $tag{0}) {              // triple mustache for unescaped
-          $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
-          if ('}' !== $tag{strlen($tag)- 1}) $offset++;
-        } else if ('>' === $tag{0}) {              // > partial
-          $parsed->add(new PartialNode(trim(substr($tag, 1), ' '), $padding));
-        } else if ('!' === $tag{0}) {              // ! ... for comments
-          $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
-        } else if ('=' === $tag{0} && '=' === $tag{strlen($tag)- 1}) {
-          list($start, $end)= explode(' ', trim(substr($tag, 1, -1)));
+        } else if (isset($this->handlers[$tag{0}])) {
+          $f= $this->handlers[$tag{0}];
+          $f($tag, $parsed, $parents, $start, $end, $padding, $offset);
         } else {
-          $variable= trim($tag);
-          $parsed->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
+          $f= $this->handlers[null];
+          $f($tag, $parsed, $parents, $start, $end, $padding, $offset);
         }
       } while ($offset < strlen($line));
     }
