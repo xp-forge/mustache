@@ -44,33 +44,35 @@ class MustacheParser extends \lang\Object implements TemplateParser {
     });
 
     // & for unescaped
-    $this->handlers['&']= function($tag, $state) {
+    $this->withHandler('&', false, function($tag, $state) {
       $state->target->add(new VariableNode(trim(substr($tag, 1), ' '), false));
-    };
+    });
 
     // triple mustache for unescaped
-    $this->handlers['{']= function($tag, $state) {
+    $this->withHandler('{', false, function($tag, $state) {
       $state->target->add(new VariableNode(trim(substr($tag, 1), ' '), false));
       if ('}' !== $tag{strlen($tag)- 1}) return +1;  // skip "}"
-    };
+    });
 
     // Default
-    $this->handlers[null]= function($tag, $state) {
+    $this->withHandler(null, false, function($tag, $state) {
       $variable= trim($tag);
       $state->target->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
-    };
+    });
   }
 
   /**
    * Add a handler
    *
-   * @param  string $token
-   * @param  bool $standalone
+   * @param  string $token Token characters to react on; use NULL to set the default handler
+   * @param  bool $standalone Whether these tags should be standalone on a line by itself
    * @param  var $handler A function
    * @return self
    */
   public function withHandler($tokens, $standalone, $handler) {
-    for ($i= 0; $i < strlen($tokens); $i++) {
+    if (null === $tokens) {
+      $this->handlers[null]= $handler;
+    } else for ($i= 0; $i < strlen($tokens); $i++) {
       $this->handlers[$tokens{$i}]= $handler;
       $standalone && $this->standalone[$tokens{$i}]= true;
     }
