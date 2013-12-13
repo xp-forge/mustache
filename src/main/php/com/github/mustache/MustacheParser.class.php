@@ -14,53 +14,53 @@ class MustacheParser extends \lang\Object implements TemplateParser {
   public function __construct() {
 
     // Sections
-    $this->handlers['#']= $this->handlers['^']= function($tag, &$parsed, $state, &$offset) {
+    $this->handlers['#']= $this->handlers['^']= function($tag, $state) {
       $name= trim(substr($tag, 1));
-      $state->parents[]= $parsed;
-      $parsed= $parsed->add(new SectionNode($name, '^' === $tag{0}, null, $state->start, $state->end));
+      $state->parents[]= $state->target;
+      $state->target= $state->target->add(new SectionNode($name, '^' === $tag{0}, null, $state->start, $state->end));
     };
-    $this->handlers['/']= function($tag, &$parsed, $state, &$offset) {
+    $this->handlers['/']= function($tag, $state) {
       $name= trim(substr($tag, 1));
-      if ($name !== $parsed->name()) {
-        throw new TemplateFormatException('Illegal nesting, expected /'.$parsed->name().', have /'.$name);
+      if ($name !== $state->target->name()) {
+        throw new TemplateFormatException('Illegal nesting, expected /'.$state->target->name().', have /'.$name);
       }
-      $parsed= array_pop($state->parents);
+      $state->target= array_pop($state->parents);
     };
 
     // & for unescaped
-    $this->handlers['&']= function($tag, &$parsed, $state, &$offset) {
-      $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
+    $this->handlers['&']= function($tag, $state) {
+      $state->target->add(new VariableNode(trim(substr($tag, 1), ' '), false));
     };
 
     // triple mustache for unescaped
-    $this->handlers['{']= function($tag, &$parsed, $state, &$offset) {
-      $parsed->add(new VariableNode(trim(substr($tag, 1), ' '), false));
-      if ('}' !== $tag{strlen($tag)- 1}) $offset++;
+    $this->handlers['{']= function($tag, $state) {
+      $state->target->add(new VariableNode(trim(substr($tag, 1), ' '), false));
+      if ('}' !== $tag{strlen($tag)- 1}) return +1;  // skip "}"
     };
 
     // > partial
-    $this->handlers['>']= function($tag, &$parsed, $state, &$offset) {
-      $parsed->add(new PartialNode(trim(substr($tag, 1), ' '), $state->padding));
+    $this->handlers['>']= function($tag, $state) {
+      $state->target->add(new PartialNode(trim(substr($tag, 1), ' '), $state->padding));
     };
 
     // ! ... for comments
-    $this->handlers['!']= function($tag, &$parsed, $state, &$offset) {
-      $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
+    $this->handlers['!']= function($tag, $state) {
+      $state->target->add(new CommentNode(trim(substr($tag, 1), ' ')));
     };
 
     // ! ... for comments
-    $this->handlers['!']= function($tag, &$parsed, $state, &$offset) {
-      $parsed->add(new CommentNode(trim(substr($tag, 1), ' ')));
+    $this->handlers['!']= function($tag, $state) {
+      $state->target->add(new CommentNode(trim(substr($tag, 1), ' ')));
     };
 
     // Change start and end
-    $this->handlers['=']= function($tag, &$parsed, $state, &$offset) {
+    $this->handlers['=']= function($tag, $state) {
       list($state->start, $state->end)= explode(' ', trim(substr($tag, 1, -1)));
     };
 
-    $this->handlers[null]= function($tag, &$parsed, $state, &$offset) {
+    $this->handlers[null]= function($tag, $state) {
       $variable= trim($tag);
-      $parsed->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
+      $state->target->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
     };
   }
 
@@ -87,8 +87,8 @@ class MustacheParser extends \lang\Object implements TemplateParser {
    * @throws com.github.mustache.TemplateFormatException
    */
   public function parse($template, $start= '{{', $end= '}}', $indent= '') {
-    $parsed= new NodeList();
     $state= new ParseState();
+    $state->target= new NodeList();
     $state->start= $start;
     $state->end= $end;
     $state->parents= array();
@@ -128,7 +128,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
 
         // Handle text
         if ('' !== $text) {
-          $parsed->add(new TextNode($text));
+          $state->target->add(new TextNode($text));
         }
 
         // Handle tag
@@ -136,20 +136,19 @@ class MustacheParser extends \lang\Object implements TemplateParser {
           continue;
         } else if (isset($this->handlers[$tag{0}])) {
           $f= $this->handlers[$tag{0}];
-          $f($tag, $parsed, $state, $offset);
         } else {
           $f= $this->handlers[null];
-          $f($tag, $parsed, $state, $offset);
         }
+        $offset+= $f($tag, $state);
       } while ($offset < strlen($line));
     }
 
     // Check for unclosed sections
     if (!empty($state->parents)) {
-      throw new TemplateFormatException('Unclosed section '.$parsed->name());
+      throw new TemplateFormatException('Unclosed section '.$state->target->name());
     }
 
-    // \util\cmd\Console::writeLine($parsed);
-    return $parsed;
+    // \util\cmd\Console::writeLine($state->target);
+    return $state->target;
   }
 }

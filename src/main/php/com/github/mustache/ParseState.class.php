@@ -8,4 +8,5 @@ class ParseState extends \lang\Object {
   public $end= '}}';
   public $parents= array();
   public $padding= '';
+  public $target= null;
 }
