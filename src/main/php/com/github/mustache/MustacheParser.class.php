@@ -88,7 +88,11 @@ class MustacheParser extends \lang\Object implements TemplateParser {
    */
   public function parse($template, $start= '{{', $end= '}}', $indent= '') {
     $parsed= new NodeList();
-    $parents= array();
+    $state= new ParseState();
+    $state->start= $start;
+    $state->end= $end;
+    $state->parents= array();
+
     $lt= new \text\StringTokenizer($template, "\n", true);
     while ($lt->hasMoreTokens()) {
       $line= $indent.$lt->nextToken().$lt->nextToken();
@@ -96,27 +100,27 @@ class MustacheParser extends \lang\Object implements TemplateParser {
       do {
 
         // Parse line
-        $padding= '';
-        if (false === ($s= strpos($line, $start, $offset))) {
+        $state->padding= '';
+        if (false === ($s= strpos($line, $state->start, $offset))) {
           $text= substr($line, $offset);
           $tag= null;
           $offset= strlen($line);
         } else {
-          while (false === ($e= strpos($line, $end, $s+ strlen($start)))) {
+          while (false === ($e= strpos($line, $state->end, $s+ strlen($state->start)))) {
             if (!$lt->hasMoreTokens()) {
-              throw new TemplateFormatException('Unclosed '.$start.', expecting '.$end);
+              throw new TemplateFormatException('Unclosed '.$state->start.', expecting '.$state->end);
             }
             $line.= $indent.$lt->nextToken().$lt->nextToken();
           }
           $text= substr($line, $offset, $s- $offset);
-          $tag= substr($line, $s+ strlen($start), $e- $s- strlen($end));
-          $offset= $e + strlen($end);
+          $tag= substr($line, $s+ strlen($state->start), $e- $s- strlen($state->end));
+          $offset= $e + strlen($state->end);
 
           // Check for standalone tags on a line by themselves
           if (0 === strcspn($tag, '#^/>!=')) {
             if ('' === trim(substr($line, 0, $s).substr($line, $offset))) {
               $offset= strlen($line);
-              $padding= substr($line, 0, $s);
+              $state->padding= substr($line, 0, $s);
               $text= '';
             }
           }
@@ -132,16 +136,16 @@ class MustacheParser extends \lang\Object implements TemplateParser {
           continue;
         } else if (isset($this->handlers[$tag{0}])) {
           $f= $this->handlers[$tag{0}];
-          $f($tag, $parsed, $parents, $start, $end, $padding, $offset);
+          $f($tag, $parsed, $state->parents, $state->start, $state->end, $state->padding, $offset);
         } else {
           $f= $this->handlers[null];
-          $f($tag, $parsed, $parents, $start, $end, $padding, $offset);
+          $f($tag, $parsed, $state->parents, $state->start, $state->end, $state->padding, $offset);
         }
       } while ($offset < strlen($line));
     }
 
     // Check for unclosed sections
-    if (!empty($parents)) {
+    if (!empty($state->parents)) {
       throw new TemplateFormatException('Unclosed section '.$parsed->name());
     }
 
