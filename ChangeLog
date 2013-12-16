@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Added ability to use objects as helpers. Their instance methods will
+  be called with the current node and context - just like the helper
+  closures. - @thekid
 * Added possibility to extend / overwrite parser's tag interpretation
   by using `MustacheParser::withHandler()` - @thekid
 * Added support for `../` selector to access parent context - @thekid

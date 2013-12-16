@@ -5,6 +5,7 @@
  * by this list, and sections contain a list of (nested) nodes.
  *
  * @see   xp://com.github.mustache.SectionNode
+ * @test  xp://com.github.mustache.unittest.NodeListTest
  */
 class NodeList extends Node {
   protected $nodes= array();
@@ -27,6 +28,38 @@ class NodeList extends Node {
   public function add(Node $node) {
     $this->nodes[]= $node;
     return $node;
+  }
+
+  /**
+   * Returns node list's length
+   *
+   * @return int
+   */
+  public function length() {
+    return sizeof($this->nodes);
+  }
+
+  /**
+   * Returns a node at a given ofset
+   *
+   * @param  int $i
+   * @return com.github.mustache.Node
+   * @throws lang.IndexOutOfBoundsException
+   */
+  public function nodeAt($i) {
+    if ($i < 0 || $i >= sizeof($this->nodes)) {
+      raise('lang.IndexOutOfBoundsException', 'Illegal offset '.$i);
+    }
+    return $this->nodes[$i];
+  }
+
+  /**
+   * Returns all nodes
+   *
+   * @return com.github.mustache.Node[]
+   */
+  public function nodes() {
+    return $this->nodes;
   }
 
   /**

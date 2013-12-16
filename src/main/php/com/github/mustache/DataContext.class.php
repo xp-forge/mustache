@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache;
 
 /**
- * Context subclass to work with any data (arrays, hashses, objects,
+ * Context subclass to work with any data (arrays, hashes, objects,
  * ...) generically.
  *
  * @test  xp://com.github.mustache.unittest.DataContextTest

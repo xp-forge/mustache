@@ -20,6 +20,15 @@ class VariableNode extends Node {
   }
 
   /**
+   * Returns this variable node's name
+   *
+   * @return string
+   */
+  public function name() {
+    return $this->name;
+  }
+
+  /**
    * Creates a string representation of this node
    *
    * @return string

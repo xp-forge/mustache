@@ -45,4 +45,20 @@ class HelpersTest extends \unittest\TestCase {
       ))
     );
   }
+
+  #[@test]
+  public function instance_method_as_helper() {
+    $this->assertEquals(
+      'My birthday @ 14.12.2013',
+      $this->render(
+        'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
+        array('date' => new \util\Date('14.12.2013 00:00:00')),
+        array('format' => newinstance('lang.Object', array(), '{
+          public function date($in, $context) {
+            return $context->lookup($in->nodeAt(0)->name())->toString("d.m.Y");
+          }
+        }')
+      ))
+    );
+  }
 }

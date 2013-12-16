@@ -50,6 +50,28 @@ abstract class Context extends \lang\Object {
   protected abstract function pointer($ptr, $segment);
 
   /**
+   * Returns helper
+   *
+   * @param  var $ptr
+   * @param  string $segment
+   * @return var
+   */
+  protected function helper($ptr, $segment) {
+    if ($ptr instanceof \lang\Generic) {
+      $class= $ptr->getClass();
+      if ($class->hasMethod($segment)) {
+        $method= $class->getMethod($segment);
+        return function($in, $ctx) use($ptr, $method) {
+          return $method->invoke($ptr, array($in, $ctx));
+        };
+      }
+      return null;
+    } else {
+      return isset($ptr[$segment]) ? $ptr[$segment] : null;
+    }
+  }
+
+  /**
    * Returns whether a looked up value is "truthy"
    *
    * @param  var $result
@@ -126,18 +148,21 @@ abstract class Context extends \lang\Object {
    * @return var the variable, or null if nothing is found
    */
   public function lookup($name) {
-    if (0 === strncmp('../', $name, 3)) {
+    if ('.' !== $name{0}) {                       // Implicitely: this
+      $segments= explode('.', $name);
+      $v= $this->variables;
+    } else if (0 === strncmp('../', $name, 3)) {  // Explicitely selected: parent
       $segments= explode('.', substr($name, 3));
       $v= $this->parent->variables;
-    } else {
-      $segments= explode('.', $name);
+    } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: this
+      $segments= explode('.', substr($name, 2));
       $v= $this->variables;
     }
 
     $h= $this->engine->helpers;
     foreach ($segments as $segment) {
       if ($v !== null) $v= $this->pointer($v, $segment);
-      if ($h !== null) $h= isset($h[$segment]) ? $h[$segment] : null;
+      if ($h !== null) $h= $this->helper($h, $segment);
     }
 
     return null === $v ? $h : $v;
