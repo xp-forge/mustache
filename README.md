@@ -77,6 +77,8 @@ $transformed= $engine->transform('hello', array('name' => 'World'));
 
 This will load the template stored in the file `templates/hello.mustache`. This template loader will also be used for partials.
 
+Templates can also be loaded from the class loader, use the `com.github.mustache.ResourcesIn` and pass it a class loader instance (e.g. `ClassLoader::getDefault()` to search in all class paths) for this purpose.
+
 Helpers
 -------
 Think of helpers as "omnipresent" context. They are added to the engine instance via `withHelper()` and will be available in any rendering context invoked on that instance.
@@ -100,6 +102,29 @@ $transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
 ### Output
 ```html
 <b>This is Spartaaaaa!</b>
+```
+
+### Using objects
+You can also use instance methods as helpers, e.g.
+
+```php
+// Declaration
+class LocalizationHelpers extends \lang\Object {
+  public function date($list, $context) {
+    return $context->lookup($list->nodeAt(0)->name())->toString('d.m.Y');
+  }
+
+  public function money($list, $context) {
+    // ...
+  }
+}
+
+// Usage with engine instance
+$engine->withHelper('local', new LocalizationHelpers());
+```
+
+```mustache
+{{#local.date}}{{date}}{{/local.date}}
 ```
 
 Releases
