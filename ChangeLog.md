@@ -8,7 +8,8 @@ Mustache for XP Framework ChangeLog
   closures. - @thekid
 * Added possibility to extend / overwrite parser's tag interpretation
   by using `MustacheParser::withHandler()` - @thekid
-* Added support for `../` selector to access parent context - @thekid
+* Added support for `../` selector to access parent context and `./`
+  for explicitely using local context - @thekid
 * Made Context implementation easier by moving data interpretation
   and conversion rules there from the VariableNode and SectionNode's
   `evaluate()` methods - @thekid
