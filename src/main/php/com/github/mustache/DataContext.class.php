@@ -48,8 +48,12 @@ class DataContext extends Context {
 
       // Non applicable - give up
       return null;
+    } else if (isset($ptr[$segment])) {
+      return $ptr[$segment];
+    } else if ('length' === $segment) {
+      return sizeof($ptr);
     } else {
-      return isset($ptr[$segment]) ? $ptr[$segment] : null;
+      return null;
     }
   }
 }

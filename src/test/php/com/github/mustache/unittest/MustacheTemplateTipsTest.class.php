@@ -19,6 +19,39 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function nr_1_render_a_block_ONCE_if_an_array_is_not_empty() {
+    $this->assertEquals(
+      "<h3>The images: this should only be rendered once.</h3>\n".
+      "<ul>\n".
+      "    <li><img src=\"http://www.fpoimg.com/20x20\"/></li>\n".
+      "    <li><img src=\"http://www.fpoimg.com/30x30\"/></li>\n".
+      "    <li><img src=\"http://www.fpoimg.com/40x40\"/></li>\n".
+      "</ul>\n",
+      $this->render(
+        "{{#images.length}}\n".
+        "<h3>The images: this should only be rendered once.</h3>\n".
+        "<ul>\n".
+        "  {{#images}}\n".
+        "    <li><img src=\"{{src}}\"/></li>\n".
+        "  {{/images}}\n".
+        "</ul>\n".
+        "{{/images.length}}\n".
+        "{{#anEmptyArray.length}}\n".
+        "  <h3>The empty array: this should NOT be rendered.</h3>\n".
+        "{{/anEmptyArray.length}}",
+        array(
+          'images' => array(
+            array('src' => 'http://www.fpoimg.com/20x20'),
+            array('src' => 'http://www.fpoimg.com/30x30'),
+            array('src' => 'http://www.fpoimg.com/40x40')
+          ),
+          'anEmptyArray' => array()
+        )
+      )
+    );
+  }
+
+  #[@test]
   public function nr_2_render_simple_elements_in_a_list() {
     $this->assertEquals(
       "Color Objects:\n".
