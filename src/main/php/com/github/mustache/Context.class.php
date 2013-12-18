@@ -138,43 +138,50 @@ abstract class Context extends \lang\Object {
    * @return self
    */
   public function asContext($result) {
-    return $this->newInstance(array_merge($this->variables, $result));
+    return new static($result, $this);
+  }
+
+  /**
+   * Looks up segments inside a given collection
+   *
+   * @param  var $v
+   * @param  string[] $segments
+   * @return var
+   */
+  protected function lookup0($v, $segments) {
+    foreach ($segments as $segment) {
+      if ($v !== null) $v= $this->pointer($v, $segment);
+    }
+    return $v;
   }
 
   /**
    * Looks up variable
    *
    * @param  string $name Name including optional segments, separated by dots.
+   * @param  bool $helpers Whether to check helpers
    * @return var the variable, or null if nothing is found
    */
-  public function lookup($name) {
-    if ('.' !== $name{0}) {                       // Implicitely: this
+  public function lookup($name, $helpers= true) {
+    if ('.' !== $name{0}) {                       // This *and* parent (recursively)
       $segments= explode('.', $name);
-      $v= $this->variables;
+      $v= $this->lookup0($this->variables, $segments);
+      if (null === $v && $this->parent instanceof self) {
+        $v= $this->parent->lookup($name, false);
+      }
     } else if (0 === strncmp('../', $name, 3)) {  // Explicitely selected: parent
-      $segments= explode('.', substr($name, 3));
-      $v= $this->parent->variables;
+      $v= $this->lookup0($this->parent->variables, explode('.', substr($name, 3)));
     } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: this
-      $segments= explode('.', substr($name, 2));
-      $v= $this->variables;
+      $v= $this->lookup0($this->variables, explode('.', substr($name, 2)));
     }
 
-    $h= $this->engine->helpers;
-    foreach ($segments as $segment) {
-      if ($v !== null) $v= $this->pointer($v, $segment);
-      if ($h !== null) $h= $this->helper($h, $segment);
+    // Last resort: Check helpers
+    if (null === $v && $helpers) {
+      $v= $this->engine->helpers;
+      foreach ($segments as $segment) {
+        if ($v !== null) $v= $this->helper($v, $segment);
+      }
     }
-
-    return null === $v ? $h : $v;
-  }
-
-  /**
-   * Creates a new context with its parent set to this context.
-   *
-   * @param  [:var] $variables The new view context
-   * @return self
-   */
-  public function newInstance($variables) {
-    return create(new static($variables, $this));
+    return $v;
   }
 }

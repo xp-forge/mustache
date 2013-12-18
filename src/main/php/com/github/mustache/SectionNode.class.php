@@ -75,7 +75,7 @@ class SectionNode extends Node {
     } else if ($context->isList($value)) {
       $output= '';
       foreach ($context->asTraversable($value) as $element) {
-        $output.= $this->nodes->evaluate($context->newInstance($element));
+        $output.= $this->nodes->evaluate($context->asContext($element));
       }
       return $output;
     } else if ($context->isHash($value)) {

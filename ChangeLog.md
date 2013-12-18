@@ -3,6 +3,7 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Fixed parent context lookups - @thekid
 * Added ability to use objects as helpers. Their instance methods will
   be called with the current node and context - just like the helper
   closures. - @thekid
