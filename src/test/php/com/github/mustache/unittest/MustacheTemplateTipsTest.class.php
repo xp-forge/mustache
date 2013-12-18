@@ -19,6 +19,41 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function nr_2_render_simple_elements_in_a_list() {
+    $this->assertEquals(
+      "Color Objects:\n".
+      "    <span style=\"color: red\">red</span>\n".
+      "      <span style=\"color: green\">green</span>\n".
+      "      <span style=\"color: blue\">blue</span>\n".
+      "  <br/>\n".
+      "Colors:\n".
+      "    <span style=\"color: red\">red</span>\n".
+      "      <span style=\"color: green\">green</span>\n".
+      "      <span style=\"color: blue\">blue</span>\n".
+      "  <br/>\n",
+      $this->render(
+        "Color Objects:\n".
+        "  {{#colorObjects}}\n".
+        "    <span style=\"color: {{color}}\">{{color}}</span>\n".
+        "  {{/colorObjects}}<br/>\n".
+        "Colors:\n".
+        "  {{#colors}}\n".
+        "    <span style=\"color: {{.}}\">{{.}}</span>\n".
+        "  {{/colors}}<br/>\n",
+        array(
+          'colorObjects' => array(
+            array('color' => 'red'),
+            array('color' => 'green'),
+            array('color' => 'blue')
+          ),
+          'colors' => array('red', 'green', 'blue')
+        )
+      )
+    );
+  }
+
+
+  #[@test]
   public function nr_3_default_values() {
     $this->assertEquals(
       "<h1>Title: Real Title</h1>\n".
