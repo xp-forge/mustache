@@ -61,4 +61,28 @@ class HelpersTest extends \unittest\TestCase {
       ))
     );
   }
+
+  #[@test]
+  public function log_section() {
+    $this->assertEquals(
+      'Hello [logged: info "Just a test"]',
+      $this->render('Hello {{#log info}}Just a test{{/log}}', array(), array(
+        'log' => function($in, $context, $options) {
+          return '[logged: '.$options[0].' "'.$in.'"]';
+        }
+      ))
+    );
+  }
+
+  #[@test]
+  public function log_helper() {
+    $this->assertEquals(
+      'Hello [logged: info Just a test]',
+      $this->render('Hello {{log info "Just a test"}}', array(), array(
+        'log' => function($in, $context, $options) {
+          return '[logged: '.implode(' ', $options).']';
+        }
+      ))
+    );
+  }
 }
