@@ -77,7 +77,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function section_with_content() {
     $this->assertEquals(
-      new NodeList(array(new SectionNode('section', false, new NodeList(array(
+      new NodeList(array(new SectionNode('section', false, array(), new NodeList(array(
         new TextNode('Hello')
       ))))),
       $this->parse('{{#section}}Hello{{/section}}')
@@ -105,7 +105,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function nested_sections() {
     $this->assertEquals(
-      new NodeList(array(new SectionNode('parent', false, new NodeList(array(
+      new NodeList(array(new SectionNode('parent', false, array(), new NodeList(array(
         new SectionNode('child')
       ))))),
       $this->parse('{{#parent}}{{#child}}{{/child}}{{/parent}}')
@@ -134,5 +134,31 @@ class ParsingTest extends \unittest\TestCase {
   #[@test, @expect('com.github.mustache.TemplateFormatException')]
   public function unclosed_section() {
     $this->parse('{{#parent}}');
+  }
+
+  #[@test, @values([
+  #  ['people', ['people']],
+  #  ['all people', ['all', 'people']],
+  #  ['none of those people', ['none', 'of', 'those', 'people']],
+  #  ['space " " bar', ['space', ' ', 'bar']]
+  #])]
+  public function variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', true, $parsed))),
+      $this->parse('{{var '.$source.'}}')
+    );
+  }
+
+  #[@test, @values([
+  #  ['people', ['people']],
+  #  ['all people', ['all', 'people']],
+  #  ['none of those people', ['none', 'of', 'those', 'people']],
+  #  ['space " " bar', ['space', ' ', 'bar']]
+  #])]
+  public function section_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new SectionNode('section', false, $parsed, new NodeList()))),
+      $this->parse('{{#section '.$source.'}}{{/section}}')
+    );
   }
 }

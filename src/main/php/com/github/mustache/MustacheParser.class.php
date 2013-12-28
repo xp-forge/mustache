@@ -15,10 +15,17 @@ class MustacheParser extends \lang\Object implements TemplateParser {
   public function __construct() {
 
     // Sections
-    $this->withHandler('#^', true, function($tag, $state) {
-      $name= trim(substr($tag, 1));
+    $this->withHandler('#^', true, function($tag, $state, $options) {
+      $parsed= $options(trim(substr($tag, 1)));
       $state->parents[]= $state->target;
-      $state->target= $state->target->add(new SectionNode($name, '^' === $tag{0}, null, $state->start, $state->end));
+      $state->target= $state->target->add(new SectionNode(
+        array_shift($parsed),
+        '^' === $tag{0},
+        $parsed,
+        null,
+        $state->start,
+        $state->end
+      ));
     });
     $this->withHandler('/', true, function($tag, $state) {
       $name= trim(substr($tag, 1));
@@ -55,9 +62,12 @@ class MustacheParser extends \lang\Object implements TemplateParser {
     });
 
     // Default
-    $this->withHandler(null, false, function($tag, $state) {
-      $variable= trim($tag);
-      $state->target->add('.' === $tag ? new IteratorNode() : new VariableNode($variable));
+    $this->withHandler(null, false, function($tag, $state, $options) {
+      $parsed= $options(trim($tag));
+      $state->target->add('.' === $parsed[0]
+        ? new IteratorNode()
+        : new VariableNode($parsed[0], true, array_slice($parsed, 1))
+      );
     });
   }
 
@@ -97,6 +107,21 @@ class MustacheParser extends \lang\Object implements TemplateParser {
     $state->parents= array();
     $standalone= implode('', array_keys($this->standalone));
 
+    // Tokenize options
+    $options= function($content) {
+      for ($o= 0, $l= strlen($content); $o < $l; $o+= $p + 1) {
+        if ('"' === $content{$o}) {
+          $p= strcspn($content, '"', $o + 1) + 2;
+          $parsed[]= substr($content, $o + 1, $p - 2);
+        } else {
+          $p= strcspn($content, ' ', $o);
+          $parsed[]= substr($content, $o, $p);
+        }
+      }
+      return $parsed;
+    };
+
+    // Tokenize template
     $lt= new \text\StringTokenizer($template, "\n", true);
     while ($lt->hasMoreTokens()) {
       $line= $indent.$lt->nextToken().$lt->nextToken();
@@ -143,7 +168,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
         } else {
           $f= $this->handlers[null];
         }
-        $offset+= $f($tag, $state);
+        $offset+= $f($tag, $state, $options);
       } while ($offset < strlen($line));
     }
 

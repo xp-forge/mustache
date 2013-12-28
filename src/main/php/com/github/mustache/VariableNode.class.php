@@ -7,16 +7,19 @@
 class VariableNode extends Node {
   protected $name;
   protected $escape;
+  protected $options;
 
   /**
    * Creates a new variable
    *
    * @param string $name The variable's name
    * @param bool $escape Whether to escape special characters
+   * @param string[] options
    */
-  public function __construct($name, $escape= true) {
+  public function __construct($name, $escape= true, $options= array()) {
     $this->name= $name;
     $this->escape= $escape;
+    $this->options= $options;
   }
 
   /**
@@ -29,12 +32,30 @@ class VariableNode extends Node {
   }
 
   /**
+   * Returns options as string, indented with a space on the left if
+   * non-empty, an empty string otherwise.
+   *
+   * @return string
+   */
+  protected function optionString() {
+    $r= '';
+    foreach ($this->options as $option) {
+      if (false !== strpos($option, ' ')) {
+        $r.= ' "'.$option.'"';
+      } else {
+        $r.= ' '.$option;
+      }
+    }
+    return $r;
+  }
+
+  /**
    * Creates a string representation of this node
    *
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'{{'.($this->escape ? '' : '& ').$this->name.'}}';
+    return $this->getClassName().'{{'.($this->escape ? '' : '& ').$this->name.$this->optionString().'}}';
   }
 
   /**
@@ -60,7 +81,12 @@ class VariableNode extends Node {
    * @return bool
    */
   public function equals($cmp) {
-    return $cmp instanceof self && $this->name === $cmp->name && $this->escape === $cmp->escape;
+    return (
+      $cmp instanceof self &&
+      $this->name === $cmp->name &&
+      $this->escape === $cmp->escape &&
+      \util\Objects::equal($this->options, $cmp->options)
+    );
   }
 
   /**
@@ -69,6 +95,6 @@ class VariableNode extends Node {
    * @return string
    */
   public function __toString() {
-    return '{{'.($this->escape ? '' : '& ').$this->name.'}}';
+    return '{{'.($this->escape ? '' : '& ').$this->name.$this->optionString().'}}';
   }
 }
