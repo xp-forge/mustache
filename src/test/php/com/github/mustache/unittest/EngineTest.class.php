@@ -46,4 +46,22 @@ class EngineTest extends \unittest\TestCase {
       create(new MustacheEngine())->compile('Hello {{name}}')
     );
   }
+
+  #[@test]
+  public function render_string_template() {
+    $engine= new MustacheEngine();
+    $this->assertEquals(
+      'Hello World',
+      $engine->render('Hello {{name}}', array('name' => 'World'))
+    );
+  }
+
+  #[@test]
+  public function render_compiled_template() {
+    $engine= new MustacheEngine();
+    $this->assertEquals(
+      'Hello World',
+      $engine->render($engine->compile('Hello {{name}}'), array('name' => 'World'))
+    );
+  }
 }

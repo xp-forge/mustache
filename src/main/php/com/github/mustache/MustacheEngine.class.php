@@ -93,7 +93,7 @@ class MustacheEngine extends \lang\Object {
   /**
    * Render a template.
    *
-   * @param  string $template The template, as a string
+   * @param  var $template The template, either as string or as compiled Node instance
    * @param  var $arg Either a view context, or a Context instance
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
@@ -107,10 +107,13 @@ class MustacheEngine extends \lang\Object {
       $context= new DataContext($arg);
     }
 
-    return $this->compile($template, $start, $end, $indent)->evaluate(
-      $context->withEngine($this),
-      $indent
-    );
+    if ($template instanceof Node) {
+      $target= $template;
+    } else {
+      $target= $this->compile($template, $start, $end, $indent);
+    }
+
+    return $target->evaluate($context->withEngine($this), $indent);
   }
 
   /**
