@@ -6,7 +6,7 @@ use lang\ElementNotFoundException;
 /**
  * Classloader template loading loads templates from the class path.
  */
-class ResourcesIn extends \lang\Object implements TemplateLoader {
+class ResourcesIn extends TemplateLoader {
   protected $loader;
 
   /**

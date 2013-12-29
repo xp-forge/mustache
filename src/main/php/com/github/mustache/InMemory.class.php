@@ -3,7 +3,7 @@
 /**
  * Template loading
  */
-class InMemory extends \lang\Object implements TemplateLoader {
+class InMemory extends TemplateLoader {
   protected $templates= array();
 
   /**

@@ -21,7 +21,6 @@
  */
 class MustacheEngine extends \lang\Object {
   protected $templates;
-  protected $parser;
   public $helpers= array();
 
   /**
@@ -29,7 +28,6 @@ class MustacheEngine extends \lang\Object {
    */
   public function __construct() {
     $this->templates= new FilesIn('.');
-    $this->parser= new MustacheParser();
   }
 
   /**
@@ -40,17 +38,6 @@ class MustacheEngine extends \lang\Object {
    */
   public function withTemplates(TemplateLoader $l) {
     $this->templates= $l;
-    return $this;
-  }
-
-  /**
-   * Sets template parser to be used
-   *
-   * @param  com.github.mustache.TemplateParser $p
-   * @return self this
-   */
-  public function withParser(TemplateParser $p) {
-    $this->parser= $p;
     return $this;
   }
 
@@ -87,7 +74,7 @@ class MustacheEngine extends \lang\Object {
    * @return com.github.mustache.Template
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    return $this->parser->parse($template, $start, $end, $indent);
+    return $this->templates->parse($template, $start, $end, $indent);
   }
 
   /**

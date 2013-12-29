@@ -7,7 +7,7 @@ use io\FileUtil;
 /**
  * File-based template loading loads templates from the file system.
  */
-class FilesIn extends \lang\Object implements TemplateLoader {
+class FilesIn extends TemplateLoader {
   protected $base;
 
   /**
