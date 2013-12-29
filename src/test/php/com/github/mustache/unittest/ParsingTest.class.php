@@ -22,7 +22,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function empty_string() {
     $this->assertEquals(
-      new Template('<string>'),
+      new NodeList(),
       $this->parse('')
     );
   }
@@ -30,7 +30,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function text() {
     $this->assertEquals(
-      new Template('<string>', array(new TextNode('Hello World'))),
+      new NodeList(array(new TextNode('Hello World'))),
       $this->parse('Hello World')
     );
   }
@@ -38,7 +38,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function variable() {
     $this->assertEquals(
-      new Template('<string>', array(new VariableNode('name'))),
+      new NodeList(array(new VariableNode('name'))),
       $this->parse('{{name}}')
     );
   }
@@ -46,7 +46,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function variable_without_escaping_ampersand() {
     $this->assertEquals(
-      new Template('<string>', array(new VariableNode('name', false))),
+      new NodeList(array(new VariableNode('name', false))),
       $this->parse('{{& name}}')
     );
   }
@@ -54,7 +54,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function variable_without_escaping_triple_mustache() {
     $this->assertEquals(
-      new Template('<string>', array(new VariableNode('name', false))),
+      new NodeList(array(new VariableNode('name', false))),
       $this->parse('{{{name}}}')
     );
   }
@@ -62,7 +62,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function section() {
     $this->assertEquals(
-      new Template('<string>', array(new SectionNode('section'))),
+      new NodeList(array(new SectionNode('section'))),
       $this->parse('{{#section}}{{/section}}')
     );
   }
@@ -70,7 +70,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function inverted_section() {
     $this->assertEquals(
-      new Template('<string>', array(new SectionNode('section', true))),
+      new NodeList(array(new SectionNode('section', true))),
       $this->parse('{{^section}}{{/section}}')
     );
   }
@@ -78,7 +78,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function section_with_content() {
     $this->assertEquals(
-      new Template('<string>', array(new SectionNode('section', false, new NodeList(array(
+      new NodeList(array(new SectionNode('section', false, new NodeList(array(
         new TextNode('Hello')
       ))))),
       $this->parse('{{#section}}Hello{{/section}}')
@@ -98,7 +98,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function non_mustache_syntax() {
     $this->assertEquals(
-      new Template('<string>', array(new TextNode('Hello {name}'))),
+      new NodeList(array(new TextNode('Hello {name}'))),
       $this->parse('Hello {name}')
     );
   }
@@ -106,7 +106,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function nested_sections() {
     $this->assertEquals(
-      new Template('<string>', array(new SectionNode('parent', false, new NodeList(array(
+      new NodeList(array(new SectionNode('parent', false, new NodeList(array(
         new SectionNode('child')
       ))))),
       $this->parse('{{#parent}}{{#child}}{{/child}}{{/parent}}')

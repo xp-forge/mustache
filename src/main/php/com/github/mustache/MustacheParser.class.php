@@ -91,7 +91,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
    */
   public function parse($template, $start= '{{', $end= '}}', $indent= '') {
     $state= new ParseState();
-    $state->target= new Template('<string>');
+    $state->target= new NodeList();
     $state->start= $start;
     $state->end= $end;
     $state->parents= array();

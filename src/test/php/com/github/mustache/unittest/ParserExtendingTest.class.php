@@ -2,7 +2,7 @@
 
 use com\github\mustache\MustacheParser;
 use com\github\mustache\Node;
-use com\github\mustache\Template;
+use com\github\mustache\NodeList;
 
 class ParserExtendingTest extends \unittest\TestCase {
 
@@ -16,6 +16,6 @@ class ParserExtendingTest extends \unittest\TestCase {
     $parser= create(new MustacheParser())->withHandler('*', true, function($tag, $state) use($node) {
       $state->target->add($node);
     });
-    $this->assertEquals(new Template('<string>', array($node)), $parser->parse('{{*test}}'));
+    $this->assertEquals(new NodeList(array($node)), $parser->parse('{{*test}}'));
   }
 }

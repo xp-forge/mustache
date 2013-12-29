@@ -3,18 +3,28 @@
 /**
  * Represents a template
  */
-class Template extends NodeList {
+class Template extends Node {
   protected $source;
+  protected $root;
 
   /**
    * Create a new template
    *
    * @param  string $source
-   * @param  com.github.mustache.Node[] $nodes
+   * @param  com.github.mustache.Node $root
    */
-  public function __construct($source, array $nodes= array()) {
-    parent::__construct($nodes);
+  public function __construct($source, Node $root= null) {
+    $this->root= $root;
     $this->source= $source;
+  }
+
+  /**
+   * Return template's root node
+   *
+   * @return com.github.mustache.Node
+   */
+  public function root() {
+    return $this->root;
   }
 
   /**
@@ -23,7 +33,17 @@ class Template extends NodeList {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'(source= '.$this->source.')@'.\xp::stringOf($this->nodes);
+    return $this->getClassName().'(source= '.$this->source.')@'.\xp::stringOf($this->root);
+  }
+
+  /**
+   * Evaluates this node
+   *
+   * @param  com.github.mustache.Context $context the rendering context
+   * @return string
+   */
+  public function evaluate($context) {
+    return $this->root ? $this->root->evaluate($context) : '';
   }
 
   /**
@@ -36,7 +56,16 @@ class Template extends NodeList {
     return (
       $cmp instanceof self &&
       $this->source === $cmp->source &&
-      parent::equals($cmp)
+      \util\Objects::equal($this->root, $cmp->root)
     );
+  }
+
+  /**
+   * Overload (string) cast
+   *
+   * @return string
+   */
+  public function __toString() {
+    return (string)$this->root;
   }
 }

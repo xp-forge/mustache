@@ -9,6 +9,18 @@ abstract class TemplateLoader extends \lang\Object {
   protected $parser= null;
 
   /**
+   * Lazily initialize parser
+   *
+   * @return com.github.mustache.TemplateParser
+   */
+  protected function parser() {
+    if (!$this->parser) {
+      $this->parser= new MustacheParser();
+    }
+    return $this->parser; 
+  }
+
+  /**
    * Parse a template
    *
    * @param  string $template The template as a string
@@ -19,10 +31,7 @@ abstract class TemplateLoader extends \lang\Object {
    * @throws com.github.mustache.TemplateFormatException
    */
   public function parse($source, $start= '{{', $end= '}}', $indent= '') {
-    if (!$this->parser) {
-      $this->parser= new MustacheParser();
-    }
-    return $this->parser->parse($source, $start, $end, $indent);
+    return new Template('<string>', $this->parser()->parse($source, $start, $end, $indent));
   }
 
   /**
