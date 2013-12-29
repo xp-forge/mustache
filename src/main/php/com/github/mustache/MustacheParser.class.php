@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use text\Tokenizer;
+
 /**
  * Parses mustache templates
  *
@@ -80,26 +82,26 @@ class MustacheParser extends \lang\Object implements TemplateParser {
   }
 
   /**
-   * Parse a template
+   * Parse a stream
    *
-   * @param  string $template The template as a string
+   * @param  text.Tokenizer $tokens
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent What to prefix before each line
    * @return com.github.mustache.Node The parsed template
    * @throws com.github.mustache.TemplateFormatException
    */
-  public function parse($template, $start= '{{', $end= '}}', $indent= '') {
+  public function parse(Tokenizer $tokens, $start= '{{', $end= '}}', $indent= '') {
     $state= new ParseState();
     $state->target= new NodeList();
     $state->start= $start;
     $state->end= $end;
     $state->parents= array();
     $standalone= implode('', array_keys($this->standalone));
-
-    $lt= new \text\StringTokenizer($template, "\n", true);
-    while ($lt->hasMoreTokens()) {
-      $line= $indent.$lt->nextToken().$lt->nextToken();
+    $tokens->delimiters= "\n";
+    $tokens->returnDelims= true;
+    while ($tokens->hasMoreTokens()) {
+      $line= $indent.$tokens->nextToken().$tokens->nextToken();
       $offset= 0;
       do {
 
@@ -111,10 +113,10 @@ class MustacheParser extends \lang\Object implements TemplateParser {
           $offset= strlen($line);
         } else {
           while (false === ($e= strpos($line, $state->end, $s+ strlen($state->start)))) {
-            if (!$lt->hasMoreTokens()) {
+            if (!$tokens->hasMoreTokens()) {
               throw new TemplateFormatException('Unclosed '.$state->start.', expecting '.$state->end);
             }
-            $line.= $indent.$lt->nextToken().$lt->nextToken();
+            $line.= $indent.$tokens->nextToken().$tokens->nextToken();
           }
           $text= substr($line, $offset, $s- $offset);
           $tag= substr($line, $s+ strlen($state->start), $e- $s- strlen($state->end));

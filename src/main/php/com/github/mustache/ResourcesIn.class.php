@@ -21,13 +21,13 @@ class ResourcesIn extends TemplateLoader {
   /**
    * Load a template by a given name
    *
-   * @param  string $name The template name, including the ".mustache" extension
-   * @return string The bytes
+   * @param  string $name The template name without file extension
+   * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
    */
   public function inputFor($name) {
     try {
-      return $this->loader->getResource($name);
+      return $this->loader->getResourceAsStream($name.'.mustache')->getInputStream();
     } catch (ElementNotFoundException $e) {
       throw new TemplateNotFoundException('Cannot find template '.$name, $e);
     }

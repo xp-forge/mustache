@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use io\streams\MemoryInputStream;
+
 /**
  * Template loading
  */
@@ -14,7 +16,7 @@ class InMemory extends TemplateLoader {
   public function __construct($templates= array()) {
     $this->templates= array();
     foreach ($templates as $name => $bytes) {
-      $this->templates[$name.'.mustache']= $bytes;
+      $this->add($name, $bytes);
     }
   }
 
@@ -33,21 +35,22 @@ class InMemory extends TemplateLoader {
    * @return self this
    */
   public function add($name, $bytes) {
-    $this->templates[$name.'.mustache']= $bytes;
+    $this->templates[$name]= new MemoryInputStream($bytes);
     return $this;
   }
 
 	/**
 	 * Load a template by a given name
 	 *
-	 * @param  string $name The template name, including the ".mustache" extension
-	 * @return string The bytes
+	 * @param  string $name The template name without file extension
+	 * @return io.streams.InputStream
 	 * @throws com.github.mustache.TemplateNotFoundException
 	 */
   public function inputFor($name) {
     if (!isset($this->templates[$name])) {
       throw new TemplateNotFoundException($name);
     }
+    $this->templates[$name]->seek(0);
     return $this->templates[$name];
   }
 }

@@ -125,7 +125,7 @@ class MustacheEngine extends \lang\Object {
    */
   public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
     return $this->evaluate(
-      $this->templates->load($name.'.mustache', $start, $end, $indent),
+      $this->templates->load($name, $start, $end, $indent),
       $arg
     );
   }

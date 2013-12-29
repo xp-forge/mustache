@@ -6,6 +6,7 @@ use com\github\mustache\NodeList;
 use com\github\mustache\VariableNode;
 use com\github\mustache\TextNode;
 use com\github\mustache\SectionNode;
+use text\StringTokenizer;
 
 class ParsingTest extends \unittest\TestCase {
 
@@ -16,7 +17,7 @@ class ParsingTest extends \unittest\TestCase {
    * @return com.github.mustache.Node
    */
   protected function parse($template) {
-    return create(new MustacheParser())->parse($template);
+    return create(new MustacheParser())->parse(new StringTokenizer($template));
   }
 
   #[@test]

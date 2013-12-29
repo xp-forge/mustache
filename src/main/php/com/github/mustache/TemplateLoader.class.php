@@ -31,7 +31,12 @@ abstract class TemplateLoader extends \lang\Object {
    * @throws com.github.mustache.TemplateFormatException
    */
   public function parse($source, $start= '{{', $end= '}}', $indent= '') {
-    return new Template('<string>', $this->parser()->parse($source, $start, $end, $indent));
+    return new Template('<string>', $this->parser()->parse(
+      new \text\StringTokenizer($source),
+      $start,
+      $end,
+      $indent
+    ));
   }
 
   /**
@@ -45,14 +50,19 @@ abstract class TemplateLoader extends \lang\Object {
    * @throws com.github.mustache.TemplateFormatException
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return new Template($name, $this->parser()->parse($this->inputFor($name), $start, $end, $indent));
+    return new Template($name, $this->parser()->parse(
+      new \text\StreamTokenizer($this->inputFor($name)),
+      $start,
+      $end,
+      $indent
+    ));
   }
 
   /**
    * Load a template by a given name
    *
    * @param  string $name The template name, including the ".mustache" extension
-   * @return string The bytes
+   * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
    */
   public abstract function inputFor($name);
