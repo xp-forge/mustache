@@ -84,7 +84,7 @@ class MustacheEngine extends \lang\Object {
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
-   * @return com.github.mustache.Node
+   * @return com.github.mustache.Template
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
     return $this->parser->parse($template, $start, $end, $indent);
@@ -93,7 +93,7 @@ class MustacheEngine extends \lang\Object {
   /**
    * Render a template.
    *
-   * @param  var $template The template, either as string or as compiled Node instance
+   * @param  var $template The template, either as string or as compiled Template instance
    * @param  var $arg Either a view context, or a Context instance
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"

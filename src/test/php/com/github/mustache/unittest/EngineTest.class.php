@@ -3,7 +3,7 @@
 use com\github\mustache\MustacheEngine;
 use com\github\mustache\MustacheParser;
 use com\github\mustache\FilesIn;
-use com\github\mustache\NodeList;
+use com\github\mustache\Template;
 use com\github\mustache\TextNode;
 use com\github\mustache\VariableNode;
 
@@ -42,7 +42,7 @@ class EngineTest extends \unittest\TestCase {
   #[@test]
   public function compile_template() {
     $this->assertEquals(
-      new NodeList(array(new TextNode('Hello '), new VariableNode('name'))),
+      new Template('<string>', array(new TextNode('Hello '), new VariableNode('name'))),
       create(new MustacheEngine())->compile('Hello {{name}}')
     );
   }

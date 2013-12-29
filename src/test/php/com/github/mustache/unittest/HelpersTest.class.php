@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\MustacheEngine;
+use com\github\mustache\VariableNode;
 
 class HelpersTest extends \unittest\TestCase {
 
@@ -17,6 +18,16 @@ class HelpersTest extends \unittest\TestCase {
       'Hello <b>World</b>',
       $this->render('Hello {{#bold}}{{name}}{{/bold}}', array('name' => 'World'), array(
         'bold' => function($text) { return '<b>'.$text.'</b>'; }
+      ))
+    );
+  }
+
+  #[@test]
+  public function replace_single_variable_with_node() {
+    $this->assertEquals(
+      'Hello World',
+      $this->render('Hello {{#var}}name{{/var}}', array('name' => 'World'), array(
+        'var' => function($in) { return new VariableNode((string)$in); }
       ))
     );
   }
