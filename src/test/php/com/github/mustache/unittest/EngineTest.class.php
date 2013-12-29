@@ -35,6 +35,13 @@ class EngineTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function get_templates_returns_templates_previously_set() {
+    $engine= new MustacheEngine();
+    $templates= new FilesIn('.');
+    $this->assertEquals($templates, $engine->withTemplates($templates)->getTemplates());
+  }
+
+  #[@test]
   public function compile_template() {
     $this->assertEquals(
       new Template('<string>', new NodeList(array(new TextNode('Hello '), new VariableNode('name')))),

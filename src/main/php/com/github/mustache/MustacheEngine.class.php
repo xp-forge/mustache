@@ -42,6 +42,15 @@ class MustacheEngine extends \lang\Object {
   }
 
   /**
+   * Sets template loader to be used
+   *
+   * @return com.github.mustache.TemplateLoader
+   */
+  public function getTemplates() {
+    return $this->templates;
+  }
+
+  /**
    * Adds a helper with a given name
    *
    * @param  string $name
