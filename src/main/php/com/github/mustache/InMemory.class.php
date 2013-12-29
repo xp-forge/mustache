@@ -44,7 +44,7 @@ class InMemory extends TemplateLoader {
 	 * @return string The bytes
 	 * @throws com.github.mustache.TemplateNotFoundException
 	 */
-  public function load($name) {
+  public function inputFor($name) {
     if (!isset($this->templates[$name])) {
       throw new TemplateNotFoundException($name);
     }

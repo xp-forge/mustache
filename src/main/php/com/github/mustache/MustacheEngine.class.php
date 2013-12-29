@@ -78,6 +78,22 @@ class MustacheEngine extends \lang\Object {
   }
 
   /**
+   * Evaluate a compiled template.
+   *
+   * @param  com.github.mustache.Template $template The template
+   * @param  var $arg Either a view context, or a Context instance
+   * @return string The rendered output
+   */
+  public function evaluate($template, $arg) {
+    if ($arg instanceof Context) {
+      $context= $arg;
+    } else {
+      $context= new DataContext($arg);
+    }
+    return $template->evaluate($context->withEngine($this));
+  }
+
+  /**
    * Render a template.
    *
    * @param  var $template The template, either as string or as compiled Template instance
@@ -88,19 +104,12 @@ class MustacheEngine extends \lang\Object {
    * @return string The rendered output
    */
   public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
-    if ($arg instanceof Context) {
-      $context= $arg;
-    } else {
-      $context= new DataContext($arg);
-    }
-
     if ($template instanceof Node) {
       $target= $template;
     } else {
       $target= $this->compile($template, $start, $end, $indent);
     }
-
-    return $target->evaluate($context->withEngine($this), $indent);
+    return $this->evaluate($target, $arg);
   }
 
   /**
@@ -115,12 +124,9 @@ class MustacheEngine extends \lang\Object {
    * @return string The rendered output
    */
   public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
-    return $this->render(
-      $this->templates->load($name.'.mustache'),
-      $arg,
-      $start,
-      $end,
-      $indent
+    return $this->evaluate(
+      $this->templates->load($name.'.mustache', $start, $end, $indent),
+      $arg
     );
   }
 }

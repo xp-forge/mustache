@@ -30,7 +30,7 @@ class FilesIn extends TemplateLoader {
 	 * @return string The bytes
 	 * @throws com.github.mustache.TemplateNotFoundException
 	 */
-  public function load($name) {
+  public function inputFor($name) {
     $template= new File($this->base, $name);
     if (!$template->exists()) {
       throw new TemplateNotFoundException('Cannot find template '.$name.' in '.$this->base->getURI());
