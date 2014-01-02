@@ -18,6 +18,20 @@ class ParsingTest extends \unittest\TestCase {
     return create(new MustacheParser())->parse($template);
   }
 
+  /**
+   * Helper method used a value provider for option tests
+   *
+   * @return var[]
+   */
+  protected function tags() {
+    return array(
+      array('people', array('people')),
+      array('all people', array('all', 'people')),
+      array('none of those people', array('none', 'of', 'those', 'people')),
+      array('space " " bar', array('space', ' ', 'bar'))
+    );
+  }
+
   #[@test]
   public function empty_string() {
     $this->assertEquals(
@@ -136,12 +150,7 @@ class ParsingTest extends \unittest\TestCase {
     $this->parse('{{#parent}}');
   }
 
-  #[@test, @values([
-  #  ['people', ['people']],
-  #  ['all people', ['all', 'people']],
-  #  ['none of those people', ['none', 'of', 'those', 'people']],
-  #  ['space " " bar', ['space', ' ', 'bar']]
-  #])]
+  #[@test, @values('tags')]
   public function variable_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList(array(new VariableNode('var', true, $parsed))),
@@ -149,12 +158,23 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values([
-  #  ['people', ['people']],
-  #  ['all people', ['all', 'people']],
-  #  ['none of those people', ['none', 'of', 'those', 'people']],
-  #  ['space " " bar', ['space', ' ', 'bar']]
-  #])]
+  #[@test, @values('tags')]
+  public function unescaped_variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', false, $parsed))),
+      $this->parse('{{& var '.$source.'}}')
+    );
+  }
+
+  #[@test, @values('tags')]
+  public function triple_stash_variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', false, $parsed))),
+      $this->parse('{{{var '.$source.'}}}')
+    );
+  }
+
+  #[@test, @values('tags')]
   public function section_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList(array(new SectionNode('section', false, $parsed, new NodeList()))),
