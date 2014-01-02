@@ -176,14 +176,16 @@ abstract class Context extends \lang\Object {
    */
   public function lookup($name, $helpers= true) {
     if ('.' !== $name{0}) {                       // This *and* parent (recursively)
+      $v= null;
+      $context= $this;
       $segments= explode('.', $name);
-      $v= $this->lookup0($this->variables, $segments);
-      if (null === $v && $this->parent instanceof self) {
-        $v= $this->parent->lookup($name, false);
+      while ($context instanceof self && null === $v) {
+        $v= $this->lookup0($context->variables, $segments);
+        $context= $context->parent;
       }
     } else if (0 === strncmp('../', $name, 3)) {  // Explicitely selected: parent
       $v= $this->lookup0($this->parent->variables, explode('.', substr($name, 3)));
-    } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: this
+    } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: self
       $v= $this->lookup0($this->variables, explode('.', substr($name, 2)));
     }
 
