@@ -9,16 +9,16 @@
  * A handler takes the following form:
  * 
  * ```php
- * $handler= function($tag, $state[, $options]) {
+ * $handler= function($tag, $state[, $parse]) {
  * }
  * ```
  *
- * * The tag variable contains the complete tag, that is, everything
+ * - The tag variable contains the complete tag, that is, everything
  *   between the start and end tokens (typically `{{` and `}}`).
- * * The parse state is passed along. See the ParseState class for 
+ * - The parse state is passed along. See the ParseState class for 
  *   details. All members are read/write
- * * Optionally, the options parameter can be used to tokenize the
- *   tag into tag name and options
+ * - Optionally, the parse parameter can be used to access the parser
+ *   instance.
  *
  * The handler may return a number of characters to forward inside
  * the current line, negative or positive.
@@ -32,24 +32,6 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
    * Perform initialization.
    */
   public function __construct() {
-
-    // Tokenize name and options from a given tag, e.g.:
-    // * 'tag' = ['tag']
-    // * 'tag option "option 2"' = ['tag', 'option', 'option 2']
-    $this->options= function($tag) {
-      $parsed= array();
-      for ($o= 0, $l= strlen($tag); $o < $l; $o+= $p + 1) {
-        if ('"' === $tag{$o}) {
-          $p= strcspn($tag, '"', $o + 1) + 2;
-          $parsed[]= substr($tag, $o + 1, $p - 2);
-        } else {
-          $p= strcspn($tag, ' ', $o);
-          $parsed[]= substr($tag, $o, $p);
-        }
-      }
-      return $parsed;
-    };
-
     $this->initialize();
   }
 
@@ -141,7 +123,7 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
         } else {
           $f= $this->handlers[null];
         }
-        $offset+= $f($tag, $state, $this->options);
+        $offset+= $f($tag, $state, $this);
       } while ($offset < strlen($line));
     }
 
