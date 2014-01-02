@@ -8,11 +8,29 @@
 class MustacheParser extends \lang\Object implements TemplateParser {
   protected $handlers= array();
   protected $standalone= array();
+  protected $options;
 
   /**
    * Set up handlers
    */
   public function __construct() {
+
+    // Tokenize name and options from a given tag, e.g.:
+    // * 'tag' = ['tag']
+    // * 'tag option "option 2"' = ['tag', 'option', 'option 2']
+    $this->options= function($tag) {
+      $parsed= array();
+      for ($o= 0, $l= strlen($tag); $o < $l; $o+= $p + 1) {
+        if ('"' === $tag{$o}) {
+          $p= strcspn($tag, '"', $o + 1) + 2;
+          $parsed[]= substr($tag, $o + 1, $p - 2);
+        } else {
+          $p= strcspn($tag, ' ', $o);
+          $parsed[]= substr($tag, $o, $p);
+        }
+      }
+      return $parsed;
+    };
 
     // Sections
     $this->withHandler('#^', true, function($tag, $state, $options) {
@@ -107,20 +125,6 @@ class MustacheParser extends \lang\Object implements TemplateParser {
     $state->parents= array();
     $standalone= implode('', array_keys($this->standalone));
 
-    // Tokenize options
-    $options= function($content) {
-      for ($o= 0, $l= strlen($content); $o < $l; $o+= $p + 1) {
-        if ('"' === $content{$o}) {
-          $p= strcspn($content, '"', $o + 1) + 2;
-          $parsed[]= substr($content, $o + 1, $p - 2);
-        } else {
-          $p= strcspn($content, ' ', $o);
-          $parsed[]= substr($content, $o, $p);
-        }
-      }
-      return $parsed;
-    };
-
     // Tokenize template
     $lt= new \text\StringTokenizer($template, "\n", true);
     while ($lt->hasMoreTokens()) {
@@ -168,7 +172,7 @@ class MustacheParser extends \lang\Object implements TemplateParser {
         } else {
           $f= $this->handlers[null];
         }
-        $offset+= $f($tag, $state, $options);
+        $offset+= $f($tag, $state, $this->options);
       } while ($offset < strlen($line));
     }
 
