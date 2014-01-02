@@ -2,6 +2,8 @@
 
 /**
  * An implicit iterator simply selects the current loop variable
+ *
+ * @test  xp://com.github.mustache.unittest.IteratorNodeTest
  */
 class IteratorNode extends Node {
   protected $escape;
@@ -13,6 +15,15 @@ class IteratorNode extends Node {
    */
   public function __construct($escape= true) {
     $this->escape= $escape;
+  }
+
+  /**
+   * Returns whether this section is escaped
+   *
+   * @return bool
+   */
+  public function escaped() {
+    return $this->escape;
   }
 
   /**

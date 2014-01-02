@@ -3,6 +3,8 @@
 /**
  * Represents a variable tag, either {{name}} or {{& name}} for
  * unescaped representation.
+ *
+ * @test  xp://com.github.mustache.unittest.VariableNodeTest
  */
 class VariableNode extends Node {
   protected $name;
@@ -29,6 +31,24 @@ class VariableNode extends Node {
    */
   public function name() {
     return $this->name;
+  }
+
+  /**
+   * Returns whether this section is escaped
+   *
+   * @return bool
+   */
+  public function escaped() {
+    return $this->escape;
+  }
+
+  /**
+   * Returns options passed to this section
+   *
+   * @return string[]
+   */
+  public function options() {
+    return $this->options;
   }
 
   /**

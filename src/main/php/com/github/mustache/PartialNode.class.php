@@ -20,6 +20,15 @@ class PartialNode extends Node {
   }
 
   /**
+   * Returns this partial's template name
+   *
+   * @return string
+   */
+  public function template() {
+    return $this->name;
+  }
+
+  /**
    * Creates a string representation of this node
    *
    * @return string

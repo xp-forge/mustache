@@ -3,6 +3,8 @@
 /**
  * A section starts with {{#sec}} (or {{^sec}} for inverted sections)
  * and ends with {{/sec}} and consists of 0..n nested nodes.
+ *
+ * @test  xp://com.github.mustache.unittest.SectionNodeTest
  */
 class SectionNode extends Node {
   protected $name;
@@ -41,6 +43,24 @@ class SectionNode extends Node {
   }
 
   /**
+   * Returns whether this section is inverted
+   *
+   * @return bool
+   */
+  public function inverted() {
+    return $this->invert;
+  }
+
+  /**
+   * Returns options passed to this section
+   *
+   * @return string[]
+   */
+  public function options() {
+    return $this->options;
+  }
+
+  /**
    * Add a node
    *
    * @param  com.github.mustache.Node $node
@@ -48,6 +68,35 @@ class SectionNode extends Node {
    */
   public function add(Node $node) {
     return $this->nodes->add($node);
+  }
+
+  /**
+   * Returns node list's length
+   *
+   * @return int
+   */
+  public function length() {
+    return $this->nodes->length();
+  }
+
+  /**
+   * Returns a node at a given ofset
+   *
+   * @param  int $i
+   * @return com.github.mustache.Node
+   * @throws lang.IndexOutOfBoundsException
+   */
+  public function nodeAt($i) {
+    return $this->nodes->nodeAt($i);
+  }
+
+  /**
+   * Returns all nodes
+   *
+   * @return com.github.mustache.Node[]
+   */
+  public function nodes() {
+    return $this->nodes->nodes();
   }
 
   /**
@@ -133,11 +182,13 @@ class SectionNode extends Node {
    */
   public function __toString() {
     return sprintf(
-      "{%1\$s%2\$s%3\$s}\n%4\$s\n{/%2\$s}\n",
+      "%5\$s%1\$s%2\$s%3\$s%6\$s\n%4\$s\n%5\$s/%2\$s%6\$s\n",
       $this->invert ? '^' : '#',
       $this->name,
       $this->optionString(),
-      (string)$this->nodes
+      (string)$this->nodes,
+      $this->start,
+      $this->end
     );
   }
 }
