@@ -142,6 +142,18 @@ abstract class Context extends \lang\Object {
   }
 
   /**
+   * Returns a context inherited from a given context, or, if omitted, 
+   * from this context.
+   *
+   * @param  var $result
+   * @param  self $parent
+   * @return self
+   */
+  public function newInstance($result, self $parent= null) {
+    return new static($result, $parent ?: $this);
+  }
+
+  /**
    * Looks up segments inside a given collection
    *
    * @param  var $v
