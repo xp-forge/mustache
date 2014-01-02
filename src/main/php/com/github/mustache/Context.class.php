@@ -66,6 +66,8 @@ abstract class Context extends \lang\Object {
         };
       }
       return null;
+    } else if ($ptr instanceof \Closure) {
+      return $ptr;
     } else {
       return isset($ptr[$segment]) ? $ptr[$segment] : null;
     }
