@@ -42,10 +42,12 @@ class IteratorNode extends Node {
    * @return string
    */
   public function evaluate($context) {
-    $v= is_array($context->variables)
-      ? current($context->variables)
-      : $context->variables
-    ;
+    $value= $context->lookup(null);     // Current
+    if ($context->isHash($value) || $context->isList($value)) {
+      $v= current($context->asTraversable($value));
+    } else {
+      $v= $value;
+    }
     return $this->escape ? htmlspecialchars($v) : $v;
   }
 

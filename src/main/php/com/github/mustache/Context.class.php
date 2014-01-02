@@ -175,7 +175,10 @@ abstract class Context extends \lang\Object {
    * @return var the variable, or null if nothing is found
    */
   public function lookup($name, $helpers= true) {
-    if ('.' !== $name{0}) {                       // This *and* parent (recursively)
+    if (null === $name) {                         // Current value
+      $segments= array();
+      $v= $this->variables;
+    } else if ('.' !== $name{0}) {                // This *and* parent (recursively)
       $v= null;
       $context= $this;
       $segments= explode('.', $name);
@@ -184,9 +187,13 @@ abstract class Context extends \lang\Object {
         $context= $context->parent;
       }
     } else if (0 === strncmp('../', $name, 3)) {  // Explicitely selected: parent
-      $v= $this->lookup0($this->parent->variables, explode('.', substr($name, 3)));
+      $segments= explode('.', substr($name, 3));
+      $v= $this->lookup0($this->parent->variables, $segments);
     } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: self
-      $v= $this->lookup0($this->variables, explode('.', substr($name, 2)));
+      $segments= explode('.', substr($name, 2));
+      $v= $this->lookup0($this->variables, $segments);
+    } else {
+      return null;                                // Illegal name
     }
 
     // Last resort: Check helpers
