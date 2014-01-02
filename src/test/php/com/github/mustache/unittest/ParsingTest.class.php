@@ -5,6 +5,7 @@ use com\github\mustache\NodeList;
 use com\github\mustache\VariableNode;
 use com\github\mustache\TextNode;
 use com\github\mustache\SectionNode;
+use com\github\mustache\IteratorNode;
 
 class ParsingTest extends \unittest\TestCase {
 
@@ -179,6 +180,22 @@ class ParsingTest extends \unittest\TestCase {
     $this->assertEquals(
       new NodeList(array(new SectionNode('section', false, $parsed, new NodeList()))),
       $this->parse('{{#section '.$source.'}}{{/section}}')
+    );
+  }
+
+  #[@test]
+  public function iterator_node() {
+    $this->assertEquals(
+      new NodeList(array(new IteratorNode(true))),
+      $this->parse('{{.}}')
+    );
+  }
+
+  #[@test, @values(['{{& .}}', '{{{.}}}'])]
+  public function unescaped_iterator_node($notation) {
+    $this->assertEquals(
+      new NodeList(array(new IteratorNode(false))),
+      $this->parse($notation)
     );
   }
 }
