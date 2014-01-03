@@ -138,4 +138,31 @@ class DataContextTest extends \unittest\TestCase {
     );
     $this->assertEquals('variable', $fixture->lookup('test'));
   }
+
+  #[@test]
+  public function parent_initially_null() {
+    $this->assertEquals(\xp::$null, $this->newFixture(array())->parent);
+  }
+
+  #[@test]
+  public function newInstance_sets_itself_as_parent_for_new_context_by_default() {
+    $parent= $this->newFixture(array());
+    $child= $parent->newInstance(array());
+    $this->assertEquals($parent, $child->parent);
+  }
+
+  #[@test]
+  public function newInstance_sets_itself_as_parent_for_new_context_when_passed_null() {
+    $parent= $this->newFixture(array());
+    $child= $parent->newInstance(array(), null);
+    $this->assertEquals($parent, $child->parent);
+  }
+
+  #[@test]
+  public function newInstance_uses_given_value_as_parent() {
+    $parent= $this->newFixture(array());
+    $child= $parent->newInstance(array());
+    $parallel= $child->newInstance(array(), $parent);
+    $this->assertEquals($parent, $parallel->parent);
+  }
 }

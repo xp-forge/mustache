@@ -3,11 +3,14 @@
 /**
  * A section starts with {{#sec}} (or {{^sec}} for inverted sections)
  * and ends with {{/sec}} and consists of 0..n nested nodes.
+ *
+ * @test  xp://com.github.mustache.unittest.SectionNodeTest
  */
 class SectionNode extends Node {
   protected $name;
-  protected $nodes;
   protected $invert;
+  protected $options;
+  protected $nodes;
   protected $start;
   protected $end;
 
@@ -16,11 +19,15 @@ class SectionNode extends Node {
    *
    * @param string $name
    * @param bool $invert
+   * @param string[] options
    * @param com.github.mustache.NodeList $nodes
+   * @param string start
+   * @param string end
    */
-  public function __construct($name, $invert= false, NodeList $nodes= null, $start= '{{', $end= '}}') {
+  public function __construct($name, $invert= false, $options= array(), NodeList $nodes= null, $start= '{{', $end= '}}') {
     $this->name= $name;
     $this->invert= $invert;
+    $this->options= $options;
     $this->nodes= $nodes ?: new NodeList();
     $this->start= $start;
     $this->end= $end;
@@ -36,6 +43,24 @@ class SectionNode extends Node {
   }
 
   /**
+   * Returns whether this section is inverted
+   *
+   * @return bool
+   */
+  public function inverted() {
+    return $this->invert;
+  }
+
+  /**
+   * Returns options passed to this section
+   *
+   * @return string[]
+   */
+  public function options() {
+    return $this->options;
+  }
+
+  /**
    * Add a node
    *
    * @param  com.github.mustache.Node $node
@@ -46,12 +71,59 @@ class SectionNode extends Node {
   }
 
   /**
+   * Returns node list's length
+   *
+   * @return int
+   */
+  public function length() {
+    return $this->nodes->length();
+  }
+
+  /**
+   * Returns a node at a given ofset
+   *
+   * @param  int $i
+   * @return com.github.mustache.Node
+   * @throws lang.IndexOutOfBoundsException
+   */
+  public function nodeAt($i) {
+    return $this->nodes->nodeAt($i);
+  }
+
+  /**
+   * Returns all nodes
+   *
+   * @return com.github.mustache.Node[]
+   */
+  public function nodes() {
+    return $this->nodes->nodes();
+  }
+
+  /**
+   * Returns options as string, indented with a space on the left if
+   * non-empty, an empty string otherwise.
+   *
+   * @return string
+   */
+  protected function optionString() {
+    $r= '';
+    foreach ($this->options as $option) {
+      if (false !== strpos($option, ' ')) {
+        $r.= ' "'.$option.'"';
+      } else {
+        $r.= ' '.$option;
+      }
+    }
+    return $r;
+  }
+
+  /**
    * Creates a string representation of this node
    *
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'('.($this->invert ? '^' : '#').$this->name.') -> '.\xp::stringOf($this->nodes);
+    return $this->getClassName().'('.($this->invert ? '^' : '#').$this->name.$this->optionString().') -> '.\xp::stringOf($this->nodes);
   }
 
   /**
@@ -60,7 +132,7 @@ class SectionNode extends Node {
    * @param  com.github.mustache.Context $context the rendering context
    * @return string
    */
-  public function evaluate($context, $indent= '') {
+  public function evaluate($context) {
     $value= $context->lookup($this->name);
     $truthy= $context->isTruthy($value);
     if ($this->invert ? $truthy : !$truthy) return '';
@@ -71,7 +143,7 @@ class SectionNode extends Node {
     // * If the value is a hash, use it as context
     // * Otherwise, simply delegate evaluation to node list
     if ($context->isCallable($value)) {
-      return $context->engine->render($value($this->nodes, $context), $context, $this->start, $this->end);
+      return $context->asRendering($value, $this->nodes, $this->options, $this->start, $this->end);
     } else if ($context->isList($value)) {
       $output= '';
       foreach ($context->asTraversable($value) as $element) {
@@ -96,6 +168,9 @@ class SectionNode extends Node {
       $cmp instanceof self &&
       $this->name === $cmp->name &&
       $this->invert === $cmp->invert &&
+      $this->start === $cmp->start &&
+      $this->end === $cmp->end &&
+      \util\Objects::equal($this->options, $cmp->options) &&
       $this->nodes->equals($cmp->nodes)
     );
   }
@@ -107,10 +182,13 @@ class SectionNode extends Node {
    */
   public function __toString() {
     return sprintf(
-      "{%1\$s%2\$s}\n%3\$s\n{/%2\$s}\n",
+      "%5\$s%1\$s%2\$s%3\$s%6\$s\n%4\$s\n%5\$s/%2\$s%6\$s\n",
       $this->invert ? '^' : '#',
       $this->name,
-      (string)$this->nodes
+      $this->optionString(),
+      (string)$this->nodes,
+      $this->start,
+      $this->end
     );
   }
 }

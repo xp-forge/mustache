@@ -42,6 +42,18 @@ class EngineTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function helpers_initially_empty() {
+    $this->assertEquals(array(), create(new MustacheEngine())->helpers);
+  }
+
+  #[@test]
+  public function helpers_returns_aded_helper() {
+    $helper= function($text) { return '<b>'.$text.'</b>'; };
+    $engine= create(new MustacheEngine())->withHelper('bold', $helper);
+    $this->assertEquals(array('bold' => $helper), $engine->helpers);
+  }
+
+  #[@test]
   public function compile_template() {
     $this->assertEquals(
       new Template('<string>', new NodeList(array(new TextNode('Hello '), new VariableNode('name')))),

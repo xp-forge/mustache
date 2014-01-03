@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Added support for options to sections and variables, which are not
+  part of the specification but make subclassing easier - e.g. for
+  implementing [HandleBars](http://handlebarsjs.com/) templates. See
+  pull request #1 - @thekid
 * Added support for "length" pseudo-member on arrays. - @thekid
 * Fixed parent context lookups - @thekid
 * Added ability to use objects as helpers. Their instance methods will

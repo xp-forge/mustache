@@ -6,6 +6,7 @@ use com\github\mustache\NodeList;
 use com\github\mustache\VariableNode;
 use com\github\mustache\TextNode;
 use com\github\mustache\SectionNode;
+use com\github\mustache\IteratorNode;
 use text\StringTokenizer;
 
 class ParsingTest extends \unittest\TestCase {
@@ -18,6 +19,20 @@ class ParsingTest extends \unittest\TestCase {
    */
   protected function parse($template) {
     return create(new MustacheParser())->parse(new StringTokenizer($template));
+  }
+
+  /**
+   * Helper method used a value provider for option tests
+   *
+   * @return var[]
+   */
+  protected function tags() {
+    return array(
+      array('people', array('people')),
+      array('all people', array('all', 'people')),
+      array('none of those people', array('none', 'of', 'those', 'people')),
+      array('space " " bar', array('space', ' ', 'bar'))
+    );
   }
 
   #[@test]
@@ -79,7 +94,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function section_with_content() {
     $this->assertEquals(
-      new NodeList(array(new SectionNode('section', false, new NodeList(array(
+      new NodeList(array(new SectionNode('section', false, array(), new NodeList(array(
         new TextNode('Hello')
       ))))),
       $this->parse('{{#section}}Hello{{/section}}')
@@ -107,7 +122,7 @@ class ParsingTest extends \unittest\TestCase {
   #[@test]
   public function nested_sections() {
     $this->assertEquals(
-      new NodeList(array(new SectionNode('parent', false, new NodeList(array(
+      new NodeList(array(new SectionNode('parent', false, array(), new NodeList(array(
         new SectionNode('child')
       ))))),
       $this->parse('{{#parent}}{{#child}}{{/child}}{{/parent}}')
@@ -136,5 +151,53 @@ class ParsingTest extends \unittest\TestCase {
   #[@test, @expect('com.github.mustache.TemplateFormatException')]
   public function unclosed_section() {
     $this->parse('{{#parent}}');
+  }
+
+  #[@test, @values('tags')]
+  public function variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', true, $parsed))),
+      $this->parse('{{var '.$source.'}}')
+    );
+  }
+
+  #[@test, @values('tags')]
+  public function unescaped_variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', false, $parsed))),
+      $this->parse('{{& var '.$source.'}}')
+    );
+  }
+
+  #[@test, @values('tags')]
+  public function triple_stash_variable_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new VariableNode('var', false, $parsed))),
+      $this->parse('{{{var '.$source.'}}}')
+    );
+  }
+
+  #[@test, @values('tags')]
+  public function section_with_options($source, $parsed) {
+    $this->assertEquals(
+      new NodeList(array(new SectionNode('section', false, $parsed, new NodeList()))),
+      $this->parse('{{#section '.$source.'}}{{/section}}')
+    );
+  }
+
+  #[@test]
+  public function iterator_node() {
+    $this->assertEquals(
+      new NodeList(array(new IteratorNode(true))),
+      $this->parse('{{.}}')
+    );
+  }
+
+  #[@test, @values(['{{& .}}', '{{{.}}}'])]
+  public function unescaped_iterator_node($notation) {
+    $this->assertEquals(
+      new NodeList(array(new IteratorNode(false))),
+      $this->parse($notation)
+    );
   }
 }

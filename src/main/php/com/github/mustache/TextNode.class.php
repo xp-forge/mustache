@@ -3,13 +3,15 @@
 /**
  * A piece of text between two other nodes inside a mustache doc.
  *
- * <code>
+ * ```
  * Hello {{name}}!
  * ^^^^^^  ^^^^  ^
  * |       |     Text
  * |       Variable
  * Text
- * </code>
+ * ```
+ *
+ * @test  xp://com.github.mustache.unittest.TextNodeTest
  */
 class TextNode extends Node {
   protected $text;
@@ -17,10 +19,19 @@ class TextNode extends Node {
   /**
    * Creates a new text node
    *
-   * @param string $text
+   * @param  string $text
    */
   public function __construct($text) {
     $this->text= $text;
+  }
+
+  /**
+   * Returns this text node's text
+   *
+   * @return string
+   */
+  public function text() {
+    return $this->text;
   }
 
   /**

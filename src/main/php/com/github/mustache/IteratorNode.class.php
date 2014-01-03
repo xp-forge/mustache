@@ -2,6 +2,8 @@
 
 /**
  * An implicit iterator simply selects the current loop variable
+ *
+ * @test  xp://com.github.mustache.unittest.IteratorNodeTest
  */
 class IteratorNode extends Node {
   protected $escape;
@@ -13,6 +15,15 @@ class IteratorNode extends Node {
    */
   public function __construct($escape= true) {
     $this->escape= $escape;
+  }
+
+  /**
+   * Returns whether this section is escaped
+   *
+   * @return bool
+   */
+  public function escaped() {
+    return $this->escape;
   }
 
   /**
@@ -31,11 +42,26 @@ class IteratorNode extends Node {
    * @return string
    */
   public function evaluate($context) {
-    $v= is_array($context->variables)
-      ? current($context->variables)
-      : $context->variables
-    ;
+    $value= $context->lookup(null);     // Current
+    if ($context->isHash($value) || $context->isList($value)) {
+      $v= current($context->asTraversable($value));
+    } else {
+      $v= $value;
+    }
     return $this->escape ? htmlspecialchars($v) : $v;
+  }
+
+  /**
+   * Check whether a given value is equal to this node list
+   *
+   * @param  var $cmp The value
+   * @return bool
+   */
+  public function equals($cmp) {
+    return (
+      $cmp instanceof self &&
+      $this->escape === $cmp->escape
+    );
   }
 
   /**
