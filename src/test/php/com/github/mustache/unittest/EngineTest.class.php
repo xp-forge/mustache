@@ -16,32 +16,32 @@ class EngineTest extends \unittest\TestCase {
   }
 
   #[@test]
-  public function with_parser_returns_engine() {
+  public function withParser_returns_engine() {
     $engine= new MustacheEngine();
     $this->assertEquals($engine, $engine->withParser(new MustacheParser()));
   }
 
   #[@test]
-  public function with_templates_returns_engine() {
+  public function withTemplates_returns_engine() {
     $engine= new MustacheEngine();
     $this->assertEquals($engine, $engine->withTemplates(new FilesIn('.')));
   }
 
   #[@test]
-  public function with_helpers_returns_engine() {
+  public function withHelpers_returns_engine() {
     $engine= new MustacheEngine();
     $this->assertEquals($engine, $engine->withHelpers(array()));
   }
 
   #[@test]
-  public function with_helper_returns_engine() {
+  public function withHelper_returns_engine() {
     $engine= new MustacheEngine();
     $helper= function($text) { return '<b>'.$text.'</b>'; };
     $this->assertEquals($engine, $engine->withHelper('bold', $helper));
   }
 
   #[@test]
-  public function get_templates_returns_templates_previously_set() {
+  public function getTemplates_returns_templates_previously_set() {
     $engine= new MustacheEngine();
     $templates= new FilesIn('.');
     $this->assertEquals($templates, $engine->withTemplates($templates)->getTemplates());
