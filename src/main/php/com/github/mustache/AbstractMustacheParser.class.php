@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use text\Tokenizer;
+
 /**
  * Abstract base class for mustache template parsing. Inherit and 
  * implement the `initialize()` method to install handlers for the
@@ -68,7 +70,7 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
    * @return com.github.mustache.Node The parsed template
    * @throws com.github.mustache.TemplateFormatException
    */
-  public function parse($template, $start= '{{', $end= '}}', $indent= '') {
+  public function parse(Tokenizer $tokens, $start= '{{', $end= '}}', $indent= '') {
     $state= new ParseState();
     $state->target= new NodeList();
     $state->start= $start;
@@ -77,9 +79,10 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
     $standalone= implode('', array_keys($this->standalone));
 
     // Tokenize template
-    $lt= new \text\StringTokenizer($template, "\n", true);
-    while ($lt->hasMoreTokens()) {
-      $line= $indent.$lt->nextToken().$lt->nextToken();
+    $tokens->delimiters= "\n";
+    $tokens->returnDelims= true;
+    while ($tokens->hasMoreTokens()) {
+      $line= $indent.$tokens->nextToken().$tokens->nextToken();
       $offset= 0;
       do {
 
@@ -91,10 +94,10 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
           $offset= strlen($line);
         } else {
           while (false === ($e= strpos($line, $state->end, $s+ strlen($state->start)))) {
-            if (!$lt->hasMoreTokens()) {
+            if (!$tokens->hasMoreTokens()) {
               throw new TemplateFormatException('Unclosed '.$state->start.', expecting '.$state->end);
             }
-            $line.= $indent.$lt->nextToken().$lt->nextToken();
+            $line.= $indent.$tokens->nextToken().$tokens->nextToken();
           }
           $text= substr($line, $offset, $s- $offset);
           $tag= substr($line, $s+ strlen($state->start), $e- $s- strlen($state->end));

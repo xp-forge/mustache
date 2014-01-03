@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use text\Tokenizer;
+
 /**
  * Parses mustache templates
  *

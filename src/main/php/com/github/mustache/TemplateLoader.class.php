@@ -10,9 +10,10 @@ interface TemplateLoader {
   /**
    * Load a template by a given name
    *
-   * @param  string $name The template name, including the ".mustache" extension
-   * @return string The bytes
+   * @param  string $name The template name, not including the ".mustache" extension
+   * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
    */
   public function load($name);
+
 }

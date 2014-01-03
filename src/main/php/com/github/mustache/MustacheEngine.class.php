@@ -44,6 +44,15 @@ class MustacheEngine extends \lang\Object {
   }
 
   /**
+   * Sets template loader to be used
+   *
+   * @return com.github.mustache.TemplateLoader
+   */
+  public function getTemplates() {
+    return $this->templates;
+  }
+
+  /**
    * Sets template parser to be used
    *
    * @param  com.github.mustache.TemplateParser $p
@@ -84,16 +93,55 @@ class MustacheEngine extends \lang\Object {
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
-   * @return com.github.mustache.Node
+   * @return com.github.mustache.Template
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    return $this->parser->parse($template, $start, $end, $indent);
+    return new Template('<string>', $this->parser->parse(
+      new \text\StringTokenizer($template),
+      $start,
+      $end,
+      $indent
+    ));
   }
 
   /**
-   * Render a template.
+   * Load a template.
    *
-   * @param  string $template The template, as a string
+   * @param  string $name The template name.
+   * @param  string $start Initial start tag, defaults to "{{"
+   * @param  string $end Initial end tag, defaults to "}}"
+   * @param  string $indent Indenting level, defaults to no indenting
+   * @return com.github.mustache.Template
+   */
+  public function load($name, $start= '{{', $end= '}}', $indent= '') {
+    return new Template($name, $this->parser->parse(
+      new \text\StreamTokenizer($this->templates->load($name)),
+      $start,
+      $end,
+      $indent
+    ));
+  }
+
+  /**
+   * Evaluate a compiled template.
+   *
+   * @param  com.github.mustache.Template $template The template
+   * @param  var $arg Either a view context, or a Context instance
+   * @return string The rendered output
+   */
+  public function evaluate(Template $template, $arg) {
+    if ($arg instanceof Context) {
+      $context= $arg;
+    } else {
+      $context= new DataContext($arg);
+    }
+    return $template->evaluate($context->withEngine($this));
+  }
+
+  /**
+   * Render a template - like evaluate(), but will compile if necessary.
+   *
+   * @param  var $template The template, either as string or as compiled Template instance
    * @param  var $arg Either a view context, or a Context instance
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
@@ -101,16 +149,12 @@ class MustacheEngine extends \lang\Object {
    * @return string The rendered output
    */
   public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
-    if ($arg instanceof Context) {
-      $context= $arg;
+    if ($template instanceof Template) {
+      $target= $template;
     } else {
-      $context= new DataContext($arg);
+      $target= $this->compile($template, $start, $end, $indent);
     }
-
-    return $this->compile($template, $start, $end, $indent)->evaluate(
-      $context->withEngine($this),
-      $indent
-    );
+    return $this->evaluate($target, $arg);
   }
 
   /**
@@ -125,12 +169,9 @@ class MustacheEngine extends \lang\Object {
    * @return string The rendered output
    */
   public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
-    return $this->render(
-      $this->templates->load($name.'.mustache'),
-      $arg,
-      $start,
-      $end,
-      $indent
+    return $this->evaluate(
+      $this->load($name, $start, $end, $indent),
+      $arg
     );
   }
 }

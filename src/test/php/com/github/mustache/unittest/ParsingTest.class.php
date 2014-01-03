@@ -1,22 +1,24 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\MustacheParser;
+use com\github\mustache\Template;
 use com\github\mustache\NodeList;
 use com\github\mustache\VariableNode;
 use com\github\mustache\TextNode;
 use com\github\mustache\SectionNode;
 use com\github\mustache\IteratorNode;
+use text\StringTokenizer;
 
 class ParsingTest extends \unittest\TestCase {
 
   /**
-   * Helper method to parse a template string
+   * Helper method to parse a Template string
    *
    * @param  string $template
    * @return com.github.mustache.Node
    */
   protected function parse($template) {
-    return create(new MustacheParser())->parse($template);
+    return create(new MustacheParser())->parse(new StringTokenizer($template));
   }
 
   /**

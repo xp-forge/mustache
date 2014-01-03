@@ -23,18 +23,18 @@ class FilesIn extends \lang\Object implements TemplateLoader {
     }
   }
 
-	/**
-	 * Load a template by a given name
-	 *
-	 * @param  string $name The template name, including the ".mustache" extension
-	 * @return string The bytes
-	 * @throws com.github.mustache.TemplateNotFoundException
-	 */
+  /**
+   * Load a template by a given name
+   *
+   * @param  string $name The template name without file extension
+   * @return io.streams.InputStream
+   * @throws com.github.mustache.TemplateNotFoundException
+   */
   public function load($name) {
-    $template= new File($this->base, $name);
+    $template= new File($this->base, $name.'.mustache');
     if (!$template->exists()) {
-      throw new TemplateNotFoundException('Cannot find template '.$name.' in '.$this->base->getURI());
+      throw new TemplateNotFoundException('Cannot find template '.$name.'.mustache in '.$this->base->getURI());
     }
-    return FileUtil::getContents($template);
+    return $template->getInputStream();
   }
 }
