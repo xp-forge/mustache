@@ -13,7 +13,7 @@ class Template extends Node {
    * @param  string $source
    * @param  com.github.mustache.Node $root
    */
-  public function __construct($source, Node $root= null) {
+  public function __construct($source, Node $root) {
     $this->root= $root;
     $this->source= $source;
   }
@@ -43,7 +43,7 @@ class Template extends Node {
    * @return string
    */
   public function evaluate($context) {
-    return $this->root ? $this->root->evaluate($context) : '';
+    return $this->root->evaluate($context);
   }
 
   /**
