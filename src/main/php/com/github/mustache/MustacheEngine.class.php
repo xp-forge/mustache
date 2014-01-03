@@ -118,7 +118,7 @@ class MustacheEngine extends \lang\Object {
    * @param  var $arg Either a view context, or a Context instance
    * @return string The rendered output
    */
-  public function evaluate($template, $arg) {
+  public function evaluate(Template $template, $arg) {
     if ($arg instanceof Context) {
       $context= $arg;
     } else {
@@ -138,7 +138,7 @@ class MustacheEngine extends \lang\Object {
    * @return string The rendered output
    */
   public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
-    if ($template instanceof Node) {
+    if ($template instanceof Template) {
       $target= $template;
     } else {
       $target= $this->compile($template, $start, $end, $indent);
