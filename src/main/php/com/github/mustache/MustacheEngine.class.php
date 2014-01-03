@@ -53,6 +53,17 @@ class MustacheEngine extends \lang\Object {
   }
 
   /**
+   * Sets template parser to be used
+   *
+   * @param  com.github.mustache.TemplateParser $p
+   * @return self this
+   */
+  public function withParser(TemplateParser $p) {
+    $this->parser= $p;
+    return $this;
+  }
+
+  /**
    * Adds a helper with a given name
    *
    * @param  string $name

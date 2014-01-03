@@ -16,6 +16,12 @@ class EngineTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function with_parser_returns_engine() {
+    $engine= new MustacheEngine();
+    $this->assertEquals($engine, $engine->withParser(new MustacheParser()));
+  }
+
+  #[@test]
   public function with_templates_returns_engine() {
     $engine= new MustacheEngine();
     $this->assertEquals($engine, $engine->withTemplates(new FilesIn('.')));
