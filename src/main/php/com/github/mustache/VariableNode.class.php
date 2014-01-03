@@ -87,7 +87,7 @@ class VariableNode extends Node {
   public function evaluate($context, $indent= '') {
     $value= $context->lookup($this->name);
     if ($context->isCallable($value)) {
-      $rendered= $context->engine->render($value($this, $context, $this->options), $context);
+      $rendered= $context->asRendering($value, $this, $this->options);
     } else {
       $rendered= $context->asString($value);
     }

@@ -144,6 +144,24 @@ abstract class Context extends \lang\Object {
   }
 
   /**
+   * Returns a rendering of a given helper closure
+   *
+   * @param  var $closure
+   * @param  com.github.mustache.Node $node
+   * @param  string[] $options
+   * @param  string $start
+   * @param  string $end
+   * @return string
+   */
+  public function asRendering($closure, $node, $options= array(), $start= '{{', $end= '}}') {
+    $pass= array();
+    foreach ($options as $key => $option) {
+      $pass[$key]= $this->isCallable($option) ? $option($this) : $option;
+    }
+    return $this->engine->render($closure($node, $this, $pass), $this, $start, $end);
+  }
+
+  /**
    * Returns a context inherited from a given context, or, if omitted, 
    * from this context.
    *

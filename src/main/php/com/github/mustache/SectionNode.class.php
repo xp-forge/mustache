@@ -143,7 +143,7 @@ class SectionNode extends Node {
     // * If the value is a hash, use it as context
     // * Otherwise, simply delegate evaluation to node list
     if ($context->isCallable($value)) {
-      return $context->engine->render($value($this->nodes, $context, $this->options), $context, $this->start, $this->end);
+      return $context->asRendering($value, $this->nodes, $this->options, $this->start, $this->end);
     } else if ($context->isList($value)) {
       $output= '';
       foreach ($context->asTraversable($value) as $element) {
