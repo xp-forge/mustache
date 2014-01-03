@@ -79,6 +79,19 @@ This will load the template stored in the file `templates/hello.mustache`. This 
 
 Templates can also be loaded from the class loader, use the `com.github.mustache.ResourcesIn` and pass it a class loader instance (e.g. `ClassLoader::getDefault()` to search in all class paths) for this purpose.
 
+Compiled templates
+------------------
+If you wish to apply variables to a template more than once, you can speed that process up by precompiling templates and using them later on:
+
+```php
+$engine= new MustacheEngine();
+$template= $engine->compile($template);
+
+// Later on:
+$result1= $engine->evaluate($template, $variables1);
+$result2= $engine->evaluate($template, $variables2);
+```
+
 Helpers
 -------
 Think of helpers as "omnipresent" context. They are added to the engine instance via `withHelper()` and will be available in any rendering context invoked on that instance.
