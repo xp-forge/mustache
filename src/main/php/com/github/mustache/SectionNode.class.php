@@ -132,7 +132,7 @@ class SectionNode extends Node {
    * @param  com.github.mustache.Context $context the rendering context
    * @return string
    */
-  public function evaluate($context, $indent= '') {
+  public function evaluate($context) {
     $value= $context->lookup($this->name);
     $truthy= $context->isTruthy($value);
     if ($this->invert ? $truthy : !$truthy) return '';
