@@ -6,7 +6,7 @@ use lang\ElementNotFoundException;
 /**
  * Classloader template loading loads templates from the class path.
  */
-class ResourcesIn extends TemplateLoader {
+class ResourcesIn extends \lang\Object implements TemplateLoader {
   protected $loader;
 
   /**
@@ -25,7 +25,7 @@ class ResourcesIn extends TemplateLoader {
    * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
    */
-  public function inputFor($name) {
+  public function load($name) {
     try {
       return $this->loader->getResourceAsStream($name.'.mustache')->getInputStream();
     } catch (ElementNotFoundException $e) {

@@ -5,7 +5,7 @@ use io\streams\MemoryInputStream;
 /**
  * Template loading
  */
-class InMemory extends TemplateLoader {
+class InMemory extends \lang\Object implements TemplateLoader {
   protected $templates= array();
 
   /**
@@ -46,7 +46,7 @@ class InMemory extends TemplateLoader {
 	 * @return io.streams.InputStream
 	 * @throws com.github.mustache.TemplateNotFoundException
 	 */
-  public function inputFor($name) {
+  public function load($name) {
     if (!isset($this->templates[$name])) {
       throw new TemplateNotFoundException($name);
     }

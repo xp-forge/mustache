@@ -7,7 +7,7 @@ use io\FileUtil;
 /**
  * File-based template loading loads templates from the file system.
  */
-class FilesIn extends TemplateLoader {
+class FilesIn extends \lang\Object implements TemplateLoader {
   protected $base;
 
   /**
@@ -30,7 +30,7 @@ class FilesIn extends TemplateLoader {
    * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
    */
-  public function inputFor($name) {
+  public function load($name) {
     $template= new File($this->base, $name.'.mustache');
     if (!$template->exists()) {
       throw new TemplateNotFoundException('Cannot find template '.$name.'.mustache in '.$this->base->getURI());

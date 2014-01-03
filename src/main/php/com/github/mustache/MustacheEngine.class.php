@@ -21,6 +21,7 @@
  */
 class MustacheEngine extends \lang\Object {
   protected $templates;
+  protected $parser;
   public $helpers= array();
 
   /**
@@ -28,6 +29,7 @@ class MustacheEngine extends \lang\Object {
    */
   public function __construct() {
     $this->templates= new FilesIn('.');
+    $this->parser= new MustacheParser();
   }
 
   /**
@@ -83,7 +85,30 @@ class MustacheEngine extends \lang\Object {
    * @return com.github.mustache.Template
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    return $this->templates->parse($template, $start, $end, $indent);
+    return new Template('<string>', $this->parser->parse(
+      new \text\StringTokenizer($template),
+      $start,
+      $end,
+      $indent
+    ));
+  }
+
+  /**
+   * Load a template.
+   *
+   * @param  string $name The template name.
+   * @param  string $start Initial start tag, defaults to "{{"
+   * @param  string $end Initial end tag, defaults to "}}"
+   * @param  string $indent Indenting level, defaults to no indenting
+   * @return com.github.mustache.Template
+   */
+  public function load($name, $start= '{{', $end= '}}', $indent= '') {
+    return new Template($name, $this->parser->parse(
+      new \text\StreamTokenizer($this->templates->load($name)),
+      $start,
+      $end,
+      $indent
+    ));
   }
 
   /**
@@ -103,7 +128,7 @@ class MustacheEngine extends \lang\Object {
   }
 
   /**
-   * Render a template.
+   * Render a template - like evaluate(), but will compile if necessary.
    *
    * @param  var $template The template, either as string or as compiled Template instance
    * @param  var $arg Either a view context, or a Context instance
@@ -134,7 +159,7 @@ class MustacheEngine extends \lang\Object {
    */
   public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
     return $this->evaluate(
-      $this->templates->load($name, $start, $end, $indent),
+      $this->load($name, $start, $end, $indent),
       $arg
     );
   }
