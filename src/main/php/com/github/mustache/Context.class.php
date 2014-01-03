@@ -66,6 +66,8 @@ abstract class Context extends \lang\Object {
         };
       }
       return null;
+    } else if ($ptr instanceof \Closure) {
+      return $ptr;
     } else {
       return isset($ptr[$segment]) ? $ptr[$segment] : null;
     }
@@ -142,6 +144,36 @@ abstract class Context extends \lang\Object {
   }
 
   /**
+   * Returns a rendering of a given helper closure
+   *
+   * @param  var $closure
+   * @param  com.github.mustache.Node $node
+   * @param  string[] $options
+   * @param  string $start
+   * @param  string $end
+   * @return string
+   */
+  public function asRendering($closure, $node, $options= array(), $start= '{{', $end= '}}') {
+    $pass= array();
+    foreach ($options as $key => $option) {
+      $pass[$key]= $this->isCallable($option) ? $option($this) : $option;
+    }
+    return $this->engine->render($closure($node, $this, $pass), $this, $start, $end);
+  }
+
+  /**
+   * Returns a context inherited from a given context, or, if omitted, 
+   * from this context.
+   *
+   * @param  var $result
+   * @param  self $parent
+   * @return self
+   */
+  public function newInstance($result, self $parent= null) {
+    return new static($result, $parent ?: $this);
+  }
+
+  /**
    * Looks up segments inside a given collection
    *
    * @param  var $v
@@ -163,16 +195,25 @@ abstract class Context extends \lang\Object {
    * @return var the variable, or null if nothing is found
    */
   public function lookup($name, $helpers= true) {
-    if ('.' !== $name{0}) {                       // This *and* parent (recursively)
+    if (null === $name) {                         // Current value
+      $segments= array();
+      $v= $this->variables;
+    } else if ('.' !== $name{0}) {                // This *and* parent (recursively)
+      $v= null;
+      $context= $this;
       $segments= explode('.', $name);
-      $v= $this->lookup0($this->variables, $segments);
-      if (null === $v && $this->parent instanceof self) {
-        $v= $this->parent->lookup($name, false);
+      while ($context instanceof self && null === $v) {
+        $v= $this->lookup0($context->variables, $segments);
+        $context= $context->parent;
       }
     } else if (0 === strncmp('../', $name, 3)) {  // Explicitely selected: parent
-      $v= $this->lookup0($this->parent->variables, explode('.', substr($name, 3)));
-    } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: this
-      $v= $this->lookup0($this->variables, explode('.', substr($name, 2)));
+      $segments= explode('.', substr($name, 3));
+      $v= $this->lookup0($this->parent->variables, $segments);
+    } else if (0 === strncmp('./', $name, 2)) {   // Explicitely selected: self
+      $segments= explode('.', substr($name, 2));
+      $v= $this->lookup0($this->variables, $segments);
+    } else {
+      return null;                                // Illegal name
     }
 
     // Last resort: Check helpers
