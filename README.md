@@ -32,7 +32,7 @@ Lambdas
 If the value is a closure, it will be invoked and the raw text (no interpolations will have been performed!) will be passed to it:
 
 ### Template
-```mustache
+```HTML+Django
 {{# wrapped }}
   {{ name }} is awesome.
 {{/ wrapped }}
@@ -84,7 +84,7 @@ Helpers
 Think of helpers as "omnipresent" context. They are added to the engine instance via `withHelper()` and will be available in any rendering context invoked on that instance.
 
 ### Template
-```mustache
+```HTML+Django
 {{# bold }}
   This is {{ location }}!
 {{/ bold }}
@@ -123,7 +123,7 @@ class LocalizationHelpers extends \lang\Object {
 $engine->withHelper('local', new LocalizationHelpers());
 ```
 
-```mustache
+```HTML+Django
 {{#local.date}}{{date}}{{/local.date}}
 ```
 
