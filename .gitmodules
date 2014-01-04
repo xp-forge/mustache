@@ -1,6 +1,0 @@
-[submodule "lib/webservices"]
-	path = lib/webservices
-	url = git@github.com:xp-framework/webservices.git
-[submodule "lib/parser"]
-	path = lib/parser
-	url = git@github.com:xp-framework/parser.git
