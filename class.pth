@@ -1,2 +1,4 @@
 src/main/php
 src/test/php
+lib/webservices/src/main/php/
+lib/parser/src/main/php/
