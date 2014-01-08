@@ -69,11 +69,11 @@ class EngineTest extends \unittest\TestCase {
 
   #[@test]
   public function load_template() {
-    $loader= newinstance('com.github.mustache.TemplateLoader', array(), array(
-      'load' => function($self, $name) {
-        return new \io\streams\MemoryInputStream('Hello {{name}}');
+    $loader= newinstance('com.github.mustache.TemplateLoader', array(), '{
+      public function load($name) {
+        return new \io\streams\MemoryInputStream("Hello {{name}}");
       }
-    ));
+    }');
     $this->assertEquals(
       new Template('test', new NodeList(array(new TextNode('Hello '), new VariableNode('name')))),
       create(new MustacheEngine())->withTemplates($loader)->load('test')
