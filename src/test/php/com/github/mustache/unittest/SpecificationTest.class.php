@@ -6,7 +6,7 @@ use io\collections\iterate\ExtensionEqualsFilter;
 use io\collections\iterate\FilteredIOCollectionIterator;
 use io\collections\FileCollection;
 use io\collections\FileElement;
-use webservices\json\JsonFactory;
+use text\json\StreamInput;
 
 /**
  * Executes the Mustache specifications
@@ -15,7 +15,7 @@ use webservices\json\JsonFactory;
  * ```sh
  * $ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
  * $ unzip master.zip && rm master.zip
- * $ unittest com.github.mustache.SpecificationTest -a spec-master/specs
+ * $ unittest com.github.mustache.unittest.SpecificationTest -a spec-master/specs
  * ```
  *
  * @see https://github.com/mustache/spec
@@ -35,18 +35,17 @@ class SpecificationTest extends \unittest\TestCase {
 
   public function specifications() {
     if (is_file($this->target)) {
-      $files= array(new FileElement($this->target));
+      $files= [new FileElement($this->target)];
     } else {
       $files= new FilteredIOCollectionIterator(new FileCollection($this->target), new ExtensionEqualsFilter('json'));
     }
 
     // Return an array of argument lists to be passed to specification
-    $r= array();
-    $json= JsonFactory::create();
+    $r= [];
     foreach ($files as $file) {
-      $spec= $json->decodeFrom($file->getInputStream());
-      foreach ($spec['tests'] as $test) {
-        $r[]= array($test['name'], $test);
+      $spec= new StreamInput($file->getInputStream());
+      foreach ($spec->read()['tests'] as $test) {
+        $r[]= [$test['name'], $test];
       }
     }
     return $r;
@@ -65,7 +64,7 @@ class SpecificationTest extends \unittest\TestCase {
 
     // Render, and assert result
     $this->assertEquals($test['expected'], create(new MustacheEngine())
-      ->withTemplates(new InMemory(isset($test['partials']) ? $test['partials'] : array()))
+      ->withTemplates(new InMemory(isset($test['partials']) ? $test['partials'] : []))
       ->render($test['template'], $test['data'])
     );
   }
