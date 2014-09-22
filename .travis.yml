@@ -16,7 +16,9 @@ before_script:
   - echo "date.timezone=Europe/Berlin" >> xp.ini
 
 script:
-  - ./unittest src/test/php
+  - wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
+  - unzip master.zip && rm master.zip
+  - ./unittest com.github.mustache.unittest.** -a spec-master/specs/
 
 before_deploy:
   - export REL=`echo $TRAVIS_TAG | sed -e 's/^v//g'`
