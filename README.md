@@ -9,10 +9,11 @@ Mustache
 The [mustache template language](http://mustache.github.io/) implemented for the XP Framework.
 
 ```php
-$engine= new \com\github\mustache\MustacheEngine();
-$transformed= $engine->render(
+use com\github\mustache\MustacheEngine;
+
+$transformed= (new MustacheEngine())->render(
   'Hello {{name}}',
-  array('name' => 'World')
+  ['name' => 'World']
 );
 ```
 
@@ -46,12 +47,12 @@ If the value is a closure, it will be invoked and the raw text (no interpolation
 
 ### Data
 ```php
-array(
+[
   'name'    => 'Willy',
   'wrapped' => function($text) {
     return '<b>'.$text.'</b>';
   }
-);
+];
 ```
 
 ### Output
@@ -63,12 +64,12 @@ array(
 The `$text` parameter passed is actually a `\com\github\mustache\Node` instance but may be treated as text as it overloads the string cast. In order to work with it, the node's `evaluate()` method can be called with the `\com\github\mustache\Context` instance given as the second argument:
 
 ```php
-array(
+[
   'name'    => 'Willy',
   'wrapped' => function($node, $context) {
     return '<b>'.strtoupper($node->evaluate($context)).'</b>';
   }
-)
+]
 ```
 
 Template loading
@@ -76,9 +77,13 @@ Template loading
 Per default, templates are loaded from the current working directory. This can be changed by passing a template loader instance to the engine:
 
 ```php
-$engine= new \com\github\mustache\MustacheEngine();
-$engine->withTemplates(new \com\github\mustache\FilesIn(new Folder('templates')));
-$transformed= $engine->transform('hello', array('name' => 'World'));
+use com\github\mustache\MustacheEngine;
+use com\github\mustache\FilesIn;
+use io\Folder;
+
+$engine= new MustacheEngine();
+$engine->withTemplates(new FilesIn(new Folder('templates')));
+$transformed= $engine->transform('hello', ['name' => 'World']);
 ```
 
 This will load the template stored in the file `templates/hello.mustache`. This template loader will also be used for partials.
@@ -111,11 +116,11 @@ Think of helpers as "omnipresent" context. They are added to the engine instance
 
 ### Call
 ```php
-$engine= new \com\github\mustache\MustacheEngine();
+$engine= new MustacheEngine();
 $engine->withHelper('bold', function($text) {
   return '<b>'.$text.'</b>';
 });
-$transformed= $engine->render($template, array('location' => 'Spartaaaaa'));
+$transformed= $engine->render($template, ['location' => 'Spartaaaaa']);
 ```
 
 ### Output
@@ -144,18 +149,6 @@ $engine->withHelper('local', new LocalizationHelpers());
 
 ```HTML+Django
 {{#local.date}}{{date}}{{/local.date}}
-```
-
-Releases
---------
-The releases are available via XP Installer:
-
-```sh
-# First installation
-$ xpi add xp-forge/mustache
-
-# Upgrade an existing
-$ xpi upgrade xp-forge/mustache
 ```
 
 Spec compliance
