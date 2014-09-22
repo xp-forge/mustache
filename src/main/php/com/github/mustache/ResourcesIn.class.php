@@ -23,22 +23,12 @@ class ResourcesIn extends FileBasedTemplateLoader {
   }
 
   /**
-   * Creates a new class loader based template loader instance
+   * Returns an inputstream for a given name, or NULL
    *
-   * @param  lang.IClassLoader $loader
-   */
-  public function __construct(IClassLoader $loader) {
-    $this->loader= $loader;
-  }
-
-  /**
-   * Load a template by a given name
-   *
-   * @param  string $name The template name without file extension
+   * @param  string $name
    * @return io.streams.InputStream
-   * @throws com.github.mustache.TemplateNotFoundException
    */
-  public function load($name) {
+  protected function inputStreamFor($name) {
     try {
       return $this->loader->getResourceAsStream($name.'.mustache')->getInputStream();
     } catch (ElementNotFoundException $e) {
