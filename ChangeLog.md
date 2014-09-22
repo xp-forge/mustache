@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+
+
+1.3.0, 23.09.2014
+-----------------
 * Made it possible to optionally pass an array of file extensions to
   the `FilesIn` and `ResourcesIn` template loader, defaulting to 
   ".mustache" - @thekid
