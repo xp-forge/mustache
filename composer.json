@@ -7,6 +7,7 @@
   "keywords": ["module", "xp"],
   "require" : {
     "xp-framework/core": "dev-master",
+    "xp-forge/json": ">=0.8.4",
     "php" : ">=5.4.0"
   },
   "autoload" : {
