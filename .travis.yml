@@ -10,7 +10,8 @@ php:
 before_script:
   - wget 'https://github.com/xp-framework/xp-runners/releases/download/v5.0.0/setup' -O - | php
   - composer install
-  - find vendor
+  - cat vendor/autoload.php
+  - cat vendor/composer/*
   - echo "vendor/autoload.php" > boot.pth
   - echo "[runtime]" >> xp.ini
   - echo "date.timezone=Europe/Berlin" >> xp.ini
