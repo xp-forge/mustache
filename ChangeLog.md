@@ -4,6 +4,9 @@ Mustache for XP Framework ChangeLog
 ?.?.?, ??.??.????
 -----------------
 
+1.3.1, 31.12.2014
+-----------------
+* Published on packagist.org - @thekid
 
 1.3.0, 23.09.2014
 -----------------
