@@ -1,8 +1,0 @@
-{
-  "name"    : "xp-forge/mustache",
-  "version" : "1.3.0",
-  "require" : {
-    "xp-framework/core" : "~6.0",
-    "xp-forge/json"     : "~0.8"
-  }
-}
