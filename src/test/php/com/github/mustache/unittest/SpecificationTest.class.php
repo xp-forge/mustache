@@ -45,7 +45,7 @@ class SpecificationTest extends \unittest\TestCase {
     foreach ($files as $file) {
       $spec= (new StreamInput($file->getInputStream()))->read();
       if (isset($spec['tests'])) {
-        foreach ($spec['test'] as $test) {
+        foreach ($spec['tests'] as $test) {
           $r[]= [$test['name'], $test];
         }
       }
