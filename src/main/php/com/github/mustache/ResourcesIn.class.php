@@ -30,7 +30,7 @@ class ResourcesIn extends FileBasedTemplateLoader {
    */
   protected function inputStreamFor($name) {
     try {
-      return $this->loader->getResourceAsStream($name.'.mustache')->getInputStream();
+      return $this->base->getResourceAsStream($name)->getInputStream();
     } catch (ElementNotFoundException $e) {
       throw new TemplateNotFoundException('Cannot find template '.$name, $e);
     }
