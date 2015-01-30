@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ?.?.?, ??.??.????
 -----------------
+* Fixed bug in `ResourcesIn` template loader which loads templates
+  from the class path - see pull request #4 (@kiesel, @thekid)
 
 1.3.1, 31.12.2014
 -----------------

@@ -6,6 +6,8 @@ use lang\ElementNotFoundException;
 
 /**
  * Classloader template loading loads templates from the class path.
+ *
+ * @test  xp://com.github.mustache.unittest.ResourcesInTest
  */
 class ResourcesIn extends FileBasedTemplateLoader {
 
@@ -29,10 +31,10 @@ class ResourcesIn extends FileBasedTemplateLoader {
    * @return io.streams.InputStream
    */
   protected function inputStreamFor($name) {
-    try {
-      return $this->loader->getResourceAsStream($name.'.mustache')->getInputStream();
-    } catch (ElementNotFoundException $e) {
-      throw new TemplateNotFoundException('Cannot find template '.$name, $e);
+    if ($this->base->providesResource($name)) {
+      return $this->base->getResourceAsStream($name)->getInputStream();
+    } else {
+      return null;
     }
   }
 }
