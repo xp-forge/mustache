@@ -6,7 +6,7 @@
   "description" : "The mustache template language implemented for the XP Framework",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "dev-master",
+    "xp-framework/core": "~6.0",
     "xp-forge/json": ">=0.8.4",
     "php" : ">=5.4.0"
   },

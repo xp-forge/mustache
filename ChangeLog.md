@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ???.??.????-.?.?,-##
 
+## 1.3.3 / 2015-02-12
+
+* Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid
 
 ## 1.3.2, 2015-01-30
 
