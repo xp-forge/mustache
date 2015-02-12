@@ -1,20 +1,20 @@
 Mustache for XP Framework ChangeLog
 ===================================
 
-?.?.?, ??.??.????
------------------
+???.??.????-.?.?,-##
 
-1.3.2, 30.01.2015
------------------
+
+## 1.3.2, 2015-01-30
+
 * Fixed bug in `ResourcesIn` template loader which loads templates
   from the class path - see pull request #4 (@kiesel, @thekid)
 
-1.3.1, 31.12.2014
------------------
+## 1.3.1, 2014-12-31
+
 * Published on packagist.org - @thekid
 
-1.3.0, 23.09.2014
------------------
+## 1.3.0, 2014-09-23
+
 * Made it possible to optionally pass an array of file extensions to
   the `FilesIn` and `ResourcesIn` template loader, defaulting to 
   ".mustache" - @thekid
@@ -37,8 +37,8 @@ Mustache for XP Framework ChangeLog
   and conversion rules there from the VariableNode and SectionNode's
   `evaluate()` methods - @thekid
 
-1.2.0, 10.12.2013
------------------
+## 1.2.0, 2013-12-10
+
 * Added `ResourcesIn` loader to load templates from the class path
   @thekid
 * Added support for context data with array overloading via PHP's 
@@ -47,14 +47,14 @@ Mustache for XP Framework ChangeLog
 * Make `Context` an abstract base class and add an implementation 
   called `DataContext` - @thekid
 
-1.1.0, 10.05.2013
------------------
+## 1.1.0, 2013-05-10
+
 * Make sourcecode compliant with [new XP coding guidelines](https://github.com/xp-framework/rfc/issues/208) - @thekid
 * Unbundle unittest parameterization implementation, it is now in the
   XP Framework's 5.9.1-RELEASE- @thekid
 
-1.0.0, 09.04.2013
------------------
+## 1.0.0, 2013-04-09
+
 * Fulfill current specification to 100%- @thekid
 * Add MustacheEngine::compile() method to compile templates- @thekid
 * Also support invokeable objects as closures- @thekid
@@ -62,7 +62,7 @@ Mustache for XP Framework ChangeLog
 * Detect illegal nesting and unclosed sections- @thekid
 * Refactor: Extract parser from engine class- @thekid
 
-0.9.0, 07.04.2013
------------------
+## 0.9.0, 2013-04-07
+
 * Initial release supporting all non-optional features of the Mustache 
   spec and the optional lambda feature- @thekid
