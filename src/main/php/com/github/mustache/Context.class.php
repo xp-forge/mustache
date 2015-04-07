@@ -6,7 +6,7 @@
  * resolution of partials.
  */
 abstract class Context extends \lang\Object {
-  public $variables= array();
+  public $variables= [];
   public $parent= null;
   public $engine= null;
 
@@ -22,7 +22,8 @@ abstract class Context extends \lang\Object {
       $this->parent= $parent;
       $this->engine= $parent->engine;
     } else {
-      $this->parent= $this->engine= \xp::null();
+      $this->parent= null;
+      $this->engine= null;
     }
   }
 

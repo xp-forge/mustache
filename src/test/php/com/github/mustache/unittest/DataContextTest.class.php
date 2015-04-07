@@ -12,18 +12,18 @@ class DataContextTest extends \unittest\TestCase {
    * @param  [:var] $helpers
    * @return com.github.mustache.Context
    */
-  public function newFixture($variables, $helpers= array()) {
-    return create(new DataContext($variables))->withEngine(create(new MustacheEngine())->withHelpers($helpers));
+  public function newFixture($variables, $helpers= []) {
+    return create(new DataContext($variables))->withEngine((new MustacheEngine())->withHelpers($helpers));
   }
 
   #[@test]
   public function can_create() {
-    $this->newFixture(array());
+    $this->newFixture([]);
   }
 
   #[@test, @values(['test', 'test.sub', 'test.sub.child'])]
   public function lookup_on_empty_data($key) {
-    $fixture= $this->newFixture(array());
+    $fixture= $this->newFixture([]);
     $this->assertNull($fixture->lookup($key));
   }
 
@@ -41,7 +41,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       public $test = "data";
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -49,7 +49,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       protected $test = "data";
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -57,7 +57,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       private $test = "data";
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -65,7 +65,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       public function test() { return "data"; }
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -73,7 +73,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       private function test() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -81,7 +81,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       protected function test() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -89,7 +89,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       public function getTest() { return "data"; }
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -97,7 +97,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       private function getTest() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -105,7 +105,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', array(), '{
+    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
       protected function getTest() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -113,7 +113,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function supports_array_access_overloading() {
-    $fixture= $this->newFixture(newinstance('php.ArrayAccess', array(), '{
+    $fixture= $this->newFixture(newinstance('php.ArrayAccess', [], '{
       public function offsetExists($h) { return "test" === $h; }
       public function offsetGet($h) { return "test" === $h ? "data" : null; }
       public function offsetSet($h, $v) { /* Empty */ }
@@ -124,7 +124,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function using_helper() {
-    $fixture= $this->newFixture(array(), array(
+    $fixture= $this->newFixture([], array(
       'test' => function($node, $ctx) { return 'data'; }
     ));
     $this->assertInstanceOf('Closure', $fixture->lookup('test'));
@@ -141,28 +141,28 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function parent_initially_null() {
-    $this->assertEquals(\xp::$null, $this->newFixture(array())->parent);
+    $this->assertNull($this->newFixture([])->parent);
   }
 
   #[@test]
   public function newInstance_sets_itself_as_parent_for_new_context_by_default() {
-    $parent= $this->newFixture(array());
-    $child= $parent->newInstance(array());
+    $parent= $this->newFixture([]);
+    $child= $parent->newInstance([]);
     $this->assertEquals($parent, $child->parent);
   }
 
   #[@test]
   public function newInstance_sets_itself_as_parent_for_new_context_when_passed_null() {
-    $parent= $this->newFixture(array());
-    $child= $parent->newInstance(array(), null);
+    $parent= $this->newFixture([]);
+    $child= $parent->newInstance([], null);
     $this->assertEquals($parent, $child->parent);
   }
 
   #[@test]
   public function newInstance_uses_given_value_as_parent() {
-    $parent= $this->newFixture(array());
-    $child= $parent->newInstance(array());
-    $parallel= $child->newInstance(array(), $parent);
+    $parent= $this->newFixture([]);
+    $child= $parent->newInstance([]);
+    $parallel= $child->newInstance([], $parent);
     $this->assertEquals($parent, $parallel->parent);
   }
 }
