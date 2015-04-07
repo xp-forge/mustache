@@ -1,7 +1,13 @@
 Mustache for XP Framework ChangeLog
 ===================================
 
-???.??.????-.?.?,-##
+## ?.?.? / ????-??-??
+
+## 1.3.4 / 2015-04-07
+
+* Fixed implicit iterators, which should allow iterating over nested 
+  arrays according to the spec.
+  (@thekid)
 
 ## 1.3.3 / 2015-02-12
 
