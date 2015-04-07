@@ -133,7 +133,7 @@ class SectionNode extends Node {
    * @return string
    */
   public function evaluate($context) {
-    $value= $context->lookup($this->name);
+    $value= $context->lookup('.' === $this->name ? null : $this->name);
     $truthy= $context->isTruthy($value);
     if ($this->invert ? $truthy : !$truthy) return '';
 
