@@ -12,12 +12,12 @@ class NodeListTest extends \unittest\TestCase {
 
   #[@test]
   public function can_create_with_empty_nodelist() {
-    new NodeList(array());
+    new NodeList([]);
   }
 
   #[@test]
   public function can_create_with_non_empty_nodelist() {
-    new NodeList(array(new TextNode('test')));
+    new NodeList([new TextNode('test')]);
   }
 
   #[@test]
@@ -54,18 +54,18 @@ class NodeListTest extends \unittest\TestCase {
 
   #[@test, @values([-1, 1, 2]), @expect('lang.IndexOutOfBoundsException')]
   public function nodeAt_raises_exception_for_offset_out_of_bounds($offset) {
-    (new NodeList(array(new TextNode('test'))))->nodeAt($offset);
+    (new NodeList([new TextNode('test')]))->nodeAt($offset);
   }
 
   #[@test]
   public function nodes_initially_returns_empty_list() {
-    $this->assertEquals(array(), (new NodeList())->nodes());
+    $this->assertEquals([], (new NodeList())->nodes());
   }
 
   #[@test]
   public function nodes_returns_all_added_nodes() {
     $list= new NodeList();
-    $nodes= array();
+    $nodes= [];
     $nodes[]= $list->add(new TextNode('test1'));
     $nodes[]= $list->add(new TextNode('test2'));
     $this->assertEquals($nodes, $list->nodes());

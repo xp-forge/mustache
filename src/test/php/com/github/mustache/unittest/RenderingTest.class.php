@@ -20,7 +20,7 @@ class RenderingTest extends \unittest\TestCase {
   public function replace_single_variable() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', array('name' => 'World'))
+      $this->render('Hello {{name}}', ['name' => 'World'])
     );
   }
 
@@ -28,7 +28,7 @@ class RenderingTest extends \unittest\TestCase {
   public function replace_two_variables() {
     $this->assertEquals(
       'The color of bananas is yellow',
-      $this->render('The color of {{fruit}}s is {{color}}', array('fruit' => 'banana', 'color' => 'yellow'))
+      $this->render('The color of {{fruit}}s is {{color}}', ['fruit' => 'banana', 'color' => 'yellow'])
     );
   }
 
@@ -42,12 +42,12 @@ class RenderingTest extends \unittest\TestCase {
         "{{#in_ca}}\n".
         "Well, \${{taxed_value}}, after taxes.\n".
         "{{/in_ca}}\n",
-        array(
+        [
           'name'        => 'Chris',
           'value'       => 10000,
           'taxed_value' => 10000 - (10000 * 0.4),
           'in_ca'       => true
-        )
+        ]
       )
     );
   }

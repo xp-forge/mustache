@@ -30,7 +30,7 @@ class EngineTest extends \unittest\TestCase {
   #[@test]
   public function withHelpers_returns_engine() {
     $engine= new MustacheEngine();
-    $this->assertEquals($engine, $engine->withHelpers(array()));
+    $this->assertEquals($engine, $engine->withHelpers([]));
   }
 
   #[@test]
@@ -49,7 +49,7 @@ class EngineTest extends \unittest\TestCase {
 
   #[@test]
   public function helpers_initially_empty() {
-    $this->assertEquals(array(), (new MustacheEngine())->helpers);
+    $this->assertEquals([], (new MustacheEngine())->helpers);
   }
 
   #[@test]
@@ -69,7 +69,7 @@ class EngineTest extends \unittest\TestCase {
 
   #[@test]
   public function load_template() {
-    $loader= newinstance('com.github.mustache.TemplateLoader', array(), '{
+    $loader= newinstance('com.github.mustache.TemplateLoader', [], '{
       public function load($name) {
         return new \io\streams\MemoryInputStream("Hello {{name}}");
       }

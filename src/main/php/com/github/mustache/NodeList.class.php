@@ -10,14 +10,14 @@ use lang\IndexOutOfBoundsException;
  * @test  xp://com.github.mustache.unittest.NodeListTest
  */
 class NodeList extends Node {
-  protected $nodes= array();
+  protected $nodes;
 
   /**
    * Create a new node list
    *
    * @param  com.github.mustache.Node[] $nodes
    */
-  public function __construct(array $nodes= array()) {
+  public function __construct(array $nodes= []) {
     $this->nodes= $nodes;
   }
 
