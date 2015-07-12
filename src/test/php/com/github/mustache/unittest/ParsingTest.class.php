@@ -18,7 +18,7 @@ class ParsingTest extends \unittest\TestCase {
    * @return com.github.mustache.Node
    */
   protected function parse($template) {
-    return create(new MustacheParser())->parse(new StringTokenizer($template));
+    return (new MustacheParser())->parse(new StringTokenizer($template));
   }
 
   /**

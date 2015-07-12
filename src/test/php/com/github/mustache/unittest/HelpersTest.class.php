@@ -6,7 +6,7 @@ use com\github\mustache\VariableNode;
 class HelpersTest extends \unittest\TestCase {
 
   protected function render($template, $variables, $helpers) {
-    return create(new MustacheEngine())
+    return (new MustacheEngine())
       ->withHelpers($helpers)
       ->render($template, $variables)
     ;

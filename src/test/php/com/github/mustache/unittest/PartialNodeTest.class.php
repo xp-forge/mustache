@@ -11,7 +11,7 @@ class PartialNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function template() {
-    $this->assertEquals('test', create(new PartialNode('test'))->template());
+    $this->assertEquals('test', (new PartialNode('test'))->template());
   }
 
   #[@test]

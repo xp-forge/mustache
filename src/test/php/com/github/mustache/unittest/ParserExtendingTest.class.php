@@ -14,7 +14,7 @@ class ParserExtendingTest extends \unittest\TestCase {
       public function __toString() { return "*test"; }
     }');
 
-    $parser= create(new MustacheParser())->withHandler('*', true, function($tag, $state) use($node) {
+    $parser= (new MustacheParser())->withHandler('*', true, function($tag, $state) use($node) {
       $state->target->add($node);
     });
     $this->assertEquals(new NodeList(array($node)), $parser->parse(new StringTokenizer('{{*test}}')));

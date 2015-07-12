@@ -22,7 +22,7 @@ class NodeListTest extends \unittest\TestCase {
 
   #[@test]
   public function initially_empty() {
-    $this->assertEquals(0, create(new NodeList())->length());
+    $this->assertEquals(0, (new NodeList())->length());
   }
 
   #[@test]
@@ -43,23 +43,23 @@ class NodeListTest extends \unittest\TestCase {
   #[@test]
   public function add_returns_added_node() {
     $node= new TextNode('test');
-    $this->assertEquals($node, create(new NodeList())->add($node));
+    $this->assertEquals($node, (new NodeList())->add($node));
   }
 
   #[@test]
   public function nodeAt_returns_node_at_offset() {
     $node= new TextNode('test');
-    $this->assertEquals($node, create(new NodeList(array($node)))->nodeAt(0));
+    $this->assertEquals($node, (new NodeList(array($node)))->nodeAt(0));
   }
 
   #[@test, @values([-1, 1, 2]), @expect('lang.IndexOutOfBoundsException')]
   public function nodeAt_raises_exception_for_offset_out_of_bounds($offset) {
-    create(new NodeList(array(new TextNode('test'))))->nodeAt($offset);
+    (new NodeList(array(new TextNode('test'))))->nodeAt($offset);
   }
 
   #[@test]
   public function nodes_initially_returns_empty_list() {
-    $this->assertEquals(array(), create(new NodeList())->nodes());
+    $this->assertEquals(array(), (new NodeList())->nodes());
   }
 
   #[@test]

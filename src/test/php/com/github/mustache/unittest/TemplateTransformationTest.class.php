@@ -12,7 +12,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
    */
   public function setUp() {
     $this->loader= new InMemory();
-    $this->engine= create(new MustacheEngine())->withTemplates($this->loader);
+    $this->engine= (new MustacheEngine())->withTemplates($this->loader);
   }
 
   #[@test]

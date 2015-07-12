@@ -11,7 +11,7 @@ class TextNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function text() {
-    $this->assertEquals('test', create(new TextNode('test'))->text());
+    $this->assertEquals('test', (new TextNode('test'))->text());
   }
 
   #[@test, @values(['', 'test', 'Hello World'])]

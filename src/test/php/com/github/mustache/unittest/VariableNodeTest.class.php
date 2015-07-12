@@ -11,27 +11,27 @@ class VariableNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function name() {
-    $this->assertEquals('test', create(new VariableNode('test'))->name());
+    $this->assertEquals('test', (new VariableNode('test'))->name());
   }
 
   #[@test]
   public function escaped_is_true_by_default() {
-    $this->assertTrue(create(new VariableNode('test'))->escaped());
+    $this->assertTrue((new VariableNode('test'))->escaped());
   }
 
   #[@test, @values([false, true])]
   public function escaped($value) {
-    $this->assertEquals($value, create(new VariableNode('test', $value))->escaped());
+    $this->assertEquals($value, (new VariableNode('test', $value))->escaped());
   }
 
   #[@test]
   public function options_is_empty_by_default() {
-    $this->assertEquals(array(), create(new VariableNode('test'))->options());
+    $this->assertEquals(array(), (new VariableNode('test'))->options());
   }
 
   #[@test, @values([[[]], [['a']], [['a', 'b']]])]
   public function options($value) {
-    $this->assertEquals($value, create(new VariableNode('test', true, $value))->options());
+    $this->assertEquals($value, (new VariableNode('test', true, $value))->options());
   }
   
   #[@test]

@@ -13,7 +13,7 @@ class RenderingTest extends \unittest\TestCase {
    * @return string output
    */
   protected function render($template, $variables) {
-    return create(new MustacheEngine())->render($template, $variables);
+    return (new MustacheEngine())->render($template, $variables);
   }
 
   #[@test]

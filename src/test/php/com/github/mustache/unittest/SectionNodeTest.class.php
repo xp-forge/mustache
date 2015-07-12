@@ -13,38 +13,38 @@ class SectionNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function name() {
-    $this->assertEquals('test', create(new SectionNode('test'))->name());
+    $this->assertEquals('test', (new SectionNode('test'))->name());
   }
 
   #[@test]
   public function inverted_is_false_by_default() {
-    $this->assertFalse(create(new SectionNode('test'))->inverted());
+    $this->assertFalse((new SectionNode('test'))->inverted());
   }
 
   #[@test, @values([false, true])]
   public function inverted($value) {
-    $this->assertEquals($value, create(new SectionNode('test', $value))->inverted());
+    $this->assertEquals($value, (new SectionNode('test', $value))->inverted());
   }
 
   #[@test]
   public function options_is_empty_by_default() {
-    $this->assertEquals(array(), create(new SectionNode('test'))->options());
+    $this->assertEquals(array(), (new SectionNode('test'))->options());
   }
 
   #[@test, @values([[[]], [['a']], [['a', 'b']]])]
   public function options($value) {
-    $this->assertEquals($value, create(new SectionNode('test', false, $value))->options());
+    $this->assertEquals($value, (new SectionNode('test', false, $value))->options());
   }
 
   #[@test]
   public function add_returns_node_added() {
     $node= new TextNode('test');
-    $this->assertEquals($node, create(new SectionNode('test'))->add($node));
+    $this->assertEquals($node, (new SectionNode('test'))->add($node));
   }
 
   #[@test]
   public function length_initially_zero() {
-    $this->assertEquals(0, create(new SectionNode('test'))->length());
+    $this->assertEquals(0, (new SectionNode('test'))->length());
   }
 
   #[@test]
@@ -64,7 +64,7 @@ class SectionNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function nodes_initially_empty() {
-    $this->assertEquals(array(), create(new SectionNode('test'))->nodes());
+    $this->assertEquals(array(), (new SectionNode('test'))->nodes());
   }
 
   #[@test]
@@ -84,7 +84,7 @@ class SectionNodeTest extends \unittest\TestCase {
 
   #[@test, @expect('lang.IndexOutOfBoundsException'), @values([0, -1, 1])]
   public function nodeAt_raises_exception_on_empty_list($offset) {
-    create(new SectionNode('test'))->nodeAt($offset);
+    (new SectionNode('test'))->nodeAt($offset);
   }
 
   #[@test, @expect('lang.IndexOutOfBoundsException'), @values([-1, 1, 2])]

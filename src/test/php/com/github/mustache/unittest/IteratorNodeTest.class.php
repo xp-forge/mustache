@@ -11,12 +11,12 @@ class IteratorNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function escaped_is_true_by_default() {
-    $this->assertTrue(create(new IteratorNode())->escaped());
+    $this->assertTrue((new IteratorNode())->escaped());
   }
 
   #[@test, @values([false, true])]
   public function escaped($value) {
-    $this->assertEquals($value, create(new IteratorNode($value))->escaped());
+    $this->assertEquals($value, (new IteratorNode($value))->escaped());
   }
 
   #[@test]
