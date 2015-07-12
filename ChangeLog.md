@@ -3,6 +3,16 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 1.4.0 / 2015-07-12
+
+* Added forward compatibility with XP 6.4.0:
+  . Rewrote `raise()` call to throw - see xp-framework/core#89
+  . Rewrote all occurrences using `create()` to use PHP 5.4 syntax
+  . Used short array syntax in various places
+  (@thekid)
+* Added preliminary PHP 7 support (alpha2 and beta1)
+  (@thekid)
+
 ## 1.3.4 / 2015-04-07
 
 * Fixed implicit iterators, which should allow iterating over nested 
