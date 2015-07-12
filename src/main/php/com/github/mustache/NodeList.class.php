@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use lang\IndexOutOfBoundsException;
+
 /**
  * Represents a list of nodes. The template itself is represented
  * by this list, and sections contain a list of (nested) nodes.
@@ -48,7 +50,7 @@ class NodeList extends Node {
    */
   public function nodeAt($i) {
     if ($i < 0 || $i >= sizeof($this->nodes)) {
-      raise('lang.IndexOutOfBoundsException', 'Illegal offset '.$i);
+      throw new IndexOutOfBoundsException('Illegal offset '.$i);
     }
     return $this->nodes[$i];
   }
