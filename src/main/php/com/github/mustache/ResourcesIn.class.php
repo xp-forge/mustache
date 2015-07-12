@@ -17,7 +17,7 @@ class ResourcesIn extends FileBasedTemplateLoader {
    * @param var $base The delegate, either an IClassLoader or a string
    * @param string[] $extensions File extensions to check, including leading "."
    */
-  public function __construct($arg, $extensions= array('.mustache')) {
+  public function __construct($arg, $extensions= ['.mustache']) {
     parent::__construct(
       $arg instanceof IClassLoader ? $arg : ClassLoader::registerPath($arg),
       $extensions

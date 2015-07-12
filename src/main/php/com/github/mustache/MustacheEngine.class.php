@@ -5,12 +5,12 @@
  * API. The easiest usage way is to call the render() method and pass
  * the template as a string and the values as an associative array.
  *
- * <code>
- *   $engine= new MustachEngine();
- *   $transformed= $engine->render('Hello {{name}}', array(
- *     'name' => 'World'
- *   ));
- * </code>
+ * ```php
+ * $engine= new MustachEngine();
+ * $transformed= $engine->render('Hello {{name}}', [
+ *   'name' => 'World'
+ * ]);
+ * ```
  *
  * @test xp://com.github.mustache.unittest.EngineTest
  * @test xp://com.github.mustache.unittest.RenderingTest
@@ -22,7 +22,7 @@
 class MustacheEngine extends \lang\Object {
   protected $templates;
   protected $parser;
-  public $helpers= array();
+  public $helpers= [];
 
   /**
    * Constructor. Initializes template loader

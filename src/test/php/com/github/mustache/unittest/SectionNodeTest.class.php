@@ -28,7 +28,7 @@ class SectionNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function options_is_empty_by_default() {
-    $this->assertEquals(array(), (new SectionNode('test'))->options());
+    $this->assertEquals([], (new SectionNode('test'))->options());
   }
 
   #[@test, @values([[[]], [['a']], [['a', 'b']]])]
@@ -64,14 +64,14 @@ class SectionNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function nodes_initially_empty() {
-    $this->assertEquals(array(), (new SectionNode('test'))->nodes());
+    $this->assertEquals([], (new SectionNode('test'))->nodes());
   }
 
   #[@test]
   public function nodes_after_adding_a_node() {
     $fixture= new SectionNode('test');
     $node= $fixture->add(new TextNode('test'));
-    $this->assertEquals(array($node), $fixture->nodes());
+    $this->assertEquals([$node], $fixture->nodes());
   }
 
   #[@test]
@@ -79,7 +79,7 @@ class SectionNodeTest extends \unittest\TestCase {
     $fixture= new SectionNode('test');
     $node1= $fixture->add(new TextNode('test1'));
     $node2= $fixture->add(new TextNode('test2'));
-    $this->assertEquals(array($node1, $node2), $fixture->nodes());
+    $this->assertEquals([$node1, $node2], $fixture->nodes());
   }
 
   #[@test, @expect('lang.IndexOutOfBoundsException'), @values([0, -1, 1])]
@@ -106,7 +106,7 @@ class SectionNodeTest extends \unittest\TestCase {
     $fixture= new SectionNode('test');
     $node1= $fixture->add(new TextNode('test1'));
     $node2= $fixture->add(new TextNode('test2'));
-    $this->assertEquals(array($node1, $node2), array($fixture->nodeAt(0), $fixture->nodeAt(1)));
+    $this->assertEquals([$node1, $node2], [$fixture->nodeAt(0), $fixture->nodeAt(1)]);
   }
 
   #[@test]
@@ -136,7 +136,7 @@ class SectionNodeTest extends \unittest\TestCase {
   public function string_representation_with_sub_nodes() {
     $this->assertEquals(
       "{{#test}}\nTest\n{{/test}}\n",
-      (string)new SectionNode('test', false, array(), new NodeList(array(new TextNode('Test'))))
+      (string)new SectionNode('test', false, [], new NodeList([new TextNode('Test')]))
     );
   }
 }

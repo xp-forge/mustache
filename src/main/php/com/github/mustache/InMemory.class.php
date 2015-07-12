@@ -6,15 +6,15 @@ use io\streams\MemoryInputStream;
  * Template loading
  */
 class InMemory extends \lang\Object implements TemplateLoader {
-  protected $templates= array();
+  protected $templates= [];
 
   /**
    * Creates a new in-memory template loader
    *
    * @param [:string] templates
    */
-  public function __construct($templates= array()) {
-    $this->templates= array();
+  public function __construct($templates= []) {
+    $this->templates= [];
     foreach ($templates as $name => $bytes) {
       $this->add($name, $bytes);
     }
@@ -24,7 +24,7 @@ class InMemory extends \lang\Object implements TemplateLoader {
    * Clear list of templates
    */
   public function clear() {
-    $this->templates= array();
+    $this->templates= [];
   }
 
   /**

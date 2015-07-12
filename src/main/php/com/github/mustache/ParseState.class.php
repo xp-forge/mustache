@@ -6,7 +6,7 @@
 class ParseState extends \lang\Object {
   public $start= '{{';
   public $end= '}}';
-  public $parents= array();
+  public $parents= [];
   public $padding= '';
   public $target= null;
 }

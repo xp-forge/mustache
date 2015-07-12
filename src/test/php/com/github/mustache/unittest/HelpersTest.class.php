@@ -16,9 +16,9 @@ class HelpersTest extends \unittest\TestCase {
   public function replace_single_variable() {
     $this->assertEquals(
       'Hello <b>World</b>',
-      $this->render('Hello {{#bold}}{{name}}{{/bold}}', array('name' => 'World'), array(
+      $this->render('Hello {{#bold}}{{name}}{{/bold}}', ['name' => 'World'], [
         'bold' => function($text) { return '<b>'.$text.'</b>'; }
-      ))
+      ])
     );
   }
 
@@ -26,9 +26,9 @@ class HelpersTest extends \unittest\TestCase {
   public function replace_single_variable_with_node() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{#var}}name{{/var}}', array('name' => 'World'), array(
+      $this->render('Hello {{#var}}name{{/var}}', ['name' => 'World'], [
         'var' => function($in) { return new VariableNode((string)$in); }
-      ))
+      ])
     );
   }
 
@@ -36,12 +36,12 @@ class HelpersTest extends \unittest\TestCase {
   public function dot_notation() {
     $this->assertEquals(
       'Hello world, this is BIG',
-      $this->render('Hello {{#case.lower}}World{{/case.lower}}, this is {{#case.upper}}big{{/case.upper}}', array(), array(
-        'case' => array(
+      $this->render('Hello {{#case.lower}}World{{/case.lower}}, this is {{#case.upper}}big{{/case.upper}}', [], [
+        'case' => [
           'lower' => function($text) { return strtolower($text); },
           'upper' => function($text) { return strtoupper($text); }
-        )
-      ))
+        ]
+      ])
     );
   }
 
@@ -49,11 +49,11 @@ class HelpersTest extends \unittest\TestCase {
   public function invokeable() {
     $this->assertEquals(
       'Hello <i>World</i>',
-      $this->render('Hello {{#i}}{{name}}{{/i}}', array('name' => 'World'), array(
-        'i' => newinstance('lang.Object', array(), '{
+      $this->render('Hello {{#i}}{{name}}{{/i}}', ['name' => 'World'], [
+        'i' => newinstance('lang.Object', [], '{
           function __invoke($text) { return "<i>".$text."</i>"; }
         }')
-      ))
+      ])
     );
   }
 
@@ -63,13 +63,13 @@ class HelpersTest extends \unittest\TestCase {
       'My birthday @ 14.12.2013',
       $this->render(
         'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
-        array('date' => new \util\Date('14.12.2013 00:00:00')),
-        array('format' => newinstance('lang.Object', array(), '{
+        ['date' => new \util\Date('14.12.2013 00:00:00')],
+        ['format' => newinstance('lang.Object', [], '{
           public function date($in, $context) {
             return $context->lookup($in->nodeAt(0)->name())->toString("d.m.Y");
           }
-        }')
-      ))
+        }')]
+      )
     );
   }
 
@@ -77,11 +77,11 @@ class HelpersTest extends \unittest\TestCase {
   public function log_section() {
     $this->assertEquals(
       'Hello [logged: info "Just a test"]',
-      $this->render('Hello {{#log info}}Just a test{{/log}}', array(), array(
+      $this->render('Hello {{#log info}}Just a test{{/log}}', [], [
         'log' => function($in, $context, $options) {
           return '[logged: '.$options[0].' "'.$in.'"]';
         }
-      ))
+      ])
     );
   }
 
@@ -89,11 +89,11 @@ class HelpersTest extends \unittest\TestCase {
   public function log_helper() {
     $this->assertEquals(
       'Hello [logged: info Just a test]',
-      $this->render('Hello {{log info "Just a test"}}', array(), array(
+      $this->render('Hello {{log info "Just a test"}}', [], [
         'log' => function($in, $context, $options) {
           return '[logged: '.implode(' ', $options).']';
         }
-      ))
+      ])
     );
   }
 }

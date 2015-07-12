@@ -15,7 +15,7 @@ abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateL
    * @param var $base The base
    * @param string[] $extensions File extensions to check, including leading "."
    */
-  public function __construct($arg, $extensions= array('.mustache')) {
+  public function __construct($arg, $extensions= ['.mustache']) {
     $this->base= $arg;
     $this->extensions= $extensions;
   }
@@ -27,7 +27,7 @@ abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateL
    * @return string[]
    */
   protected function variantsOf($name) {
-    $r= array();
+    $r= [];
     foreach ($this->extensions as $extension) {
       $r[]= $name.$extension;
     }

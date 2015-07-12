@@ -26,8 +26,8 @@ use text\Tokenizer;
  * the current line, negative or positive.
  */
 abstract class AbstractMustacheParser extends \lang\Object implements TemplateParser {
-  protected $handlers= array();
-  protected $standalone= array();
+  protected $handlers= [];
+  protected $standalone= [];
   protected $options;
 
   /**
@@ -75,7 +75,7 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
     $state->target= new NodeList();
     $state->start= $start;
     $state->end= $end;
-    $state->parents= array();
+    $state->parents= [];
     $standalone= implode('', array_keys($this->standalone));
 
     // Tokenize template

@@ -14,7 +14,7 @@ class FilesIn extends FileBasedTemplateLoader {
    * @param var $base The base folder, either an io.Folder or a string
    * @param string[] $extensions File extensions to check, including leading "."
    */
-  public function __construct($arg, $extensions= array('.mustache')) {
+  public function __construct($arg, $extensions= ['.mustache']) {
     parent::__construct(
       $arg instanceof Folder ? $arg : new Folder($arg),
       $extensions

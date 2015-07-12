@@ -26,7 +26,7 @@ class VariableNodeTest extends \unittest\TestCase {
 
   #[@test]
   public function options_is_empty_by_default() {
-    $this->assertEquals(array(), (new VariableNode('test'))->options());
+    $this->assertEquals([], (new VariableNode('test'))->options());
   }
 
   #[@test, @values([[[]], [['a']], [['a', 'b']]])]

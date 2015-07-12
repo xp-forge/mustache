@@ -63,7 +63,7 @@ abstract class Context extends \lang\Object {
       if ($class->hasMethod($segment)) {
         $method= $class->getMethod($segment);
         return function($in, $ctx) use($ptr, $method) {
-          return $method->invoke($ptr, array($in, $ctx));
+          return $method->invoke($ptr, [$in, $ctx]);
         };
       }
       return null;
@@ -154,8 +154,8 @@ abstract class Context extends \lang\Object {
    * @param  string $end
    * @return string
    */
-  public function asRendering($closure, $node, $options= array(), $start= '{{', $end= '}}') {
-    $pass= array();
+  public function asRendering($closure, $node, $options= [], $start= '{{', $end= '}}') {
+    $pass= [];
     foreach ($options as $key => $option) {
       $pass[$key]= $this->isCallable($option) ? $option($this) : $option;
     }
@@ -197,7 +197,7 @@ abstract class Context extends \lang\Object {
    */
   public function lookup($name, $helpers= true) {
     if (null === $name) {                         // Current value
-      $segments= array();
+      $segments= [];
       $v= $this->variables;
     } else if ('.' !== $name{0}) {                // This *and* parent (recursively)
       $v= null;

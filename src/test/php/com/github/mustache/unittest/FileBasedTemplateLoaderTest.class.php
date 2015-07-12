@@ -12,10 +12,10 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
    */
   protected function newFixture($args) {
     return newinstance('com.github.mustache.FileBasedTemplateLoader', $args, '{
-      public $askedFor= array();
+      public $askedFor= [];
 
       protected function variantsOf($name) {
-        return array_merge(parent::variantsOf($name), array("test"));
+        return array_merge(parent::variantsOf($name), ["test"]);
       }
 
       protected function inputStreamFor($name) {
@@ -31,15 +31,15 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
 
   #[@test]
   public function load_asks_for_mustache_extension_by_default() {
-    $loader= $this->newFixture(array('base'));
+    $loader= $this->newFixture(['base']);
     $loader->load('template');
-    $this->assertEquals(array('template.mustache'), $loader->askedFor);
+    $this->assertEquals(['template.mustache'], $loader->askedFor);
   }
 
   #[@test]
   public function load_asks_for_all_given_variants() {
-    $loader= $this->newFixture(array('base', array('.mustache', '.ms')));
+    $loader= $this->newFixture(['base', ['.mustache', '.ms']]);
     $loader->load('template');
-    $this->assertEquals(array('template.mustache', 'template.ms'), $loader->askedFor);
+    $this->assertEquals(['template.mustache', 'template.ms'], $loader->askedFor);
   }
 }

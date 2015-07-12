@@ -29,13 +29,13 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_hash() {
-    $fixture= $this->newFixture(array('test' => 'data'));
+    $fixture= $this->newFixture(['test' => 'data']);
     $this->assertEquals('data', $fixture->lookup('test'));
   }
 
   #[@test]
   public function lookup_from_hash_sub() {
-    $fixture= $this->newFixture(array('test' => array('sub' => 'data')));
+    $fixture= $this->newFixture(['test' => ['sub' => 'data']]);
     $this->assertEquals('data', $fixture->lookup('test.sub'));
   }
 
@@ -124,17 +124,17 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function using_helper() {
-    $fixture= $this->newFixture([], array(
+    $fixture= $this->newFixture([], [
       'test' => function($node, $ctx) { return 'data'; }
-    ));
+    ]);
     $this->assertInstanceOf('Closure', $fixture->lookup('test'));
   }
 
   #[@test]
   public function variables_are_preferred_over_helpers() {
     $fixture= $this->newFixture(
-      array('test' => 'variable'),
-      array('test' => function($node, $ctx) { return 'helper'; })
+      ['test' => 'variable'],
+      ['test' => function($node, $ctx) { return 'helper'; }]
     );
     $this->assertEquals('variable', $fixture->lookup('test'));
   }

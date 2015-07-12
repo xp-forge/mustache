@@ -49,7 +49,7 @@ class NodeListTest extends \unittest\TestCase {
   #[@test]
   public function nodeAt_returns_node_at_offset() {
     $node= new TextNode('test');
-    $this->assertEquals($node, (new NodeList(array($node)))->nodeAt(0));
+    $this->assertEquals($node, (new NodeList([$node]))->nodeAt(0));
   }
 
   #[@test, @values([-1, 1, 2]), @expect('lang.IndexOutOfBoundsException')]

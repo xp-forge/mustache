@@ -39,14 +39,14 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
         "{{#anEmptyArray.length}}\n".
         "  <h3>The empty array: this should NOT be rendered.</h3>\n".
         "{{/anEmptyArray.length}}",
-        array(
-          'images' => array(
-            array('src' => 'http://www.fpoimg.com/20x20'),
-            array('src' => 'http://www.fpoimg.com/30x30'),
-            array('src' => 'http://www.fpoimg.com/40x40')
-          ),
-          'anEmptyArray' => array()
-        )
+        [
+          'images' => [
+            ['src' => 'http://www.fpoimg.com/20x20'],
+            ['src' => 'http://www.fpoimg.com/30x30'],
+            ['src' => 'http://www.fpoimg.com/40x40']
+          ],
+          'anEmptyArray' => []
+        ]
       )
     );
   }
@@ -73,14 +73,14 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
         "  {{#colors}}\n".
         "    <span style=\"color: {{.}}\">{{.}}</span>\n".
         "  {{/colors}}<br/>\n",
-        array(
-          'colorObjects' => array(
-            array('color' => 'red'),
-            array('color' => 'green'),
-            array('color' => 'blue')
-          ),
-          'colors' => array('red', 'green', 'blue')
-        )
+        [
+          'colorObjects' => [
+            ['color' => 'red'],
+            ['color' => 'green'],
+            ['color' => 'blue']
+          ],
+          'colors' => ['red', 'green', 'blue']
+        ]
       )
     );
   }
@@ -98,12 +98,12 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
         "<h2>Sub-title: {{subtitle}}{{^subtitle}}Default Sub-title{{/subtitle}}</h2>\n".
         "<h3>Third title: {{thirdTitle}}{{^thirdTitle}}Default Third Title{{/thirdTitle}}</h3>\n".
         "<h4>Forth title: {{fourthTitle}}{{^fourthTitle}}Default Fourth Title{{/fourthTitle}}</h4>",
-        array(
+        [
           'title'      => 'Real Title',
           'subtitle'   => '',   // blank
           'thirdTitle' => null,
           // fourthTitle not defined
-        )
+        ]
       )
     );
   }
@@ -133,13 +133,13 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
         "  </li>\n".
         "  {{/slides}}\n".
         "</ul>",
-        array(
+        [
           'author' => 'Jones',
-          'slides' => array(
-            array('title' => 'Hat', 'color' => 'black'),
-            array('title' => 'Cat', 'color' => 'red')
-          )
-        )
+          'slides' => [
+            ['title' => 'Hat', 'color' => 'black'],
+            ['title' => 'Cat', 'color' => 'red']
+          ]
+        ]
       )
     );
   }

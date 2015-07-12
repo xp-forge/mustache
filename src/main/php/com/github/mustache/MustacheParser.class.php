@@ -18,7 +18,7 @@ class MustacheParser extends AbstractMustacheParser {
    * @return string[]
    */
   public function options($tag) {
-    $parsed= array();
+    $parsed= [];
     for ($o= 0, $l= strlen($tag); $o < $l; $o+= $p + 1) {
       if ('"' === $tag{$o}) {
         $p= strcspn($tag, '"', $o + 1) + 2;

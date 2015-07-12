@@ -56,13 +56,13 @@ class EngineTest extends \unittest\TestCase {
   public function helpers_returns_aded_helper() {
     $helper= function($text) { return '<b>'.$text.'</b>'; };
     $engine= (new MustacheEngine())->withHelper('bold', $helper);
-    $this->assertEquals(array('bold' => $helper), $engine->helpers);
+    $this->assertEquals(['bold' => $helper], $engine->helpers);
   }
 
   #[@test]
   public function compile_template() {
     $this->assertEquals(
-      new Template('<string>', new NodeList(array(new TextNode('Hello '), new VariableNode('name')))),
+      new Template('<string>', new NodeList([new TextNode('Hello '), new VariableNode('name')])),
       (new MustacheEngine())->compile('Hello {{name}}')
     );
   }
@@ -75,7 +75,7 @@ class EngineTest extends \unittest\TestCase {
       }
     }');
     $this->assertEquals(
-      new Template('test', new NodeList(array(new TextNode('Hello '), new VariableNode('name')))),
+      new Template('test', new NodeList([new TextNode('Hello '), new VariableNode('name')])),
       (new MustacheEngine())->withTemplates($loader)->load('test')
     );
   }
@@ -85,7 +85,7 @@ class EngineTest extends \unittest\TestCase {
     $engine= new MustacheEngine();
     $this->assertEquals(
       'Hello World',
-      $engine->render('Hello {{name}}', array('name' => 'World'))
+      $engine->render('Hello {{name}}', ['name' => 'World'])
     );
   }
 
@@ -94,7 +94,7 @@ class EngineTest extends \unittest\TestCase {
     $engine= new MustacheEngine();
     $this->assertEquals(
       'Hello World',
-      $engine->render($engine->compile('Hello {{name}}'), array('name' => 'World'))
+      $engine->render($engine->compile('Hello {{name}}'), ['name' => 'World'])
     );
   }
 }

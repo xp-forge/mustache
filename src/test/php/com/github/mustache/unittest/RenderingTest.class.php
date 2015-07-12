@@ -56,7 +56,7 @@ class RenderingTest extends \unittest\TestCase {
   public function html_is_escaped() {
     $this->assertEquals(
       'The code for Mustache is hosted on &lt;b&gt;GitHub&lt;/b&gt;',
-      $this->render('The code for Mustache is hosted on {{site}}', array('site' => '<b>GitHub</b>'))
+      $this->render('The code for Mustache is hosted on {{site}}', ['site' => '<b>GitHub</b>'])
     );
   }
 
@@ -64,7 +64,7 @@ class RenderingTest extends \unittest\TestCase {
   public function triple_mustache_returns_unescaped_html() {
     $this->assertEquals(
       'The code for Mustache is hosted on <b>GitHub</b>',
-      $this->render('The code for Mustache is hosted on {{{site}}}', array('site' => '<b>GitHub</b>'))
+      $this->render('The code for Mustache is hosted on {{{site}}}', ['site' => '<b>GitHub</b>'])
     );
   }
 
@@ -72,7 +72,7 @@ class RenderingTest extends \unittest\TestCase {
   public function ampersand_returns_unescaped_html() {
     $this->assertEquals(
       'The code for Mustache is hosted on <b>GitHub</b>',
-      $this->render('The code for Mustache is hosted on {{& site}}', array('site' => '<b>GitHub</b>'))
+      $this->render('The code for Mustache is hosted on {{& site}}', ['site' => '<b>GitHub</b>'])
     );
   }
 
@@ -80,7 +80,7 @@ class RenderingTest extends \unittest\TestCase {
   public function non_existant_key_generates_empty_output() {
     $this->assertEquals(
       'There is  missing here',
-      $this->render('There is {{something}} missing here', array())
+      $this->render('There is {{something}} missing here', [])
     );
   }
 
@@ -92,13 +92,13 @@ class RenderingTest extends \unittest\TestCase {
         "{{#repo}}\n".
         "<b>{{name}}</b>\n".
         "{{/repo}}\n", 
-        array(
-          'repo' => array(
-            array('name' => 'resque'),
-            array('name' => 'hub'),
-            array('name' => 'rip')
-          )
-        )
+        [
+          'repo' => [
+            ['name' => 'resque'],
+            ['name' => 'hub'],
+            ['name' => 'rip']
+          ]
+        ]
       )
     );
   }
@@ -111,12 +111,12 @@ class RenderingTest extends \unittest\TestCase {
         "{{#wrapped}}\n".
         "{{name}} is awesome.\n".
         "{{/wrapped}}\n",
-        array(
+        [
           'name'    => 'Willy',
           'wrapped' => function($text) {
             return '<b>'.$text.'</b>';
           }
-        )
+        ]
       )
     );
   }
@@ -129,12 +129,12 @@ class RenderingTest extends \unittest\TestCase {
         "{{#wrapped}}\n".
         "{{name}} is awesome.\n".
         "{{/wrapped}}\n",
-        array(
+        [
           'name'    => 'Willy',
           'wrapped' => function(Node $node, $context) {
             return '<b>'.strtoupper($node->evaluate($context)).'</b>';
           }
-        )
+        ]
       )
     );
   }
@@ -145,12 +145,12 @@ class RenderingTest extends \unittest\TestCase {
       'Willy is awesome.',
       $this->render(
         '{{lambda}}',
-        array(
+        [
           'name'    => 'Willy',
           'lambda'  => function($text) {
             return '{{name}} is awesome.';
           }
-        )
+        ]
       )
     );
   }
@@ -164,7 +164,7 @@ class RenderingTest extends \unittest\TestCase {
         "{{#person?}}\n".
         "Hi {{name}}!\n".
         "{{/person?}}\n",
-        array('person?' => array('name' => 'Jon'))
+        ['person?' => ['name' => 'Jon']]
       )
     );
   }
@@ -180,7 +180,7 @@ class RenderingTest extends \unittest\TestCase {
         "{{^repo}}\n".
         "No repos :(\n".
         "{{/repo}}\n",
-        array('repo' => array())
+        ['repo' => []]
       )
     );
   }
@@ -189,7 +189,7 @@ class RenderingTest extends \unittest\TestCase {
   public function comments_are_ignored() {
     $this->assertEquals(
       '<h1>Today.</h1>',
-      $this->render('<h1>Today{{! ignore me }}.</h1>', array())
+      $this->render('<h1>Today{{! ignore me }}.</h1>', [])
     );
   }
 
@@ -197,9 +197,9 @@ class RenderingTest extends \unittest\TestCase {
   public function nested_sections() {
     $this->assertEquals(
       'qux',
-      $this->render('{{#foo}}{{#bar}}{{baz}}{{/bar}}{{/foo}}', array(
-        'foo' => array('bar' => array('baz' => 'qux'))
-      ))
+      $this->render('{{#foo}}{{#bar}}{{baz}}{{/bar}}{{/foo}}', [
+        'foo' => ['bar' => ['baz' => 'qux']]
+      ])
     );
   }
 
@@ -207,9 +207,9 @@ class RenderingTest extends \unittest\TestCase {
   public function dot_notation() {
     $this->assertEquals(
       'qux',
-      $this->render('{{foo.bar.baz}}', array(
-        'foo' => array('bar' => array('baz' => 'qux'))
-      ))
+      $this->render('{{foo.bar.baz}}', [
+        'foo' => ['bar' => ['baz' => 'qux']]
+      ])
     );
   }
 
@@ -221,7 +221,7 @@ class RenderingTest extends \unittest\TestCase {
         "{{#colors}}\n".
         "* {{.}}\n".
         "{{/colors}}\n",
-        array('colors' => array('red', 'green', 'blue'))
+        ['colors' => ['red', 'green', 'blue']]
       )
     );
   }
@@ -230,7 +230,7 @@ class RenderingTest extends \unittest\TestCase {
   public function replace_single_variable_with_whitespace() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{ name }}', array('name' => 'World'))
+      $this->render('Hello {{ name }}', ['name' => 'World'])
     );
   }
 
@@ -238,7 +238,7 @@ class RenderingTest extends \unittest\TestCase {
   public function replace_single_variable_in_triple_mustaches_with_whitespace() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{{ name }}}', array('name' => 'World'))
+      $this->render('Hello {{{ name }}}', ['name' => 'World'])
     );
   }
 
@@ -246,7 +246,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_field_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
         public $name= "World";
       }'))
     );
@@ -256,7 +256,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_field_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
         public $render= true;
       }'))
     );
@@ -266,7 +266,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_method_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
         public function name() { return "World"; }
       }'))
     );
@@ -276,7 +276,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_method_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
         public function render() { return true; }
       }'))
     );
@@ -302,7 +302,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_with_protected_field_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
         protected $name= "World";
         public function getName() { return $this->name; }
       }'))
@@ -313,7 +313,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_with_protected_field_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
         protected $render= true;
         public function getRender() { return $this->render; }
       }'))
@@ -324,7 +324,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', array(), '{
+      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
         public function getName() { return "World"; }
       }'))
     );
@@ -334,7 +334,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', array(), '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
         public function getRender() { return true; }
       }'))
     );
@@ -344,7 +344,7 @@ class RenderingTest extends \unittest\TestCase {
   public function change_delimiters() {
     $this->assertEquals(
       '(Hey!)',
-      $this->render('{{=<% %>=}}(<%text%>)', array('text' => 'Hey!'))
+      $this->render('{{=<% %>=}}(<%text%>)', ['text' => 'Hey!'])
     );
   }
 
@@ -352,7 +352,7 @@ class RenderingTest extends \unittest\TestCase {
   public function change_delimiters_single_char() {
     $this->assertEquals(
       '(It worked!)',
-      $this->render('({{=[ ]=}}[text])', array('text' => 'It worked!'))
+      $this->render('({{=[ ]=}}[text])', ['text' => 'It worked!'])
     );
   }
 
@@ -360,7 +360,7 @@ class RenderingTest extends \unittest\TestCase {
   public function change_delimiters_trimmed() {
     $this->assertEquals(
       '(It worked!)',
-      $this->render('({{= | | =}}|text|)', array('text' => 'It worked!'))
+      $this->render('({{= | | =}}|text|)', ['text' => 'It worked!'])
     );
   }
 
@@ -368,7 +368,7 @@ class RenderingTest extends \unittest\TestCase {
   public function delimiters_partially_parsed() {
     $this->assertEquals(
       '<?=$var;?>',
-      $this->render('{{=<% %>=}}<?=$var;?>', array())
+      $this->render('{{=<% %>=}}<?=$var;?>', [])
     );
   }
 
@@ -376,7 +376,7 @@ class RenderingTest extends \unittest\TestCase {
   public function non_mustache_syntax_kept() {
     $this->assertEquals(
       'Hello {name}!',
-      $this->render('Hello {name}!', array())
+      $this->render('Hello {name}!', [])
     );
   }
 
@@ -390,13 +390,13 @@ class RenderingTest extends \unittest\TestCase {
         "* Image {{../name}}/{{name}}\n".
         "{{/images}}\n".
         "{{/album}}\n",
-        array('album' => array(
+        ['album' => [
           'name'   => 'test',
-          'images' => array(
-            array('name' => 'one'),
-            array('name' => 'two')
-          )
-        ))
+          'images' => [
+            ['name' => 'one'],
+            ['name' => 'two']
+          ]
+        ]]
       )
     );
   }
@@ -411,13 +411,13 @@ class RenderingTest extends \unittest\TestCase {
         "* Image {{../name}}/{{./name}}\n".
         "{{/images}}\n".
         "{{/album}}\n",
-        array('album' => array(
+        ['album' => [
           'name'   => 'test',
-          'images' => array(
-            array('name' => 'one'),
-            array('name' => 'two')
-          )
-        ))
+          'images' => [
+            ['name' => 'one'],
+            ['name' => 'two']
+          ]
+        ]]
       )
     );
   }

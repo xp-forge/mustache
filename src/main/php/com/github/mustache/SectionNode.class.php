@@ -24,7 +24,7 @@ class SectionNode extends Node {
    * @param string start
    * @param string end
    */
-  public function __construct($name, $invert= false, $options= array(), NodeList $nodes= null, $start= '{{', $end= '}}') {
+  public function __construct($name, $invert= false, $options= [], NodeList $nodes= null, $start= '{{', $end= '}}') {
     $this->name= $name;
     $this->invert= $invert;
     $this->options= $options;

@@ -21,7 +21,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
 
     $this->assertEquals(
       'Hello World',
-      $this->engine->transform('helloworld', array('name' => 'World'))
+      $this->engine->transform('helloworld', ['name' => 'World'])
     );
   }
 
@@ -37,15 +37,15 @@ class TemplateTransformationTest extends \unittest\TestCase {
 
     $this->assertEquals(
       "<h2>Names</h2>\n  <strong>John</strong>\n  <strong>Jack</strong>\n",
-      $this->engine->transform('base', array('names' => array(
-        array('name' => 'John'),
-        array('name' => 'Jack')
-      )))
+      $this->engine->transform('base', ['names' => [
+        ['name' => 'John'],
+        ['name' => 'Jack']
+      ]])
     );
   }
 
   #[@test, @expect('com.github.mustache.TemplateNotFoundException')]
   public function non_existant_template_causes_exception() {
-    $this->engine->transform('nonexistant', array());
+    $this->engine->transform('nonexistant', []);
   }
 }

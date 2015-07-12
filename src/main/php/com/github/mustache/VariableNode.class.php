@@ -18,7 +18,7 @@ class VariableNode extends Node {
    * @param bool $escape Whether to escape special characters
    * @param string[] options
    */
-  public function __construct($name, $escape= true, $options= array()) {
+  public function __construct($name, $escape= true, $options= []) {
     $this->name= $name;
     $this->escape= $escape;
     $this->options= $options;
