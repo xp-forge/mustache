@@ -65,7 +65,7 @@ class SpecificationTest extends \unittest\TestCase {
     }
 
     // Render, and assert result
-    $this->assertEquals($test['expected'], create(new MustacheEngine())
+    $this->assertEquals($test['expected'], (new MustacheEngine())
       ->withTemplates(new InMemory(isset($test['partials']) ? $test['partials'] : []))
       ->render($test['template'], $test['data'])
     );

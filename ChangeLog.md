@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Fixed `com.github.mustache.unittest.SpecificationTest` raising
+  exceptions with XP 6.4.0+
+  (@thekid)
+
 ## 1.4.0 / 2015-07-12
 
 * Added forward compatibility with XP 6.4.0:
