@@ -3,9 +3,13 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 1.4.1 / 2015-11-23
+
 * Fixed `com.github.mustache.unittest.SpecificationTest` raising
   exceptions with XP 6.4.0+
   (@thekid)
+* Changed `xp-forge/json` dependency to require-dev only
+  (@kiesel)
 
 ## 1.4.0 / 2015-07-12
 
