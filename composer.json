@@ -7,8 +7,10 @@
   "keywords": ["module", "xp"],
   "require" : {
     "xp-framework/core": "~6.0",
-    "xp-forge/json": ">=0.8.4",
     "php" : ">=5.4.0"
+  },
+  "require-dev": {
+    "xp-forge/json": ">=0.8.4"
   },
   "autoload" : {
     "files" : ["src/main/php/autoload.php"]
