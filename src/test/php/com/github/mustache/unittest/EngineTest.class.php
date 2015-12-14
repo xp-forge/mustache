@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use com\github\mustache\TemplateLoader;
 use com\github\mustache\MustacheEngine;
 use com\github\mustache\MustacheParser;
 use com\github\mustache\FilesIn;
@@ -69,7 +70,7 @@ class EngineTest extends \unittest\TestCase {
 
   #[@test]
   public function load_template() {
-    $loader= newinstance('com.github.mustache.TemplateLoader', [], '{
+    $loader= newinstance(TemplateLoader::class, [], '{
       public function load($name) {
         return new \io\streams\MemoryInputStream("Hello {{name}}");
       }

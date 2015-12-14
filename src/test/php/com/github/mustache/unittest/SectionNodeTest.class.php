@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use lang\IndexOutOfBoundsException;
 use com\github\mustache\SectionNode;
 use com\github\mustache\NodeList;
 use com\github\mustache\TextNode;
@@ -82,12 +83,12 @@ class SectionNodeTest extends \unittest\TestCase {
     $this->assertEquals([$node1, $node2], $fixture->nodes());
   }
 
-  #[@test, @expect('lang.IndexOutOfBoundsException'), @values([0, -1, 1])]
+  #[@test, @expect(IndexOutOfBoundsException::class), @values([0, -1, 1])]
   public function nodeAt_raises_exception_on_empty_list($offset) {
     (new SectionNode('test'))->nodeAt($offset);
   }
 
-  #[@test, @expect('lang.IndexOutOfBoundsException'), @values([-1, 1, 2])]
+  #[@test, @expect(IndexOutOfBoundsException::class), @values([-1, 1, 2])]
   public function nodeAt_raises_exception($offset) {
     $fixture= new SectionNode('test');
     $fixture->add(new TextNode('test'));

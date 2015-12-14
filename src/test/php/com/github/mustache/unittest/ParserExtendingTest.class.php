@@ -9,7 +9,7 @@ class ParserExtendingTest extends \unittest\TestCase {
 
   #[@test]
   public function new_user_handler_as_function() {
-    $node= newinstance('com.github.mustache.Node', [], '{
+    $node= newinstance(Node::class, [], '{
       public function evaluate($context) { return "test"; }
       public function __toString() { return "*test"; }
     }');

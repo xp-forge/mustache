@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use lang\Object;
 use com\github\mustache\DataContext;
 use com\github\mustache\MustacheEngine;
 
@@ -41,7 +42,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       public $test = "data";
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -49,7 +50,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       protected $test = "data";
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -57,7 +58,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_field() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       private $test = "data";
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -65,7 +66,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       public function test() { return "data"; }
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -73,7 +74,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       private function test() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -81,7 +82,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_method() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       protected function test() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -89,7 +90,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_public_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       public function getTest() { return "data"; }
     }'));
     $this->assertEquals('data', $fixture->lookup('test'));
@@ -97,7 +98,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_private_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       private function getTest() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -105,7 +106,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function lookup_from_object_protected_getter() {
-    $fixture= $this->newFixture(newinstance('lang.Object', [], '{
+    $fixture= $this->newFixture(newinstance(Object::class, [], '{
       protected function getTest() { return "data"; }
     }'));
     $this->assertNull($fixture->lookup('test'));
@@ -113,7 +114,7 @@ class DataContextTest extends \unittest\TestCase {
 
   #[@test]
   public function supports_array_access_overloading() {
-    $fixture= $this->newFixture(newinstance('php.ArrayAccess', [], '{
+    $fixture= $this->newFixture(newinstance(\ArrayAccess::class, [], '{
       public function offsetExists($h) { return "test" === $h; }
       public function offsetGet($h) { return "test" === $h ? "data" : null; }
       public function offsetSet($h, $v) { /* Empty */ }
@@ -127,7 +128,7 @@ class DataContextTest extends \unittest\TestCase {
     $fixture= $this->newFixture([], [
       'test' => function($node, $ctx) { return 'data'; }
     ]);
-    $this->assertInstanceOf('Closure', $fixture->lookup('test'));
+    $this->assertInstanceOf(\Closure::class, $fixture->lookup('test'));
   }
 
   #[@test]

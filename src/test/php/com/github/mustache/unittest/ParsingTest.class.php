@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use com\github\mustache\TemplateFormatException;
 use com\github\mustache\MustacheParser;
 use com\github\mustache\Template;
 use com\github\mustache\NodeList;
@@ -101,12 +102,12 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('com.github.mustache.TemplateFormatException')]
+  #[@test, @expect(TemplateFormatException::class)]
   public function unclosed_tag() {
     $this->parse('Hello {{name, how are you?');
   }
 
-  #[@test, @expect('com.github.mustache.TemplateFormatException')]
+  #[@test, @expect(TemplateFormatException::class)]
   public function incorrectly_closed_tag() {
     $this->parse('Hello {{name}], how are you?');
   }
@@ -129,12 +130,12 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('com.github.mustache.TemplateFormatException')]
+  #[@test, @expect(TemplateFormatException::class)]
   public function incorrectly_nested_sections() {
     $this->parse('{{#parent}}{{#child}}{{/parent}}{{/child}}');
   }
 
-  #[@test, @expect('com.github.mustache.TemplateFormatException')]
+  #[@test, @expect(TemplateFormatException::class)]
   public function incorrectly_deeply_nested_sections() {
     $this->parse('
       {{#a}}
@@ -148,7 +149,7 @@ class ParsingTest extends \unittest\TestCase {
     ');
   }
 
-  #[@test, @expect('com.github.mustache.TemplateFormatException')]
+  #[@test, @expect(TemplateFormatException::class)]
   public function unclosed_section() {
     $this->parse('{{#parent}}');
   }

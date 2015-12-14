@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use lang\Object;
 use com\github\mustache\MustacheEngine;
 use com\github\mustache\Node;
 
@@ -246,7 +247,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_field_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
+      $this->render('Hello {{name}}', newinstance(Object::class, [], '{
         public $name= "World";
       }'))
     );
@@ -256,7 +257,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_field_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance(Object::class, [], '{
         public $render= true;
       }'))
     );
@@ -266,7 +267,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_method_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
+      $this->render('Hello {{name}}', newinstance(Object::class, [], '{
         public function name() { return "World"; }
       }'))
     );
@@ -276,7 +277,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_public_object_method_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance(Object::class, [], '{
         public function render() { return true; }
       }'))
     );
@@ -302,7 +303,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_with_protected_field_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
+      $this->render('Hello {{name}}', newinstance(Object::class, [], '{
         protected $name= "World";
         public function getName() { return $this->name; }
       }'))
@@ -313,7 +314,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_with_protected_field_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance(Object::class, [], '{
         protected $render= true;
         public function getRender() { return $this->render; }
       }'))
@@ -324,7 +325,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_in_variables() {
     $this->assertEquals(
       'Hello World',
-      $this->render('Hello {{name}}', newinstance('lang.Object', [], '{
+      $this->render('Hello {{name}}', newinstance(Object::class, [], '{
         public function getName() { return "World"; }
       }'))
     );
@@ -334,7 +335,7 @@ class RenderingTest extends \unittest\TestCase {
   public function use_object_getter_in_sections() {
     $this->assertEquals(
       'Hello World',
-      $this->render('{{#render}}Hello World{{/render}}', newinstance('lang.Object', [], '{
+      $this->render('{{#render}}Hello World{{/render}}', newinstance(Object::class, [], '{
         public function getRender() { return true; }
       }'))
     );

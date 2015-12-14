@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use com\github\mustache\TemplateNotFoundException;
 use com\github\mustache\MustacheEngine;
 use com\github\mustache\InMemory;
 
@@ -44,7 +45,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect('com.github.mustache.TemplateNotFoundException')]
+  #[@test, @expect(TemplateNotFoundException::class)]
   public function non_existant_template_causes_exception() {
     $this->engine->transform('nonexistant', []);
   }

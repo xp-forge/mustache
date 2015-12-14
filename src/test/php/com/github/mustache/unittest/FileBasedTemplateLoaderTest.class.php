@@ -11,7 +11,7 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
    * @return com.github.mustache.FileBasedTemplateLoader
    */
   protected function newFixture($args) {
-    return newinstance('com.github.mustache.FileBasedTemplateLoader', $args, '{
+    return newinstance(FileBasedTemplateLoader::class, $args, '{
       public $askedFor= [];
 
       protected function variantsOf($name) {

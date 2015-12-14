@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
+use lang\IndexOutOfBoundsException;
 use com\github\mustache\NodeList;
 use com\github\mustache\TextNode;
 
@@ -52,7 +53,7 @@ class NodeListTest extends \unittest\TestCase {
     $this->assertEquals($node, (new NodeList([$node]))->nodeAt(0));
   }
 
-  #[@test, @values([-1, 1, 2]), @expect('lang.IndexOutOfBoundsException')]
+  #[@test, @values([-1, 1, 2]), @expect(IndexOutOfBoundsException::class)]
   public function nodeAt_raises_exception_for_offset_out_of_bounds($offset) {
     (new NodeList([new TextNode('test')]))->nodeAt($offset);
   }
