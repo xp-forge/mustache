@@ -136,7 +136,7 @@ You can also use instance methods as helpers, e.g.
 
 ```php
 // Declaration
-class LocalizationHelpers extends \lang\Object {
+class LocalizationHelpers {
   public function date($list, $context) {
     return $context->lookup($list->nodeAt(0)->name())->toString('d.m.Y');
   }
