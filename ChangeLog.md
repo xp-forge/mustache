@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 2.0.1 / 2015-12-20
+
+* Declared dependency on xp-framework/tokenize and xp-framework/unittest,
+  which have since been extracted from XP core.
+  (@thekid)
+
 ## 2.0.0 / 2015-12-14
 
 * **Heads up**: Changed minimum XP version to XP 6.5.0, and with it the
