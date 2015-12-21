@@ -41,16 +41,14 @@ class SpecificationTest extends \unittest\TestCase {
     }
 
     // Return an array of argument lists to be passed to specification
-    $r= [];
     foreach ($files as $file) {
       $spec= (new StreamInput($file->getInputStream()))->read();
       if (isset($spec['tests'])) {
         foreach ($spec['tests'] as $test) {
-          $r[]= [$test['name'], $test];
+          yield [$test['name'], $test];
         }
       }
     }
-    return $r;
   }
 
   #[@test, @values('specifications')]
