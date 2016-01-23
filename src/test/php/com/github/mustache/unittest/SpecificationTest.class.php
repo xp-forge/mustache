@@ -25,6 +25,7 @@ class SpecificationTest extends \unittest\TestCase {
 
   /**
    * Constructor
+   *
    * @param string $name
    * @param string $target The directory in which the spec files exist
    */
@@ -33,6 +34,7 @@ class SpecificationTest extends \unittest\TestCase {
     $this->target= $target;
   }
 
+  /** @return php.Iterator */
   public function specifications() {
     if (is_file($this->target)) {
       $files= [new FileElement($this->target)];
@@ -41,16 +43,14 @@ class SpecificationTest extends \unittest\TestCase {
     }
 
     // Return an array of argument lists to be passed to specification
-    $r= [];
     foreach ($files as $file) {
-      $spec= (new StreamInput($file->getInputStream()))->read();
+      $spec= (new StreamInput($file->in()))->read();
       if (isset($spec['tests'])) {
         foreach ($spec['tests'] as $test) {
-          $r[]= [$test['name'], $test];
+          yield [$test['name'], $test];
         }
       }
     }
-    return $r;
   }
 
   #[@test, @values('specifications')]
