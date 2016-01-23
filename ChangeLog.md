@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 2.0.2 / 2016-01-23
+
+* Fix code to use `nameof()` instead of the deprecated `getClassName()`
+  method from lang.Generic. See xp-framework/core#120
+  (@thekid)
+
 ## 2.0.1 / 2015-12-20
 
 * Declared dependency on xp-framework/tokenize and xp-framework/unittest,

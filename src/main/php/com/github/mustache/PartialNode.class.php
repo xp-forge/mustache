@@ -34,7 +34,7 @@ class PartialNode extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'{{> '.$this->name.'}}, indent= "'.$this->indent.'"';
+    return nameof($this).'{{> '.$this->name.'}}, indent= "'.$this->indent.'"';
   }
 
   /**

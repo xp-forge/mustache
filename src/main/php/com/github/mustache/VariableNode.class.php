@@ -75,7 +75,7 @@ class VariableNode extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'{{'.($this->escape ? '' : '& ').$this->name.$this->optionString().'}}';
+    return nameof($this).'{{'.($this->escape ? '' : '& ').$this->name.$this->optionString().'}}';
   }
 
   /**

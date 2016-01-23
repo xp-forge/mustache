@@ -32,7 +32,7 @@ class IteratorNode extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'{{'.($this->escape ? '' : '& ').'.}}';
+    return nameof($this).'{{'.($this->escape ? '' : '& ').'.}}';
   }
 
   /**

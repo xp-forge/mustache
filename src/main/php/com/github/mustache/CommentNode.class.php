@@ -22,7 +22,7 @@ class CommentNode extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'("'.addcslashes($this->text, "\0..\17").'")';
+    return nameof($this).'("'.addcslashes($this->text, "\0..\17").'")';
   }
 
   /**

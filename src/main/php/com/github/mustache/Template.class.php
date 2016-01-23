@@ -33,7 +33,7 @@ class Template extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'(source= '.$this->source.')@'.\xp::stringOf($this->root);
+    return nameof($this).'(source= '.$this->source.')@'.\xp::stringOf($this->root);
   }
 
   /**

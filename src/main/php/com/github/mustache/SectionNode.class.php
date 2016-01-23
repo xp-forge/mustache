@@ -123,7 +123,7 @@ class SectionNode extends Node {
    * @return string
    */
   public function toString() {
-    return $this->getClassName().'('.($this->invert ? '^' : '#').$this->name.$this->optionString().') -> '.\xp::stringOf($this->nodes);
+    return nameof($this).'('.($this->invert ? '^' : '#').$this->name.$this->optionString().') -> '.\xp::stringOf($this->nodes);
   }
 
   /**
