@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 3.0.0 / 2016-02-21
+
+* Added version compatibility with XP 7 - @thekid
+
 ## 2.0.2 / 2016-01-23
 
 * Fix code to use `nameof()` instead of the deprecated `getClassName()`
