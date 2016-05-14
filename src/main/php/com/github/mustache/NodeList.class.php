@@ -70,7 +70,11 @@ class NodeList extends Node {
    * @return string
    */
   public function toString() {
-    return nameof($this).'@'.\xp::stringOf($this->nodes);
+    $s= nameof($this)."@[\n";
+    foreach ($this->nodes as $node) {
+      $s.= '  '.$node->toString()."\n";
+    }
+    return $s.']';
   }
 
   /**
