@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use lang\IndexOutOfBoundsException;
+use lang\IllegalArgumentException;
 use com\github\mustache\NodeList;
 use com\github\mustache\TextNode;
 
@@ -70,5 +71,45 @@ class NodeListTest extends \unittest\TestCase {
     $nodes[]= $list->add(new TextNode('test1'));
     $nodes[]= $list->add(new TextNode('test2'));
     $this->assertEquals($nodes, $list->nodes());
+  }
+
+  #[@test]
+  public function reading_offsets() {
+    $node= new TextNode('test');
+    $list= new NodeList([$node]);
+    $this->assertEquals($node, $list[0]);
+  }
+
+  #[@test]
+  public function testing_offsets() {
+    $list= new NodeList([new TextNode('test')]);
+    $this->assertEquals([true, false], [isset($list[0]), isset($list[1])]);
+  }
+
+  #[@test]
+  public function adding_offsets() {
+    $node= new TextNode('test');
+    $list= new NodeList();
+    $list[]= $node;
+    $this->assertEquals($node, $list[0]);
+  }
+
+  #[@test, @expect(IllegalArgumentException::class)]
+  public function cannot_modify_offsets() {
+    $list= new NodeList();
+    $list[0]= new TextNode('test');
+  }
+
+  #[@test, @expect(IllegalArgumentException::class)]
+  public function cannot_remove_offsets() {
+    $list= new NodeList([new TextNode('test')]);
+    unset($list[0]);
+  }
+
+  #[@test]
+  public function can_be_used_in_foreach() {
+    $nodes= [new TextNode('test')];
+    $list= new NodeList($nodes);
+    $this->assertEquals($nodes, iterator_to_array($list));
   }
 }
