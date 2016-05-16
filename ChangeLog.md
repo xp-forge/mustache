@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 3.2.0 / 2016-05-16
+
 * Replaced checks for instances of lang.Generic with `is_object()`
   (@thekid)
 
