@@ -3,7 +3,7 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
-## 3.1.0 / ????-??-??
+## 3.1.0 / 2016-05-16
 
 * Merged PR #6: Implement array-style functionality for NodeList
   (@thekid)
