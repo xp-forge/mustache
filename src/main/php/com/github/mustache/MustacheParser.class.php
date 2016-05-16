@@ -32,7 +32,9 @@ class MustacheParser extends AbstractMustacheParser {
   }
 
   /**
-   * Initialize this parser.
+   * Initialize this parser
+   *
+   * @return void
    */
   protected function initialize() {
 

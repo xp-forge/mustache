@@ -38,7 +38,9 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
   }
 
   /**
-   * Initialize this parser. Called from constructor.
+   * Initialize this parser
+   *
+   * @return void
    */
   protected abstract function initialize();
 
