@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\FileBasedTemplateLoader;
+use io\streams\MemoryInputStream;
 
 class FileBasedTemplateLoaderTest extends \unittest\TestCase {
 
@@ -11,22 +12,20 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
    * @return com.github.mustache.FileBasedTemplateLoader
    */
   protected function newFixture($args) {
-    return newinstance(FileBasedTemplateLoader::class, $args, '{
-      public $askedFor= [];
-
-      protected function variantsOf($name) {
-        return array_merge(parent::variantsOf($name), ["test"]);
-      }
-
-      protected function inputStreamFor($name) {
-        if ("test" === $name) {
-          return new \io\streams\MemoryInputStream("test");
+    return newinstance(FileBasedTemplateLoader::class, $args, [
+      'askedFor' => [],
+      'variantsOf' => function($name) {
+        return array_merge(parent::variantsOf($name), ['test']);
+      },
+      'inputStreamFor' => function($name) {
+        if ('test' === $name) {
+          return new MemoryInputStream('test');
         } else {
           $this->askedFor[]= $name;
           return null;
         }
       }
-    }');
+    ]);
   }
 
   #[@test]
