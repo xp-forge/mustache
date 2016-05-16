@@ -1,5 +1,8 @@
 <?php namespace com\github\mustache;
 
+use text\StreamTokenizer;
+use text\StringTokenizer;
+
 /**
  * The MustacheEngine is the entry point class for working with this
  * API. The easiest usage way is to call the render() method and pass
@@ -97,7 +100,7 @@ class MustacheEngine extends \lang\Object {
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
     return new Template('<string>', $this->parser->parse(
-      new \text\StringTokenizer($template),
+      new StringTokenizer($template),
       $start,
       $end,
       $indent
@@ -115,7 +118,7 @@ class MustacheEngine extends \lang\Object {
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
     return new Template($name, $this->parser->parse(
-      new \text\StreamTokenizer($this->templates->load($name)),
+      new StreamTokenizer($this->templates->load($name)),
       $start,
       $end,
       $indent
