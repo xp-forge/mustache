@@ -201,4 +201,28 @@ class ParsingTest extends \unittest\TestCase {
       $this->parse($notation)
     );
   }
+
+  #[@test]
+  public function two_lines() {
+    $this->assertEquals(
+      new NodeList([new TextNode("a\n"), new TextNode("b\n")]),
+      $this->parse("a\nb\n")
+    );
+  }
+
+  #[@test]
+  public function two_lines_with_empty_line_between() {
+    $this->assertEquals(
+      new NodeList([new TextNode("a\n"), new TextNode("\n"), new TextNode("b\n")]),
+      $this->parse("a\n\nb\n")
+    );
+  }
+
+  #[@test]
+  public function two_lines_with_empty_lines_between() {
+    $this->assertEquals(
+      new NodeList([new TextNode("a\n"), new TextNode("\n"), new TextNode("\n"), new TextNode("b\n")]),
+      $this->parse("a\n\n\nb\n")
+    );
+  }
 }

@@ -5,6 +5,11 @@ Mustache for XP Framework ChangeLog
 
 ## 3.1.0 / ????-??-??
 
+* Fixed handling of empty lines: The input `a\n\nb` used to produce
+  two text nodes: `a\n` and `\nb` causing unexpected indenting. The
+  same input now produces empty lines as separate nodes, and in this
+  example these three nodes: `a\n`, `\n` and `b`.
+  (@thekid)
 * Merged PR #5: Add an operation to list templates in a loader
   (@thekid)
 

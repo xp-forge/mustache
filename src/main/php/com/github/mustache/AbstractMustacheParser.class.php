@@ -82,7 +82,15 @@ abstract class AbstractMustacheParser extends \lang\Object implements TemplatePa
     $tokens->delimiters= "\n";
     $tokens->returnDelims= true;
     while ($tokens->hasMoreTokens()) {
-      $line= $indent.$tokens->nextToken().$tokens->nextToken();
+      $token= $tokens->nextToken();
+
+      // Yield empty lines as separate text nodes
+      if ("\n" === $token) {
+        $state->target->add(new TextNode($indent.$token));
+        continue;
+      }
+
+      $line= $indent.$token.$tokens->nextToken();
       $offset= 0;
       do {
 
