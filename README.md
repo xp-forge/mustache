@@ -42,7 +42,7 @@ Lambdas
 If the value is a closure, it will be invoked and the raw text (no interpolations will have been performed!) will be passed to it:
 
 ### Template
-```HTML+Django
+```mustache
 {{# wrapped }}
   {{ name }} is awesome.
 {{/ wrapped }}
@@ -111,7 +111,7 @@ Helpers
 Think of helpers as "omnipresent" context. They are added to the engine instance via `withHelper()` and will be available in any rendering context invoked on that instance.
 
 ### Template
-```HTML+Django
+```mustache
 {{# bold }}
   This is {{ location }}!
 {{/ bold }}
@@ -150,7 +150,7 @@ class LocalizationHelpers {
 $engine->withHelper('local', new LocalizationHelpers());
 ```
 
-```HTML+Django
+```mustache
 {{#local.date}}{{date}}{{/local.date}}
 ```
 
@@ -161,5 +161,5 @@ Whether this implementation is compliant with the official spec can be tested as
 ```sh
 $ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
 $ unzip master.zip && rm master.zip
-$ unittest com.github.mustache.** -a spec-master/specs/
+$ xp test com.github.mustache.** -a spec-master/specs/
 ```
