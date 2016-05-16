@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 3.1.0 / ????-??-??
+
+* Merged PR #5: Add an operation to list templates in a loader
+  (@thekid)
+
 ## 3.0.0 / 2016-02-21
 
 * Added version compatibility with XP 7 - @thekid
