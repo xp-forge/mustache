@@ -24,6 +24,13 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
           $this->askedFor[]= $name;
           return null;
         }
+      },
+      'templatesIn' => function($package= null) {
+        if ('' === rtrim($package, '/')) {
+          return ['test'];
+        } else {
+          return [];
+        }
       }
     ]);
   }
@@ -40,5 +47,23 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
     $loader= $this->newFixture(['base', ['.mustache', '.ms']]);
     $loader->load('template');
     $this->assertEquals(['template.mustache', 'template.ms'], $loader->askedFor);
+  }
+
+  #[@test]
+  public function templates_in_root() {
+    $loader= $this->newFixture(['base']);
+    $this->assertEquals(['test'], $loader->templatesIn());
+  }
+
+  #[@test, @values([null, '/'])]
+  public function templates_in_root_explicitely($root) {
+    $loader= $this->newFixture(['base']);
+    $this->assertEquals(['test'], $loader->templatesIn($root));
+  }
+
+  #[@test, @values(['partials', 'partials/'])]
+  public function templates_in_package($package) {
+    $loader= $this->newFixture(['base']);
+    $this->assertEquals([], $loader->templatesIn($package));
   }
 }

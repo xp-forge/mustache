@@ -4,14 +4,16 @@ use io\streams\MemoryInputStream;
 
 /**
  * Template loading
+ *
+ * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory extends \lang\Object implements TemplateLoader {
+class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
   protected $templates= [];
 
   /**
    * Creates a new in-memory template loader
    *
-   * @param [:string] templates
+   * @param  [:string] $templates
    */
   public function __construct($templates= []) {
     $this->templates= [];
@@ -52,5 +54,28 @@ class InMemory extends \lang\Object implements TemplateLoader {
     }
     $this->templates[$name]->seek(0);
     return $this->templates[$name];
+  }
+
+  /**
+   * Returns available templates
+   *
+   * @param   string $namespace Optional, omit for root namespace
+   * @return  string[]
+   */
+  public function templatesIn($namespace= null) {
+    $r= [];
+    $namespace= rtrim($namespace, '/');
+    if ('' === $namespace) {
+      foreach ($this->templates as $name => $stream) {
+        if (false === strpos($name, '/')) $r[]= $name;
+      }
+    } else {
+      $prefix= $namespace.'/';
+      $length= strlen($prefix);
+      foreach ($this->templates as $name => $stream) {
+        if (0 === strncmp($name, $prefix, $length) && false === strpos($name, '/', $length)) $r[]= $name;
+      }
+    }
+    return $r;
   }
 }

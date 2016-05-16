@@ -14,8 +14,8 @@ class ResourcesIn extends FileBasedTemplateLoader {
   /**
    * Creates a new class loader based template loader
    *
-   * @param var $base The delegate, either an IClassLoader or a string
-   * @param string[] $extensions File extensions to check, including leading "."
+   * @param  string|lang.IClassLoader $base A classloader path or instance
+   * @param  string[] $extensions File extensions to check, including leading "."
    */
   public function __construct($arg, $extensions= ['.mustache']) {
     parent::__construct(
@@ -36,5 +36,33 @@ class ResourcesIn extends FileBasedTemplateLoader {
     } else {
       return null;
     }
+  }
+
+  /**
+   * Returns available templates
+   *
+   * @param   string $namespace Optional, omit for root namespace
+   * @return  string[]
+   */
+  public function templatesIn($namespace= null) {
+    $namespace= rtrim($namespace, '/');
+    if ('' === $namespace) {
+      $resources= $this->base->packageContents(null);
+      $prefix= '';
+    } else {
+      $resources= $this->base->packageContents(strtr($namespace, '/', '.'));
+      $prefix= $namespace.'/';
+    }
+
+    $r= [];
+    foreach ($resources as $entry) {
+      foreach ($this->extensions as $extension) {
+        $offset= -strlen($extension);
+        if (0 === substr_compare($entry, $extension, $offset)) {
+          $r[]= $prefix.substr($entry, 0, $offset);
+        }
+      }
+    }
+    return $r;
   }
 }
