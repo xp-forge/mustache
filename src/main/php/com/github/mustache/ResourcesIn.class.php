@@ -39,30 +39,30 @@ class ResourcesIn extends FileBasedTemplateLoader {
   }
 
   /**
-   * Returns available templates
+   * Returns a function to use for listing
    *
-   * @param   string $namespace Optional, omit for root namespace
-   * @return  string[]
+   * @return function(string): string[]
    */
-  public function templatesIn($namespace= null) {
-    $namespace= rtrim($namespace, '/');
-    if ('' === $namespace) {
-      $resources= $this->base->packageContents(null);
-      $prefix= '';
-    } else {
-      $resources= $this->base->packageContents(strtr($namespace, '/', '.'));
-      $prefix= $namespace.'/';
-    }
+  protected function entries() {
+    return function($package) {
+      if ('' === $package) {
+        $resources= $this->base->packageContents(null);
+        $prefix= '';
+      } else {
+        $resources= $this->base->packageContents(strtr($package, '/', '.'));
+        $prefix= $package.'/';
+      }
 
-    $r= [];
-    foreach ($resources as $entry) {
-      foreach ($this->extensions as $extension) {
-        $offset= -strlen($extension);
-        if (0 === substr_compare($entry, $extension, $offset)) {
-          $r[]= $prefix.substr($entry, 0, $offset);
+      $r= [];
+      foreach ($resources as $entry) {
+        foreach ($this->extensions as $extension) {
+          $offset= -strlen($extension);
+          if (0 === substr_compare($entry, $extension, $offset)) {
+            $r[]= $prefix.substr($entry, 0, $offset);
+          }
         }
       }
-    }
-    return $r;
+      return $r;
+    };
   }
 }

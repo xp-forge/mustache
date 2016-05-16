@@ -35,31 +35,34 @@ class FilesIn extends FileBasedTemplateLoader {
   }
 
   /**
-   * Returns available templates
+   * Returns a function to use for listing
    *
-   * @param   string $namespace Optional, omit for root namespace
-   * @return  string[]
+   * @return function(string): string[]
    */
-  public function templatesIn($namespace= null) {
-    $namespace= rtrim($namespace, '/');
-    if ('' === $namespace) {
-      $folder= $this->base;
-      $prefix= '';
-    } else {
-      $folder= new Folder($this->base, strtr($namespace, '/', DIRECTORY_SEPARATOR));
-      $prefix= $namespace.'/';
-    }
+  protected function entries() {
+    return function($package) {
+      if ('' === $package) {
+        $folder= $this->base;
+        $prefix= '';
+      } else {
+        $folder= new Folder($this->base, strtr($package, '/', DIRECTORY_SEPARATOR));
+        $prefix= $package.'/';
+      }
 
-    $r= [];
-    while ($entry= $folder->getEntry()) {
-      foreach ($this->extensions as $extension) {
-        $offset= -strlen($extension);
-        if (0 === substr_compare($entry, $extension, $offset)) {
-          $r[]= $prefix.substr($entry, 0, $offset);
+      $r= [];
+      $base= $folder->getURI();
+      while ($entry= $folder->getEntry()) {
+        if (is_dir($base.$entry)) {
+          $r[]= $prefix.$entry.'/';
+        } else foreach ($this->extensions as $extension) {
+          $offset= -strlen($extension);
+          if (0 === substr_compare($entry, $extension, $offset)) {
+            $r[]= $prefix.substr($entry, 0, $offset);
+          }
         }
       }
-    }
-    $folder->rewind();
-    return $r;
+      $folder->rewind();
+      return $r;
+    };
   }
 }

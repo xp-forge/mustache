@@ -55,18 +55,24 @@ class FilesInTest extends \unittest\TestCase {
   #[@test]
   public function templates_in_root() {
     $loader= new FilesIn(self::$temp);
-    $this->assertEquals(['test'], $loader->templatesIn());
+    $this->assertEquals(['test'], $loader->listing()->templates());
   }
 
-  #[@test, @values([null, '/'])]
-  public function templates_in_root_explicitely($root) {
+  #[@test]
+  public function packages_in_root() {
     $loader= new FilesIn(self::$temp);
-    $this->assertEquals(['test'], $loader->templatesIn($root));
+    $this->assertEquals(['partials/'], $loader->listing()->packages());
+  }
+
+  #[@test, @values(['partials', 'partials/'])]
+  public function packages_in_package($package) {
+    $loader= new FilesIn(self::$temp);
+    $this->assertEquals([], $loader->listing()->package($package)->packages());
   }
 
   #[@test, @values(['partials', 'partials/'])]
   public function templates_in_package($package) {
     $loader= new FilesIn(self::$temp);
-    $this->assertEquals(['partials/navigation'], $loader->templatesIn($package));
+    $this->assertEquals(['partials/navigation'], $loader->listing()->package($package)->templates());
   }
 }

@@ -25,12 +25,14 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
           return null;
         }
       },
-      'templatesIn' => function($package= null) {
-        if ('' === rtrim($package, '/')) {
-          return ['test'];
-        } else {
-          return [];
-        }
+      'entries' => function() {
+        return function($package) {
+          if ('' === rtrim($package, '/')) {
+            return ['test'];
+          } else {
+            return [];
+          }
+        };
       }
     ]);
   }
@@ -52,18 +54,18 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
   #[@test]
   public function templates_in_root() {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals(['test'], $loader->templatesIn());
+    $this->assertEquals(['test'], $loader->listing()->templates());
   }
 
   #[@test, @values([null, '/'])]
   public function templates_in_root_explicitely($root) {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals(['test'], $loader->templatesIn($root));
+    $this->assertEquals(['test'], $loader->listing()->package($root)->templates());
   }
 
   #[@test, @values(['partials', 'partials/'])]
   public function templates_in_package($package) {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals([], $loader->templatesIn($package));
+    $this->assertEquals([], $loader->listing()->package($package)->templates());
   }
 }

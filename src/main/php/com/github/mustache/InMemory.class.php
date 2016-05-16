@@ -7,8 +7,8 @@ use io\streams\MemoryInputStream;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
-  protected $templates= [];
+class InMemory extends \lang\Object implements TemplateLoader, WithListing {
+  protected $templates, $listing;
 
   /**
    * Creates a new in-memory template loader
@@ -16,7 +16,7 @@ class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
    * @param  [:string] $templates
    */
   public function __construct($templates= []) {
-    $this->templates= [];
+    $this->clear();
     foreach ($templates as $name => $bytes) {
       $this->add($name, $bytes);
     }
@@ -27,6 +27,7 @@ class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
    */
   public function clear() {
     $this->templates= [];
+    $this->paths= ['.' => []];
   }
 
   /**
@@ -37,7 +38,19 @@ class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
    * @return self this
    */
   public function add($name, $bytes) {
-    $this->templates[$name]= new MemoryInputStream($bytes);
+    $this->templates[$name]= $bytes;
+
+    $path= dirname($name);
+    if (isset($this->paths[$path])) {
+      $this->paths[$path][$name]= false;
+    } else {
+      $this->paths[$path]= [$name => false];
+      do {
+        $parent= dirname($path);
+        $this->paths[$parent][$path.'/']= true;
+        $path= $parent;
+      } while ('.' !== $parent);
+    }
     return $this;
   }
 
@@ -49,33 +62,23 @@ class InMemory extends \lang\Object implements TemplateLoader, TemplateListing {
 	 * @throws com.github.mustache.TemplateNotFoundException
 	 */
   public function load($name) {
-    if (!isset($this->templates[$name])) {
-      throw new TemplateNotFoundException($name);
+    if (isset($this->templates[$name])) {
+      return new MemoryInputStream($this->templates[$name]);
     }
-    $this->templates[$name]->seek(0);
-    return $this->templates[$name];
+    throw new TemplateNotFoundException('Cannot find template '.$name);
   }
 
   /**
-   * Returns available templates
+   * Returns listing of templates
    *
-   * @param   string $namespace Optional, omit for root namespace
-   * @return  string[]
+   * @return  com.github.mustache.TemplateListing
    */
-  public function templatesIn($namespace= null) {
-    $r= [];
-    $namespace= rtrim($namespace, '/');
-    if ('' === $namespace) {
-      foreach ($this->templates as $name => $stream) {
-        if (false === strpos($name, '/')) $r[]= $name;
-      }
-    } else {
-      $prefix= $namespace.'/';
-      $length= strlen($prefix);
-      foreach ($this->templates as $name => $stream) {
-        if (0 === strncmp($name, $prefix, $length) && false === strpos($name, '/', $length)) $r[]= $name;
-      }
+  public function listing() {
+    if (null === $this->listing) {
+      $this->listing= new TemplateListing(null, function($package) {
+        return array_keys($this->paths['' === $package ? '.' : $package]);
+      });
     }
-    return $r;
+    return $this->listing;
   }
 }
