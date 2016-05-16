@@ -64,7 +64,7 @@ If the value is a closure, it will be invoked and the raw text (no interpolation
 ```
 
 ### Extended usage
-The `$text` parameter passed is actually a `\com\github\mustache\Node` instance but may be treated as text as it overloads the string cast. In order to work with it, the node's `evaluate()` method can be called with the `\com\github\mustache\Context` instance given as the second argument:
+The `$text` parameter passed is actually a `com.github.mustache.Node` instance but may be treated as text as it overloads the string cast. In order to work with it, the node's `evaluate()` method can be called with the `com.github.mustache.Context` instance given as the second argument:
 
 ```php
 [
