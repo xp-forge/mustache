@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use lang\IndexOutOfBoundsException;
+use lang\IllegalArgumentException;
 
 /**
  * Represents a list of nodes. The template itself is represented
@@ -9,7 +9,7 @@ use lang\IndexOutOfBoundsException;
  * @see   xp://com.github.mustache.SectionNode
  * @test  xp://com.github.mustache.unittest.NodeListTest
  */
-class NodeList extends Node {
+class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
   protected $nodes;
 
   /**
@@ -37,9 +37,7 @@ class NodeList extends Node {
    *
    * @return int
    */
-  public function length() {
-    return sizeof($this->nodes);
-  }
+  public function length() { return sizeof($this->nodes); }
 
   /**
    * Returns a node at a given ofset
@@ -48,21 +46,14 @@ class NodeList extends Node {
    * @return com.github.mustache.Node
    * @throws lang.IndexOutOfBoundsException
    */
-  public function nodeAt($i) {
-    if ($i < 0 || $i >= sizeof($this->nodes)) {
-      throw new IndexOutOfBoundsException('Illegal offset '.$i);
-    }
-    return $this->nodes[$i];
-  }
+  public function nodeAt($i) { return $this->nodes[$i]; }
 
   /**
    * Returns all nodes
    *
    * @return com.github.mustache.Node[]
    */
-  public function nodes() {
-    return $this->nodes;
-  }
+  public function nodes() { return $this->nodes; }
 
   /**
    * Creates a string representation of this node
@@ -113,5 +104,59 @@ class NodeList extends Node {
    */
   public function __toString() {
     return trim(implode('', $this->nodes));
+  }
+
+  /**
+   * Overload isset
+   *
+   * @param  int $offset
+   * @return bool
+   */
+  public function offsetExists($offset) {
+    return $offset >= 0 && $offset < sizeof($this->nodes);
+  }
+
+  /**
+   * Overload unset
+   *
+   * @param  int $offset
+   * @return void
+   */
+  public function offsetUnset($offset) {
+    throw new IllegalArgumentException('Cannot remove by offset');
+  }
+
+  /**
+   * Overload =[]
+   *
+   * @param  int $offset
+   * @return bool
+   */
+  public function offsetGet($offset) {
+    return $this->nodes[$offset];
+  }
+
+  /**
+   * Overload []=
+   *
+   * @param  int $offset
+   * @param  var $value
+   * @return void
+   */
+  public function offsetSet($offset, $value) {
+    if (null === $offset) {
+      $this->nodes[]= $value;
+    } else {
+      throw new IllegalArgumentException('Cannot modify offsets');
+    }
+  }
+
+  /**
+   * Overload iteration
+   *
+   * @return php.Iterator
+   */
+  public function getIterator() {
+    return new \ArrayIterator($this->nodes);
   }
 }
