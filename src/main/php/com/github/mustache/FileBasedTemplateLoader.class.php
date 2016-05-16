@@ -1,13 +1,14 @@
 <?php namespace com\github\mustache;
 
+use util\Objects;
+
 /**
  * File-based template loading loads templates from the file system.
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateLoader {
-  protected $base;
-  protected $extensions;
+abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateLoader, WithListing {
+  protected $base, $extensions, $listing;
 
   /**
    * Creates a new file-based template loader
@@ -54,6 +55,25 @@ abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateL
     foreach ($variants as $variant) {
       if ($stream= $this->inputStreamFor($variant)) return $stream;
     }
-    throw new TemplateNotFoundException('Cannot find template ['.implode(', ', $variants).'] in '.\util\Objects::stringOf($this->base));
+    throw new TemplateNotFoundException('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));
+  }
+
+  /**
+   * Returns a function to use for listing
+   *
+   * @return function(string): string[]
+   */
+  protected abstract function entries();
+
+  /**
+   * Returns listing of templates
+   *
+   * @return  com.github.mustache.TemplateListing
+   */
+  public function listing() {
+    if (null === $this->listing) {
+      $this->listing= new TemplateListing(null, $this->entries());
+    }
+    return $this->listing;
   }
 }
