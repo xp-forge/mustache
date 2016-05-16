@@ -58,8 +58,10 @@ abstract class Context extends \lang\Object {
    * @return var
    */
   protected function helper($ptr, $segment) {
-    if ($ptr instanceof \lang\Generic) {
-      $class= $ptr->getClass();
+    if ($ptr instanceof \Closure) {
+      return $ptr;
+    } else if (is_object($ptr)) {
+      $class= typeof($ptr);
       if ($class->hasMethod($segment)) {
         $method= $class->getMethod($segment);
         return function($in, $ctx) use($ptr, $method) {
@@ -67,8 +69,6 @@ abstract class Context extends \lang\Object {
         };
       }
       return null;
-    } else if ($ptr instanceof \Closure) {
-      return $ptr;
     } else {
       return isset($ptr[$segment]) ? $ptr[$segment] : null;
     }
@@ -91,7 +91,7 @@ abstract class Context extends \lang\Object {
    * @return bool
    */
   public function isCallable($result) {
-    return $result instanceof \Closure || ($result instanceof \lang\Generic && is_callable($result));
+    return $result instanceof \Closure || (is_object($result) && is_callable($result));
   }
 
   /**

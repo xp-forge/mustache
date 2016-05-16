@@ -19,8 +19,8 @@ class DataContext extends Context {
   protected function pointer($ptr, $segment) {
     if ($ptr instanceof \ArrayAccess) {
       return $ptr->offsetExists($segment) ? $ptr->offsetGet($segment) : null;
-    } else if ($ptr instanceof \lang\Generic) {
-      $class= $ptr->getClass();
+    } else if (is_object($ptr)) {
+      $class= typeof($ptr);
 
       // 1. Try public field named <segment>
       if ($class->hasField($segment)) {

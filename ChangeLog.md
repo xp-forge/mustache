@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Replaced checks for instances of lang.Generic with `is_object()`
+  (@thekid)
+
 ## 3.1.0 / 2016-05-16
 
 * Merged PR #6: Implement array-style functionality for NodeList
