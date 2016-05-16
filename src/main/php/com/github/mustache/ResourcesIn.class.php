@@ -55,7 +55,9 @@ class ResourcesIn extends FileBasedTemplateLoader {
 
       $r= [];
       foreach ($resources as $entry) {
-        foreach ($this->extensions as $extension) {
+        if ('/' === $entry{strlen($entry) - 1}) {
+          $r[]= $prefix.$entry;
+        } else foreach ($this->extensions as $extension) {
           $offset= -strlen($extension);
           if (0 === substr_compare($entry, $extension, $offset)) {
             $r[]= $prefix.substr($entry, 0, $offset);

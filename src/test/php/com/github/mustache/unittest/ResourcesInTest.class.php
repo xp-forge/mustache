@@ -38,4 +38,16 @@ class ResourcesInTest extends \unittest\TestCase {
     $loader= new ResourcesIn(ClassLoader::getDefault());
     $this->assertEquals(['com/github/mustache/unittest/template'], $loader->listing()->package($package)->templates());
   }
+
+  #[@test]
+  public function packages_in_root() {
+    $loader= new ResourcesIn(typeof($this)->getClassLoader());
+    $this->assertEquals(['com/'], $loader->listing()->packages());
+  }
+
+  #[@test, @values(['com/github/mustache', 'com/github/mustache/'])]
+  public function packages_in_package($package) {
+    $loader= new ResourcesIn(typeof($this)->getClassLoader());
+    $this->assertEquals(['com/github/mustache/unittest/'], $loader->listing()->package($package)->packages());
+  }
 }
