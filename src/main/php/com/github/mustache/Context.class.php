@@ -64,8 +64,8 @@ abstract class Context extends \lang\Object {
       $class= typeof($ptr);
       if ($class->hasMethod($segment)) {
         $method= $class->getMethod($segment);
-        return function($in, $ctx) use($ptr, $method) {
-          return $method->invoke($ptr, [$in, $ctx]);
+        return function($in, $ctx, $options) use($ptr, $method) {
+          return $method->invoke($ptr, [$in, $ctx, $options]);
         };
       }
       return null;

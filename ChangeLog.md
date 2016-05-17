@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 3.2.1 / 2016-05-17
+
+* Fixed code to also pass options to instance method helpers.
+  (@thekid)
+
 ## 3.2.0 / 2016-05-16
 
 * Replaced checks for instances of lang.Generic with `is_object()`

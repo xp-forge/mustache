@@ -6,6 +6,14 @@ use com\github\mustache\VariableNode;
 
 class HelpersTest extends \unittest\TestCase {
 
+  /**
+   * Render
+   *
+   * @param  string $template
+   * @param  [:var] $variables
+   * @param  [:var] $helpers
+   * @return string
+   */
   protected function render($template, $variables, $helpers) {
     return (new MustacheEngine())
       ->withHelpers($helpers)
@@ -66,7 +74,7 @@ class HelpersTest extends \unittest\TestCase {
         'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
         ['date' => new \util\Date('14.12.2013 00:00:00')],
         ['format' => newinstance(Object::class, [], '{
-          public function date($in, $context) {
+          public function date($in, $context, $options) {
             return $context->lookup($in->nodeAt(0)->name())->toString("d.m.Y");
           }
         }')]
