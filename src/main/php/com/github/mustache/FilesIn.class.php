@@ -50,18 +50,17 @@ class FilesIn extends FileBasedTemplateLoader {
       }
 
       $r= [];
-      $base= $folder->getURI();
-      while ($entry= $folder->getEntry()) {
-        if (is_dir($base.$entry)) {
-          $r[]= $prefix.$entry.'/';
+      foreach ($folder->entries() as $entry) {
+        $name= $entry->name();
+        if (is_dir($entry)) {
+          $r[]= $prefix.$name.'/';
         } else foreach ($this->extensions as $extension) {
           $offset= -strlen($extension);
-          if (0 === substr_compare($entry, $extension, $offset)) {
-            $r[]= $prefix.substr($entry, 0, $offset);
+          if (0 === substr_compare($name, $extension, $offset)) {
+            $r[]= $prefix.substr($name, 0, $offset);
           }
         }
       }
-      $folder->rewind();
       return $r;
     };
   }

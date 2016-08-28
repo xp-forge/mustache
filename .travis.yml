@@ -2,21 +2,24 @@
 
 language: php
 
+sudo: false
+
 php:
-  - 5.5
   - 5.6
   - 7.0
+  - 7.1
   - hhvm
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
 
 before_script:
-  - wget 'https://github.com/xp-framework/xp-runners/releases/download/v6.3.0/setup' -O - | php
+  - curl -sSL https://dl.bintray.com/xp-runners/generic/xp-run-master.sh > xp-run
   - composer install --prefer-dist
   - echo "vendor/autoload.php" > composer.pth
-  - echo "use=vendor/xp-framework/core" > xp.ini
-  - echo "[runtime]" >> xp.ini
-  - echo "date.timezone=Europe/Berlin" >> xp.ini
 
 script:
-  - wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
-  - unzip master.zip && rm master.zip
-  - ./unittest com.github.mustache.unittest.** -a spec-master/specs/
+  - sh xp-run xp.unittest.TestRunner src/test/php
+  - sh xp-run util.profiling.Measure lang.mirrors.performance.ClassParsingPerformance -n 100

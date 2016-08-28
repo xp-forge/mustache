@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 4.0.0 / 2016-08-28
+
+* **Heads up: Dropped PHP 5.5 support!** - @thekid
+* Added forward compatibility with XP 8.0.0 - @thekid
+
 ## 3.2.1 / 2016-05-17
 
 * Fixed code to also pass options to instance method helpers.

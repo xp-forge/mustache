@@ -32,7 +32,7 @@ class ResourcesIn extends FileBasedTemplateLoader {
    */
   protected function inputStreamFor($name) {
     if ($this->base->providesResource($name)) {
-      return $this->base->getResourceAsStream($name)->getInputStream();
+      return $this->base->getResourceAsStream($name)->in();
     } else {
       return null;
     }
