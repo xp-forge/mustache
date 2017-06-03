@@ -3,7 +3,7 @@
 /**
  * Parser state
  */
-class ParseState extends \lang\Object {
+class ParseState {
   public $start= '{{';
   public $end= '}}';
   public $parents= [];

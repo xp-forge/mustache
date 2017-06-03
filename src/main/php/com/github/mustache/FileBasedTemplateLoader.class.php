@@ -7,7 +7,7 @@ use util\Objects;
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBasedTemplateLoader extends \lang\Object implements TemplateLoader, WithListing {
+abstract class FileBasedTemplateLoader implements TemplateLoader, WithListing {
   protected $base, $extensions, $listing;
 
   /**

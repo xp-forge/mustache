@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use util\Objects;
+
 /**
  * Represents a template
  */
@@ -47,17 +49,16 @@ class Template extends Node {
   }
 
   /**
-   * Check whether a given value is equal to this node list
+   * Compares
    *
-   * @param  var $cmp The value
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof self &&
-      $this->source === $cmp->source &&
-      \util\Objects::equal($this->root, $cmp->root)
-    );
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare([$this->source, $this->root], [$value->source, $value->root])
+      : 1
+    ;
   }
 
   /**

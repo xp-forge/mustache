@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.0.0 / 2017-07-03
+
+* Added forward compatibility with XP 9.0.0 - @thekid
+
 ## 4.0.0 / 2016-08-28
 
 * **Heads up: Dropped PHP 5.5 support!** - @thekid

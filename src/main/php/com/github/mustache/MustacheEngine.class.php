@@ -22,7 +22,7 @@ use text\StringTokenizer;
  * @see  https://github.com/mustache/spec
  * @see  http://mustache.github.io/mustache.5.html
  */
-class MustacheEngine extends \lang\Object {
+class MustacheEngine {
   protected $templates;
   protected $parser;
   public $helpers= [];
