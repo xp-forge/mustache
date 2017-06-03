@@ -7,7 +7,7 @@ use io\streams\MemoryInputStream;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory extends \lang\Object implements TemplateLoader, WithListing {
+class InMemory implements TemplateLoader, WithListing {
   protected $templates, $listing;
 
   /**

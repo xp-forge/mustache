@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use util\Objects;
+
 /**
  * Represents a variable tag, either {{name}} or {{& name}} for
  * unescaped representation.
@@ -95,18 +97,19 @@ class VariableNode extends Node {
   }
 
   /**
-   * Check whether a given value is equal to this node list
+   * Compares
    *
-   * @param  var $cmp The value
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof self &&
-      $this->name === $cmp->name &&
-      $this->escape === $cmp->escape &&
-      \util\Objects::equal($this->options, $cmp->options)
-    );
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare(
+        [$this->name, $this->escape, $this->options],
+        [$value->name, $value->escape, $value->options]
+      )
+      : 1
+    ;
   }
 
   /**

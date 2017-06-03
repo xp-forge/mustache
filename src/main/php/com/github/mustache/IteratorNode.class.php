@@ -52,16 +52,13 @@ class IteratorNode extends Node {
   }
 
   /**
-   * Check whether a given value is equal to this node list
+   * Compares
    *
-   * @param  var $cmp The value
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof self &&
-      $this->escape === $cmp->escape
-    );
+  public function compareTo($value) {
+    return $value instanceof self ? $this->escape - $value->escape : 1;
   }
 
   /**

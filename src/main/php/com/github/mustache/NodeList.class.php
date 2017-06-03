@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache;
 
 use lang\IllegalArgumentException;
+use util\Objects;
 
 /**
  * Represents a list of nodes. The template itself is represented
@@ -83,18 +84,13 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
   }
 
   /**
-   * Check whether a given value is equal to this node list
+   * Compares
    *
-   * @param  var $cmp The value
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    if (!$cmp instanceof self) return false;
-    if (sizeof($this->nodes) !== sizeof($cmp->nodes)) return false;
-    foreach ($this->nodes as $i => $node) {
-      if (!$node->equals($cmp->nodes[$i])) return false;
-    }
-    return true;
+  public function compareTo($value) {
+    return $value instanceof self ? Objects::compare($this->nodes, $value->nodes) : 1;
   }
 
   /**
@@ -151,12 +147,10 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
     }
   }
 
-  /**
-   * Overload iteration
-   *
-   * @return php.Iterator
-   */
+  /** @return iterable */
   public function getIterator() {
-    return new \ArrayIterator($this->nodes);
+    foreach ($this->nodes as $node) {
+      yield $node;
+    }
   }
 }

@@ -5,7 +5,7 @@
  * forming the view context and a reference to the engine for template
  * resolution of partials.
  */
-abstract class Context extends \lang\Object {
+abstract class Context {
   public $variables= [];
   public $parent= null;
   public $engine= null;

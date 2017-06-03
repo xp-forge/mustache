@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use util\Objects;
+
 /**
  * A section starts with {{#sec}} (or {{^sec}} for inverted sections)
  * and ends with {{/sec}} and consists of 0..n nested nodes.
@@ -123,7 +125,7 @@ class SectionNode extends Node {
    * @return string
    */
   public function toString() {
-    return nameof($this).'('.($this->invert ? '^' : '#').$this->name.$this->optionString().') -> '.\xp::stringOf($this->nodes);
+    return nameof($this).'('.($this->invert ? '^' : '#').$this->name.$this->optionString().') -> '.Objects::stringOf($this->nodes);
   }
 
   /**
@@ -158,21 +160,19 @@ class SectionNode extends Node {
   }
 
   /**
-   * Check whether a given value is equal to this node list
+   * Compares
    *
-   * @param  var $cmp The value
-   * @return bool
+   * @param  var $value
+   * @return int
    */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof self &&
-      $this->name === $cmp->name &&
-      $this->invert === $cmp->invert &&
-      $this->start === $cmp->start &&
-      $this->end === $cmp->end &&
-      \util\Objects::equal($this->options, $cmp->options) &&
-      $this->nodes->equals($cmp->nodes)
-    );
+  public function compareTo($value) {
+    return $value instanceof self
+      ? Objects::compare(
+        [$this->name, $this->invert, $this->start, $this->end, $this->options, $this->nodes],
+        [$value->name, $value->invert, $value->start, $value->end, $value->options, $value->nodes]
+      )
+      : 1
+    ;
   }
 
   /**

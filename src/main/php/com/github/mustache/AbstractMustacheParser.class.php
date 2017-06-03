@@ -25,7 +25,7 @@ use text\Tokenizer;
  * The handler may return a number of characters to forward inside
  * the current line, negative or positive.
  */
-abstract class AbstractMustacheParser extends \lang\Object implements TemplateParser {
+abstract class AbstractMustacheParser implements TemplateParser {
   protected $handlers= [];
   protected $standalone= [];
   protected $options;
