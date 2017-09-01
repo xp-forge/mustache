@@ -1,6 +1,5 @@
 <?php namespace com\github\mustache\unittest;
 
-use lang\Object;
 use com\github\mustache\MustacheEngine;
 use com\github\mustache\VariableNode;
 
@@ -59,7 +58,7 @@ class HelpersTest extends \unittest\TestCase {
     $this->assertEquals(
       'Hello <i>World</i>',
       $this->render('Hello {{#i}}{{name}}{{/i}}', ['name' => 'World'], [
-        'i' => newinstance(Object::class, [], '{
+        'i' => newinstance(Value::class, [], '{
           function __invoke($text) { return "<i>".$text."</i>"; }
         }')
       ])
@@ -73,7 +72,7 @@ class HelpersTest extends \unittest\TestCase {
       $this->render(
         'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
         ['date' => new \util\Date('14.12.2013 00:00:00')],
-        ['format' => newinstance(Object::class, [], '{
+        ['format' => newinstance(Value::class, [], '{
           public function date($in, $context, $options) {
             return $context->lookup($in->nodeAt(0)->name())->toString("d.m.Y");
           }
