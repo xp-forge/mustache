@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.0.1 / 2017-06-12
+
+* Consistently pass node, context, options to all expressions
+  (@thekid)
+
 ## 5.0.0 / 2017-07-03
 
 * Added forward compatibility with XP 9.0.0 - @thekid
