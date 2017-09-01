@@ -157,7 +157,7 @@ abstract class Context {
   public function asRendering($closure, $node, $options= [], $start= '{{', $end= '}}') {
     $pass= [];
     foreach ($options as $key => $option) {
-      $pass[$key]= $this->isCallable($option) ? $option($this) : $option;
+      $pass[$key]= $this->isCallable($option) ? $option($node, $this, $pass) : $option;
     }
     return $this->engine->render($closure($node, $this, $pass), $this, $start, $end);
   }
