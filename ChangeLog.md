@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.1.0 / 2017-09-17
+
+* Merged pull request #8: Refactor template loading mechanism
+  (@thekid)
+
 ## 5.0.1 / 2017-06-12
 
 * Consistently pass node, context, options to all expressions
