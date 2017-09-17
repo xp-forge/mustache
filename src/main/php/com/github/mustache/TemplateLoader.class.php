@@ -3,6 +3,7 @@
 /**
  * Template loading
  *
+ * @deprecated Use com.github.mustache.templates.Templates instead!
  * @test xp://com.github.mustache.unittest.TemplateTransformationTest
  */
 interface TemplateLoader {

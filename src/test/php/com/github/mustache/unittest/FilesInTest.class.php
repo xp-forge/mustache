@@ -3,7 +3,6 @@
 use com\github\mustache\FilesIn;
 use com\github\mustache\TemplateNotFoundException;
 use lang\System;
-use io\streams\Streams;
 use io\Folder;
 use io\File;
 use io\FileUtil;
@@ -39,17 +38,17 @@ class FilesInTest extends \unittest\TestCase {
   }
 
   #[@test]
-  public function load_from_default_class_loader() {
+  public function source_from_default_class_loader() {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(
       'Mustache template {{id}}',
-      Streams::readAll($loader->load('test'))
+      $loader->source('test')->code()
     );
   }
 
-  #[@test, @expect(TemplateNotFoundException::class)]
-  public function load_non_existant() {
-    (new FilesIn(self::$temp))->load('@non.existant@');
+  #[@test]
+  public function source_non_existant() {
+    $this->assertFalse((new FilesIn(self::$temp))->source('@non.existant@')->exists());
   }
 
   #[@test]

@@ -2,6 +2,8 @@
 
 /**
  * Template listing
+ *
+ * @deprecated Use com.github.mustache.templates.Templates instead!
  */
 interface WithListing {
 

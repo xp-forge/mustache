@@ -1,13 +1,16 @@
 <?php namespace com\github\mustache;
 
-use io\streams\MemoryInputStream;
+use text\StringTokenizer;
+use com\github\mustache\templates\Templates;
+use com\github\mustache\templates\NotFound;
+use com\github\mustache\templates\Tokens;
 
 /**
  * Template loading
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory implements TemplateLoader, WithListing {
+class InMemory extends Templates {
   protected $templates, $listing;
 
   /**
@@ -54,18 +57,18 @@ class InMemory implements TemplateLoader, WithListing {
     return $this;
   }
 
-	/**
-	 * Load a template by a given name
-	 *
-	 * @param  string $name The template name without file extension
-	 * @return io.streams.InputStream
-	 * @throws com.github.mustache.TemplateNotFoundException
-	 */
-  public function load($name) {
+  /**
+   * Load a template by a given name
+   *
+   * @param  string $name The template name, not including the file extension
+   * @return com.github.mustache.templates.Source
+   */
+  public function source($name) {
     if (isset($this->templates[$name])) {
-      return new MemoryInputStream($this->templates[$name]);
+      return new Tokens($name, new StringTokenizer($this->templates[$name]));
+    } else {
+      return new NotFound('Cannot find template '.$name);
     }
-    throw new TemplateNotFoundException('Cannot find template '.$name);
   }
 
   /**

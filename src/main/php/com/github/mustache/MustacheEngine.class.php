@@ -1,6 +1,8 @@
 <?php namespace com\github\mustache;
 
-use text\StreamTokenizer;
+use com\github\mustache\templates\Source;
+use com\github\mustache\templates\Templates;
+use com\github\mustache\templates\FromLoader;
 use text\StringTokenizer;
 
 /**
@@ -23,8 +25,7 @@ use text\StringTokenizer;
  * @see  http://mustache.github.io/mustache.5.html
  */
 class MustacheEngine {
-  protected $templates;
-  protected $parser;
+  protected $templates, $parser;
   public $helpers= [];
 
   /**
@@ -38,18 +39,22 @@ class MustacheEngine {
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.TemplateLoader $l
+   * @param  com.github.mustache.templates.Templates|com.github.mustache.TemplateLoader $l
    * @return self this
    */
-  public function withTemplates(TemplateLoader $l) {
-    $this->templates= $l;
+  public function withTemplates($l) {
+    if ($l instanceof Templates) {
+      $this->templates= $l;
+    } else {
+      $this->templates= new FromLoader($l);
+    }
     return $this;
   }
 
   /**
-   * Sets template loader to be used
+   * Gets used template loader
    *
-   * @return com.github.mustache.TemplateLoader
+   * @return com.github.mustache.Templates
    */
   public function getTemplates() {
     return $this->templates;
@@ -90,25 +95,24 @@ class MustacheEngine {
   }
 
   /**
-   * Compile a template.
+   * Compile a template
    *
-   * @param  string $template The template, as a string
+   * @param  string|com.github.mustache.templates.Source $source The template source
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
    * @return com.github.mustache.Template
    */
-  public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    return new Template('<string>', $this->parser->parse(
-      new StringTokenizer($template),
-      $start,
-      $end,
-      $indent
-    ));
+  public function compile($source, $start= '{{', $end= '}}', $indent= '') {
+    if ($source instanceof Source) {
+      return $source->compile($this->parser, $start, $end, $indent);
+    } else {
+      return new Template('<string>', $this->parser->parse(new StringTokenizer($source), $start, $end, $indent));
+    }
   }
 
   /**
-   * Load a template.
+   * Load and compile a template
    *
    * @param  string $name The template name.
    * @param  string $start Initial start tag, defaults to "{{"
@@ -117,47 +121,37 @@ class MustacheEngine {
    * @return com.github.mustache.Template
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return new Template($name, $this->parser->parse(
-      new StreamTokenizer($this->templates->load($name)),
-      $start,
-      $end,
-      $indent
-    ));
+    return $this->templates->source($name)->compile($this->parser, $start, $end, $indent);
   }
 
   /**
    * Evaluate a compiled template.
    *
    * @param  com.github.mustache.Template $template The template
-   * @param  var $arg Either a view context, or a Context instance
+   * @param  com.github.mustache.Context|[:var] $context The context
    * @return string The rendered output
    */
-  public function evaluate(Template $template, $arg) {
-    if ($arg instanceof Context) {
-      $context= $arg;
+  public function evaluate(Template $template, $context) {
+    if ($context instanceof Context) {
+      $c= $context;
     } else {
-      $context= new DataContext($arg);
+      $c= new DataContext($context);
     }
-    return $template->evaluate($context->withEngine($this));
+    return $template->evaluate($c->withEngine($this));
   }
 
   /**
-   * Render a template - like evaluate(), but will compile if necessary.
+   * Render a template, compiling it from source
    *
-   * @param  var $template The template, either as string or as compiled Template instance
-   * @param  var $arg Either a view context, or a Context instance
+   * @param  string|com.github.mustache.templates.Source $source The template source
+   * @param  com.github.mustache.Context|[:var] $context The context
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
    * @return string The rendered output
    */
-  public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
-    if ($template instanceof Template) {
-      $target= $template;
-    } else {
-      $target= $this->compile($template, $start, $end, $indent);
-    }
-    return $this->evaluate($target, $arg);
+  public function render($source, $context, $start= '{{', $end= '}}', $indent= '') {
+    return $this->evaluate($this->compile($source, $start, $end, $indent), $context);
   }
 
   /**
@@ -165,16 +159,13 @@ class MustacheEngine {
    * the template loader.
    *
    * @param  string $name The template name.
-   * @param  var $arg Either a view context, or a Context instance
+   * @param  com.github.mustache.Context|[:var] $context The context
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
    * @return string The rendered output
    */
-  public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
-    return $this->evaluate(
-      $this->load($name, $start, $end, $indent),
-      $arg
-    );
+  public function transform($name, $context, $start= '{{', $end= '}}', $indent= '') {
+    return $this->evaluate($this->load($name, $start, $end, $indent), $context);
   }
 }

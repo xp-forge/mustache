@@ -40,14 +40,14 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
   #[@test]
   public function load_asks_for_mustache_extension_by_default() {
     $loader= $this->newFixture(['base']);
-    $loader->load('template');
+    $loader->source('template');
     $this->assertEquals(['template.mustache'], $loader->askedFor);
   }
 
   #[@test]
   public function load_asks_for_all_given_variants() {
     $loader= $this->newFixture(['base', ['.mustache', '.ms']]);
-    $loader->load('template');
+    $loader->source('template');
     $this->assertEquals(['template.mustache', 'template.ms'], $loader->askedFor);
   }
 

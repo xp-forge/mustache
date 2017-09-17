@@ -1,24 +1,22 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\ResourcesIn;
-use com\github\mustache\TemplateNotFoundException;
 use lang\ClassLoader;
-use io\streams\Streams;
 
 class ResourcesInTest extends \unittest\TestCase {
 
   #[@test]
-  public function load_from_default_class_loader() {
+  public function source_from_default_class_loader() {
     $loader= new ResourcesIn(ClassLoader::getDefault());
     $this->assertEquals(
       'Mustache template {{id}}',
-      Streams::readAll($loader->load('com/github/mustache/unittest/template'))
+      $loader->source('com/github/mustache/unittest/template')->code()
     );
   }
 
-  #[@test, @expect(TemplateNotFoundException::class)]
-  public function load_non_existant() {
-    (new ResourcesIn(ClassLoader::getDefault()))->load('@non.existant@');
+  #[@test]
+  public function source_non_existant() {
+    $this->assertFalse((new ResourcesIn(ClassLoader::getDefault()))->source('@non.existant@')->exists());
   }
 
   #[@test]
