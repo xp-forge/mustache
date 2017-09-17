@@ -16,9 +16,6 @@ class Input extends Source {
     $this->tokens= $tokens;
   }
 
-  /** @return bool */
-  public function exists() { return true; }
-
   /** @return string */
   public function code() {
     $s= '';

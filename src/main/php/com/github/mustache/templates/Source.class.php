@@ -3,7 +3,7 @@
 abstract class Source {
 
   /** @return bool */
-  public abstract function exists();
+  public function exists() { return true; }
 
   /** @return string */
   public abstract function code();

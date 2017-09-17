@@ -8,9 +8,6 @@ class Compiled extends Source {
     $this->template= $template;
   }
 
-  /** @return bool */
-  public function exists() { return true; }
-
   /** @return string */
   public function code() { return (string)$this->template; }
 
