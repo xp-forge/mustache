@@ -3,6 +3,7 @@
 use text\StreamTokenizer;
 use lang\IllegalAccessException;
 use com\github\mustache\WithListing;
+use com\github\mustache\templates\Tokens;
 
 /**
  * Adapter for TemplateLoaders
@@ -25,7 +26,7 @@ class FromLoader extends Templates {
    */
   public function source($name) {
     try {
-      return new Input($name, new StreamTokenizer($this->loader->load($name)));
+      return new Tokens($name, new StreamTokenizer($this->loader->load($name)));
     } catch (TemplateNotFoundException $e) {
       return new NotFound($e->getMessage());
     }

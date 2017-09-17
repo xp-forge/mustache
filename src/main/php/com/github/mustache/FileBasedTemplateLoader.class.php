@@ -3,7 +3,7 @@
 use util\Objects;
 use text\StreamTokenizer;
 use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\Input;
+use com\github\mustache\templates\Tokens;
 use com\github\mustache\templates\NotFound;
 
 /**
@@ -56,7 +56,7 @@ abstract class FileBasedTemplateLoader extends Templates {
   public function source($name) {
     $variants= $this->variantsOf($name);
     foreach ($variants as $variant) {
-      if ($stream= $this->inputStreamFor($variant)) return new Input($variant, new StreamTokenizer($stream));
+      if ($stream= $this->inputStreamFor($variant)) return new Tokens($variant, new StreamTokenizer($stream));
     }
 
     return new NotFound('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));

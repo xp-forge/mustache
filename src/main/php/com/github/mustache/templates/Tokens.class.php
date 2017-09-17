@@ -2,11 +2,11 @@
 
 use com\github\mustache\Template;
 
-class Input extends Source {
+class Tokens extends Source {
   private $source, $tokens;
 
   /**
-   * Creates a new input
+   * Creates a new token source
    *
    * @param  string $source
    * @param  text.Tokenizer $tokens

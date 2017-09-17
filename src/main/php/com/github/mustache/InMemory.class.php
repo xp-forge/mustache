@@ -2,8 +2,8 @@
 
 use text\StringTokenizer;
 use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\Input;
 use com\github\mustache\templates\NotFound;
+use com\github\mustache\templates\Tokens;
 
 /**
  * Template loading
@@ -65,7 +65,7 @@ class InMemory extends Templates {
    */
   public function source($name) {
     if (isset($this->templates[$name])) {
-      return new Input($name, new StringTokenizer($this->templates[$name]));
+      return new Tokens($name, new StringTokenizer($this->templates[$name]));
     } else {
       return new NotFound('Cannot find template '.$name);
     }
