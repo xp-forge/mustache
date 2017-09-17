@@ -67,7 +67,7 @@ class InMemory implements Templates, WithListing {
     if (isset($this->templates[$name])) {
       return new Source(new StringTokenizer($this->templates[$name]));
     } else {
-      return new NotFound('Cannot find template undefined '.$name);
+      return new NotFound('Cannot find template '.$name);
     }
   }
 
