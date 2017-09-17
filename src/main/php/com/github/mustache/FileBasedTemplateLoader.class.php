@@ -50,9 +50,8 @@ abstract class FileBasedTemplateLoader implements Templates {
   /**
    * Load a template by a given name
    *
-   * @param  string $name The template name without file extension
-   * @return io.streams.InputStream
-   * @throws com.github.mustache.TemplateNotFoundException
+   * @param  string $name The template name, not including the file extension
+   * @return com.github.mustache.templates.Source
    */
   public function load($name) {
     $variants= $this->variantsOf($name);
