@@ -1,9 +1,15 @@
 <?php namespace com\github\mustache\templates;
 
-interface Input {
+class Input implements Source {
+  private $tokens;
+
+  /** @param  text.Tokenizer $tokens */
+  public function __construct($tokens) {
+    $this->tokens= $tokens;
+  }
 
   /** @return bool */
-  public function exists();
+  public function exists() { return true; }
 
   /**
    * Returns tokens
@@ -11,5 +17,5 @@ interface Input {
    * @return text.Tokenizer
    * @throws com.github.mustache.TemplateNotFoundException
    */
-  public function tokens();
+  public function tokens() { return $this->tokens; }
 }

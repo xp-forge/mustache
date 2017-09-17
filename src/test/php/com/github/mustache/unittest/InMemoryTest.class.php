@@ -5,15 +5,15 @@ use com\github\mustache\InMemory;
 class InMemoryTest extends \unittest\TestCase {
 
   #[@test]
-  public function load() {
+  public function source() {
     $content= 'Mustache template {{id}}';
     $loader= new InMemory(['test' => $content]);
-    $this->assertEquals($content, $loader->load('test')->tokens()->nextToken("\n"));
+    $this->assertEquals($content, $loader->source('test')->tokens()->nextToken("\n"));
   }
 
   #[@test]
-  public function load_non_existant() {
-    $this->assertFalse((new InMemory())->load('@non.existant@')->exists());
+  public function source_non_existant() {
+    $this->assertFalse((new InMemory())->source('@non.existant@')->exists());
   }
 
   #[@test]

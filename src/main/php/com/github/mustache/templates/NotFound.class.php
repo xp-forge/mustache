@@ -2,7 +2,7 @@
 
 use com\github\mustache\TemplateNotFoundException;
 
-class NotFound implements Input {
+class NotFound implements Source {
   private $reason;
 
   /** @param string $reason */

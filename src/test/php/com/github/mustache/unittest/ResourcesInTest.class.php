@@ -6,17 +6,17 @@ use lang\ClassLoader;
 class ResourcesInTest extends \unittest\TestCase {
 
   #[@test]
-  public function load_from_default_class_loader() {
+  public function source_from_default_class_loader() {
     $loader= new ResourcesIn(ClassLoader::getDefault());
     $this->assertEquals(
       'Mustache template {{id}}',
-      $loader->load('com/github/mustache/unittest/template')->tokens()->nextToken("\n")
+      $loader->source('com/github/mustache/unittest/template')->tokens()->nextToken("\n")
     );
   }
 
   #[@test]
-  public function load_non_existant() {
-    $this->assertFalse((new ResourcesIn(ClassLoader::getDefault()))->load('@non.existant@')->exists());
+  public function source_non_existant() {
+    $this->assertFalse((new ResourcesIn(ClassLoader::getDefault()))->source('@non.existant@')->exists());
   }
 
   #[@test]

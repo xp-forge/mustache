@@ -2,7 +2,7 @@
 
 use text\StringTokenizer;
 use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\Source;
+use com\github\mustache\templates\Input;
 use com\github\mustache\templates\NotFound;
 
 /**
@@ -10,7 +10,7 @@ use com\github\mustache\templates\NotFound;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory implements Templates {
+class InMemory extends Templates {
   protected $templates, $listing;
 
   /**
@@ -61,11 +61,11 @@ class InMemory implements Templates {
    * Load a template by a given name
    *
    * @param  string $name The template name, not including the file extension
-   * @return com.github.mustache.TemplateSource
+   * @return com.github.mustache.templates.Source
    */
-  public function load($name) {
+  public function source($name) {
     if (isset($this->templates[$name])) {
-      return new Source(new StringTokenizer($this->templates[$name]));
+      return new Input(new StringTokenizer($this->templates[$name]));
     } else {
       return new NotFound('Cannot find template '.$name);
     }

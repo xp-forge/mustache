@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\Input;
+use com\github\mustache\templates\Source;
 use com\github\mustache\templates\Templates;
 use com\github\mustache\templates\FromLoader;
 use text\StringTokenizer;
@@ -97,7 +97,7 @@ class MustacheEngine {
   /**
    * Compile a template
    *
-   * @param  string|com.github.mustache.templates.Input $template The template
+   * @param  string|com.github.mustache.templates.Source $template The template
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
@@ -105,7 +105,7 @@ class MustacheEngine {
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
     return new Template('<string>', $this->parser->parse(
-      $template instanceof Input ? $template->tokens() : new StringTokenizer($template),
+      $template instanceof Source ? $template->tokens() : new StringTokenizer($template),
       $start,
       $end,
       $indent
@@ -123,7 +123,7 @@ class MustacheEngine {
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
     return new Template($name, $this->parser->parse(
-      $this->templates->load($name)->tokens(),
+      $this->templates->source($name)->tokens(),
       $start,
       $end,
       $indent
@@ -149,7 +149,7 @@ class MustacheEngine {
   /**
    * Render a template, compiling it from source
    *
-   * @param  string|com.github.mustache.templates.Input $template
+   * @param  string|com.github.mustache.templates.Source $template
    * @param  com.github.mustache.Context|[:var] $context The context
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"

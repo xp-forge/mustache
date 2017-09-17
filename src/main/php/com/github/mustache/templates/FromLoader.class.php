@@ -9,7 +9,7 @@ use com\github\mustache\WithListing;
  *
  * @deprecated Template loaders were replaced by `Templates`.
  */
-class FromLoader implements Templates {
+class FromLoader extends Templates {
   private $loader;
 
   /** @param com.github.mustache.TemplateLoader $loader */
@@ -23,9 +23,9 @@ class FromLoader implements Templates {
    * @param  string $name The template name, not including the file extension
    * @return com.github.mustache.TemplateSource
    */
-  public function load($name) {
+  public function source($name) {
     try {
-      return new Source(new StreamTokenizer($this->loader->load($name)));
+      return new Input(new StreamTokenizer($this->loader->load($name)));
     } catch (TemplateNotFoundException $e) {
       return new NotFound($e->getMessage());
     }

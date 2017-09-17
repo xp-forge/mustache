@@ -38,17 +38,17 @@ class FilesInTest extends \unittest\TestCase {
   }
 
   #[@test]
-  public function load_from_default_class_loader() {
+  public function source_from_default_class_loader() {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(
       'Mustache template {{id}}',
-      $loader->load('test')->tokens()->nextToken("\n")
+      $loader->source('test')->tokens()->nextToken("\n")
     );
   }
 
   #[@test]
-  public function load_non_existant() {
-    $this->assertFalse((new FilesIn(self::$temp))->load('@non.existant@')->exists());
+  public function source_non_existant() {
+    $this->assertFalse((new FilesIn(self::$temp))->source('@non.existant@')->exists());
   }
 
   #[@test]
