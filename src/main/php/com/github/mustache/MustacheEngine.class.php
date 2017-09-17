@@ -97,17 +97,17 @@ class MustacheEngine {
   /**
    * Compile a template
    *
-   * @param  string|com.github.mustache.templates.Source $template The template
+   * @param  string|com.github.mustache.templates.Source $source The template source
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
    * @return com.github.mustache.Template
    */
-  public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    if ($template instanceof Source) {
-      return $template->compile($this->parser, $start, $end, $indent);
+  public function compile($source, $start= '{{', $end= '}}', $indent= '') {
+    if ($source instanceof Source) {
+      return $source->compile($this->parser, $start, $end, $indent);
     } else {
-      return new Template('<string>', $this->parser->parse(new StringTokenizer($template), $start, $end, $indent));
+      return new Template('<string>', $this->parser->parse(new StringTokenizer($source), $start, $end, $indent));
     }
   }
 
@@ -143,15 +143,15 @@ class MustacheEngine {
   /**
    * Render a template, compiling it from source
    *
-   * @param  string|com.github.mustache.templates.Source $template
+   * @param  string|com.github.mustache.templates.Source $source The template source
    * @param  com.github.mustache.Context|[:var] $context The context
    * @param  string $start Initial start tag, defaults to "{{"
    * @param  string $end Initial end tag, defaults to "}}"
    * @param  string $indent Indenting level, defaults to no indenting
    * @return string The rendered output
    */
-  public function render($template, $context, $start= '{{', $end= '}}', $indent= '') {
-    return $this->evaluate($this->compile($template, $start, $end, $indent), $context);
+  public function render($source, $context, $start= '{{', $end= '}}', $indent= '') {
+    return $this->evaluate($this->compile($source, $start, $end, $indent), $context);
   }
 
   /**
