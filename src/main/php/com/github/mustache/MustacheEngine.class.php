@@ -134,16 +134,16 @@ class MustacheEngine {
    * Evaluate a compiled template.
    *
    * @param  com.github.mustache.Template $template The template
-   * @param  var $arg Either a view context, or a Context instance
+   * @param  com.github.mustache.Context|[:var] $context The context
    * @return string The rendered output
    */
-  public function evaluate(Template $template, $arg) {
-    if ($arg instanceof Context) {
-      $context= $arg;
+  public function evaluate(Template $template, $context) {
+    if ($context instanceof Context) {
+      $c= $context;
     } else {
-      $context= new DataContext($arg);
+      $c= new DataContext($context);
     }
-    return $template->evaluate($context->withEngine($this));
+    return $template->evaluate($c->withEngine($this));
   }
 
   /**
