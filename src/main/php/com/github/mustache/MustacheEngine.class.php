@@ -39,7 +39,7 @@ class MustacheEngine {
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.Templates|com.github.mustache.TemplateLoader $l
+   * @param  com.github.mustache.templates.Templates|com.github.mustache.TemplateLoader $l
    * @return self this
    */
   public function withTemplates($l) {
