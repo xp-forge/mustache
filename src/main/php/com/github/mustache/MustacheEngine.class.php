@@ -95,7 +95,7 @@ class MustacheEngine {
   }
 
   /**
-   * Compile a template.
+   * Compile a template
    *
    * @param  string|com.github.mustache.templates.Input $template The template
    * @param  string $start Initial start tag, defaults to "{{"
@@ -113,7 +113,7 @@ class MustacheEngine {
   }
 
   /**
-   * Load a template.
+   * Load and compile a template
    *
    * @param  string $name The template name.
    * @param  string $start Initial start tag, defaults to "{{"
@@ -143,7 +143,7 @@ class MustacheEngine {
     } else {
       $c= new DataContext($context);
     }
-    return $template->evaluate($c->withEngine($this));
+    return $template->evaluate($context->withEngine($this));
   }
 
   /**
@@ -157,10 +157,7 @@ class MustacheEngine {
    * @return string The rendered output
    */
   public function render($template, $arg, $start= '{{', $end= '}}', $indent= '') {
-    return $this->evaluate(
-      $this->compile($template, $start, $end, $indent),
-      $arg
-    );
+    return $this->evaluate($this->compile($template, $start, $end, $indent), $arg);
   }
 
   /**
@@ -175,9 +172,6 @@ class MustacheEngine {
    * @return string The rendered output
    */
   public function transform($name, $arg, $start= '{{', $end= '}}', $indent= '') {
-    return $this->evaluate(
-      $this->load($name, $start, $end, $indent),
-      $arg
-    );
+    return $this->evaluate($this->load($name, $start, $end, $indent), $arg);
   }
 }
