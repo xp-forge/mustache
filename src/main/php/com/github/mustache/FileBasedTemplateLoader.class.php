@@ -11,7 +11,7 @@ use com\github\mustache\templates\NotFound;
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBasedTemplateLoader implements Templates, WithListing {
+abstract class FileBasedTemplateLoader implements Templates {
   protected $base, $extensions, $listing;
 
   /**

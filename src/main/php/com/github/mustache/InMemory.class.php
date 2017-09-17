@@ -10,7 +10,7 @@ use com\github\mustache\templates\NotFound;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory implements Templates, WithListing {
+class InMemory implements Templates {
   protected $templates, $listing;
 
   /**
