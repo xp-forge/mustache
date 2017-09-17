@@ -1,15 +1,21 @@
 <?php namespace com\github\mustache\templates;
 
-interface Source {
+abstract class Source {
 
   /** @return bool */
-  public function exists();
+  public abstract function exists();
+
+  /** @return string */
+  public abstract function code();
 
   /**
-   * Returns tokens
+   * Compiles this input into a template
    *
-   * @return text.Tokenizer
-   * @throws com.github.mustache.TemplateNotFoundException
+   * @param  com.github.mustache.MustacheParser $parser
+   * @param  string $start
+   * @param  string $end
+   * @param  string $indent
+   * @return com.github.mustache.Node
    */
-  public function tokens();
+  public abstract function compile($parser, $start, $end, $indent);
 }

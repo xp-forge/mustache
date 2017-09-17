@@ -65,7 +65,7 @@ class InMemory extends Templates {
    */
   public function source($name) {
     if (isset($this->templates[$name])) {
-      return new Input(new StringTokenizer($this->templates[$name]));
+      return new Input($name, new StringTokenizer($this->templates[$name]));
     } else {
       return new NotFound('Cannot find template '.$name);
     }

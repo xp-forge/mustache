@@ -1,21 +1,43 @@
 <?php namespace com\github\mustache\templates;
 
-class Input implements Source {
-  private $tokens;
+use com\github\mustache\Template;
 
-  /** @param  text.Tokenizer $tokens */
-  public function __construct($tokens) {
+class Input extends Source {
+  private $source, $tokens;
+
+  /**
+   * Creates a new input
+   *
+   * @param  string $source
+   * @param  text.Tokenizer $tokens
+   */
+  public function __construct($source, $tokens) {
+    $this->source= $source;
     $this->tokens= $tokens;
   }
 
   /** @return bool */
   public function exists() { return true; }
 
+  /** @return string */
+  public function code() {
+    $s= '';
+    while ($this->tokens->hasMoreTokens()) {
+      $s.= $this->tokens->nextToken(true);
+    }
+    return $s;
+  }
+
   /**
-   * Returns tokens
+   * Compiles this input into a template
    *
-   * @return text.Tokenizer
-   * @throws com.github.mustache.TemplateNotFoundException
+   * @param  com.github.mustache.MustacheParser $parser
+   * @param  string $start
+   * @param  string $end
+   * @param  string $indent
+   * @return com.github.mustache.Template
    */
-  public function tokens() { return $this->tokens; }
+  public function compile($parser, $start, $end, $indent) {
+    return new Template($this->source, $parser->parse($this->tokens, $start, $end, $indent));
+  }
 }

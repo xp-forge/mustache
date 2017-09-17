@@ -2,7 +2,7 @@
 
 use com\github\mustache\TemplateLoader;
 use com\github\mustache\WithListing;
-use com\github\mustache\TemplateNotFoundException;
+use io\streams\MemoryInputStream;
 
 /**
  * Template loading
@@ -37,17 +37,6 @@ abstract class Templates implements TemplateLoader, WithListing {
    * @throws com.github.mustache.TemplateNotFoundException
    */
   public function load($name) {
-    $input= $this->source($name);
-    if ($input->exists()) {
-      return newinstance('io.streams.InputStream', [$input->tokens()], [
-        'tokens'      => null,
-        '__construct' => function($tokens) { $this->tokens= $tokens; $this->tokens->delimiter= "\n"; },
-        'available'   => function() { return $this->tokens->hasMoreTokens(); },
-        'read'        => function($bytes= 8192) { return $this->tokens->nextToken(true); },
-        'close'       => function() { }
-      ]);
-    } else {
-      throw new TemplateNotFoundException('Cannot find template '.$name);
-    }
+    return new MemoryInputStream($this->source($name)->code());
   }
 }

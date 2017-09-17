@@ -1,22 +1,18 @@
 <?php namespace com\github\mustache\templates;
 
-use com\github\mustache\TemplateNotFoundException;
+class Compiled extends Source {
+  private $tokens;
 
-class NotFound extends Source {
-  private $reason;
-
-  /** @param string $reason */
-  public function __construct($reason) {
-    $this->reason= $reason;
+  /** @param com.github.mustache.Template */
+  public function __construct($template) {
+    $this->template= $template;
   }
 
   /** @return bool */
-  public function exists() { return false; }
+  public function exists() { return true; }
 
   /** @return string */
-  public function code() {
-    throw new TemplateNotFoundException($this->reason);
-  }
+  public function code() { return (string)$this->template; }
 
   /**
    * Compiles this input into a template
@@ -28,6 +24,6 @@ class NotFound extends Source {
    * @return com.github.mustache.Template
    */
   public function compile($parser, $start, $end, $indent) {
-    throw new TemplateNotFoundException($this->reason);
+    return $this->template;
   }
 }

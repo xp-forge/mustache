@@ -104,12 +104,11 @@ class MustacheEngine {
    * @return com.github.mustache.Template
    */
   public function compile($template, $start= '{{', $end= '}}', $indent= '') {
-    return new Template('<string>', $this->parser->parse(
-      $template instanceof Source ? $template->tokens() : new StringTokenizer($template),
-      $start,
-      $end,
-      $indent
-    ));
+    if ($template instanceof Source) {
+      return $template->compile($this->parser, $start, $end, $indent);
+    } else {
+      return new Template('<string>', $this->parser->parse(new StringTokenizer($template), $start, $end, $indent));
+    }
   }
 
   /**
@@ -122,12 +121,7 @@ class MustacheEngine {
    * @return com.github.mustache.Template
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return new Template($name, $this->parser->parse(
-      $this->templates->source($name)->tokens(),
-      $start,
-      $end,
-      $indent
-    ));
+    return $this->templates->source($name)->compile($this->parser, $start, $end, $indent);
   }
 
   /**

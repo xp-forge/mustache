@@ -10,7 +10,7 @@ class ResourcesInTest extends \unittest\TestCase {
     $loader= new ResourcesIn(ClassLoader::getDefault());
     $this->assertEquals(
       'Mustache template {{id}}',
-      $loader->source('com/github/mustache/unittest/template')->tokens()->nextToken("\n")
+      $loader->source('com/github/mustache/unittest/template')->code()
     );
   }
 

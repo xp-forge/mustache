@@ -8,7 +8,7 @@ class InMemoryTest extends \unittest\TestCase {
   public function source() {
     $content= 'Mustache template {{id}}';
     $loader= new InMemory(['test' => $content]);
-    $this->assertEquals($content, $loader->source('test')->tokens()->nextToken("\n"));
+    $this->assertEquals($content, $loader->source('test')->code());
   }
 
   #[@test]

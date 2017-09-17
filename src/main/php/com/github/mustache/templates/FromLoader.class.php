@@ -25,7 +25,7 @@ class FromLoader extends Templates {
    */
   public function source($name) {
     try {
-      return new Input(new StreamTokenizer($this->loader->load($name)));
+      return new Input($name, new StreamTokenizer($this->loader->load($name)));
     } catch (TemplateNotFoundException $e) {
       return new NotFound($e->getMessage());
     }

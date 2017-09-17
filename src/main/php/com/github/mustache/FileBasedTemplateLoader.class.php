@@ -56,7 +56,7 @@ abstract class FileBasedTemplateLoader extends Templates {
   public function source($name) {
     $variants= $this->variantsOf($name);
     foreach ($variants as $variant) {
-      if ($stream= $this->inputStreamFor($variant)) return new Input(new StreamTokenizer($stream));
+      if ($stream= $this->inputStreamFor($variant)) return new Input($variant, new StreamTokenizer($stream));
     }
 
     return new NotFound('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));

@@ -42,7 +42,7 @@ class FilesInTest extends \unittest\TestCase {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(
       'Mustache template {{id}}',
-      $loader->source('test')->tokens()->nextToken("\n")
+      $loader->source('test')->code()
     );
   }
 
