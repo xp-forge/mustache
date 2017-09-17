@@ -12,7 +12,7 @@ class Compiled extends Source {
   public function code() { return (string)$this->template; }
 
   /**
-   * Compiles this input into a template
+   * Compiles this source into a template
    *
    * @param  com.github.mustache.MustacheParser $parser
    * @param  string $start

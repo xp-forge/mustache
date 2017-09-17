@@ -19,7 +19,7 @@ class NotFound extends Source {
   }
 
   /**
-   * Compiles this input into a template
+   * Compiles this source into a template
    *
    * @param  com.github.mustache.MustacheParser $parser
    * @param  string $start
