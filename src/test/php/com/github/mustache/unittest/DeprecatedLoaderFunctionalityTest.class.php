@@ -4,6 +4,7 @@ use com\github\mustache\InMemory;
 use com\github\mustache\TemplateNotFoundException;
 use io\streams\Streams;
 
+/** @deprecated */
 class DeprecatedLoaderFunctionalityTest extends \unittest\TestCase {
 
   #[@test]

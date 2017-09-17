@@ -31,7 +31,7 @@ abstract class Templates implements TemplateLoader, WithListing {
   /**
    * Load a template by a given name
    *
-   * @deprecated
+   * @deprecated Use source() instead
    * @param  string $name The template name, not including the ".mustache" extension
    * @return io.streams.InputStream
    * @throws com.github.mustache.TemplateNotFoundException
