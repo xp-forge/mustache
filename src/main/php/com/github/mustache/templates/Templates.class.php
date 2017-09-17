@@ -15,4 +15,10 @@ interface Templates {
    */
   public function load($name);
 
+  /**
+   * Returns available templates
+   *
+   * @return  com.github.mustache.TemplateListing
+   */
+  public function listing();
 }

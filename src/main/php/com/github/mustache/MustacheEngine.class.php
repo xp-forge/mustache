@@ -143,7 +143,7 @@ class MustacheEngine {
     } else {
       $c= new DataContext($context);
     }
-    return $template->evaluate($context->withEngine($this));
+    return $template->evaluate($c->withEngine($this));
   }
 
   /**

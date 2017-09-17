@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\templates;
 
 use text\StreamTokenizer;
+use lang\IllegalAccessException;
 
 /**
  * Adapter for TemplateLoaders
@@ -26,6 +27,19 @@ class FromLoader implements Templates {
       return new Source(new StreamTokenizer($this->loader->load($name)));
     } catch (TemplateNotFoundException $e) {
       return new NotFound($e->getMessage());
+    }
+  }
+
+  /**
+   * Returns available templates
+   *
+   * @return  com.github.mustache.TemplateListing
+   */
+  public function listing() {
+    if ($this->loader instanceof WithListing) {
+      return $this->loader->listing();
+    } else {
+      throw new IllegalAccessException(typeof($this->loader)->toString().' does not provide listing');
     }
   }
 }
