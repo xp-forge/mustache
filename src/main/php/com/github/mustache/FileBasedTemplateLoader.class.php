@@ -1,13 +1,17 @@
 <?php namespace com\github\mustache;
 
 use util\Objects;
+use text\StreamTokenizer;
+use com\github\mustache\templates\Templates;
+use com\github\mustache\templates\Source;
+use com\github\mustache\templates\NotFound;
 
 /**
  * File-based template loading loads templates from the file system.
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBasedTemplateLoader implements TemplateLoader, WithListing {
+abstract class FileBasedTemplateLoader implements Templates, WithListing {
   protected $base, $extensions, $listing;
 
   /**
@@ -53,9 +57,10 @@ abstract class FileBasedTemplateLoader implements TemplateLoader, WithListing {
   public function load($name) {
     $variants= $this->variantsOf($name);
     foreach ($variants as $variant) {
-      if ($stream= $this->inputStreamFor($variant)) return $stream;
+      if ($stream= $this->inputStreamFor($variant)) return new Source(new StreamTokenizer($stream));
     }
-    throw new TemplateNotFoundException('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));
+
+    return new NotFound('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));
   }
 
   /**

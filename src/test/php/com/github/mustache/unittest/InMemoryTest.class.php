@@ -1,8 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\InMemory;
-use com\github\mustache\TemplateNotFoundException;
-use io\streams\Streams;
 
 class InMemoryTest extends \unittest\TestCase {
 
@@ -10,12 +8,12 @@ class InMemoryTest extends \unittest\TestCase {
   public function load() {
     $content= 'Mustache template {{id}}';
     $loader= new InMemory(['test' => $content]);
-    $this->assertEquals($content, Streams::readAll($loader->load('test')));
+    $this->assertEquals($content, $loader->load('test')->tokens()->nextToken("\n"));
   }
 
-  #[@test, @expect(TemplateNotFoundException::class)]
+  #[@test]
   public function load_non_existant() {
-    (new InMemory())->load('@non.existant@');
+    $this->assertFalse((new InMemory())->load('@non.existant@')->exists());
   }
 
   #[@test]
