@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.2.0 / 2017-09-18
+
+* Made parsing target exchangeable by overriding `target()` method.
+  (@thekid)
+
 ## 5.1.0 / 2017-09-17
 
 * Merged pull request #8: Refactor template loading mechanism

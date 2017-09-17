@@ -45,6 +45,15 @@ abstract class AbstractMustacheParser implements TemplateParser {
   protected abstract function initialize();
 
   /**
+   * Returns parsing target
+   *
+   * @return com.github.mustache.NodeList
+   */
+  protected function target() {
+    return new NodeList();
+  }
+
+  /**
    * Add a handler
    *
    * @param  string $token Token characters to react on; use NULL to set the default handler
@@ -74,7 +83,7 @@ abstract class AbstractMustacheParser implements TemplateParser {
    */
   public function parse(Tokenizer $tokens, $start= '{{', $end= '}}', $indent= '') {
     $state= new ParseState();
-    $state->target= new NodeList();
+    $state->target= $this->target();
     $state->start= $start;
     $state->end= $end;
     $state->parents= [];
