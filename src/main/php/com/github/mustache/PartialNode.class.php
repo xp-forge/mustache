@@ -47,7 +47,7 @@ class PartialNode extends Node {
     try {
       $out->write($context->engine->transform($this->name, $context, '{{', '}}', $this->indent));
     } catch (TemplateNotFoundException $e) {
-      return;    // Spec dictates this, though I think this is not good behaviour.
+      // Spec dictates this, though I think this is not good behaviour.
     }
   }
 
