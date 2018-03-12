@@ -73,14 +73,12 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
    * Evaluates this node
    *
    * @param  com.github.mustache.Context $context the rendering context
-   * @return string
+   * @param  io.streams.OutputStream $out
    */
-  public function evaluate($context) {
-    $output= '';
+  public function write($context, $out) {
     foreach ($this->nodes as $node) {
-      $output.= $node->evaluate($context);
+      $node->write($context, $out);
     }
-    return $output;
   }
 
   /**

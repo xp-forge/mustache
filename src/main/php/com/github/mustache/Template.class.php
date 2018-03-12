@@ -39,13 +39,13 @@ class Template extends Node {
   }
 
   /**
-   * Evaluates this node
+   * Write this node
    *
    * @param  com.github.mustache.Context $context the rendering context
-   * @return string
+   * @param  io.streams.OutputStream $out
    */
-  public function evaluate($context) {
-    return $this->root->evaluate($context);
+  public function write($context, $out) {
+    $this->root->write($context, $out);
   }
 
   /**

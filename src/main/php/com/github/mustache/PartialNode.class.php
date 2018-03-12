@@ -41,13 +41,13 @@ class PartialNode extends Node {
    * Evaluates this node
    *
    * @param  com.github.mustache.Context $context the rendering context
-   * @return string
+   * @param  io.streams.OutputStream $out
    */
-  public function evaluate($context) {
+  public function write($context, $out) {
     try {
-      return $context->engine->transform($this->name, $context, '{{', '}}', $this->indent);
+      $out->write($context->engine->transform($this->name, $context, '{{', '}}', $this->indent));
     } catch (TemplateNotFoundException $e) {
-      return '';    // Spec dictates this, though I think this is not good behaviour.
+      return;    // Spec dictates this, though I think this is not good behaviour.
     }
   }
 

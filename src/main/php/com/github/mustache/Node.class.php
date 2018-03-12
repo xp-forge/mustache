@@ -1,10 +1,13 @@
 <?php namespace com\github\mustache;
 
+use io\streams\MemoryOutputStream;
+use lang\Value;
+
 /**
  * A node represents any tag inside a mustache document, e.g.
  * variables, sections or partials.
  */
-abstract class Node implements \lang\Value {
+abstract class Node implements Value {
 
   /**
    * Evaluates this node
@@ -12,10 +15,23 @@ abstract class Node implements \lang\Value {
    * @param  com.github.mustache.Context $context the rendering context
    * @return string
    */
-  public abstract function evaluate($context);
+  public final function evaluate($context) {
+    $out= new MemoryOutputStream();
+    $this->write($context, $out);
+    return $out->getBytes();
+  }
 
   /**
-   * Overload (string) cast
+   * Writes this node. Overwrite this in implementing subclasses!
+   *
+   * @param  com.github.mustache.Context $context the rendering context
+   * @param  io.streams.OutputStream $out
+   * @return void
+   */
+  public abstract function write($context, $out);
+
+  /**
+   * Overload (string) cast. Overwrite this in implementing subclasses!
    *
    * @return string
    */
@@ -32,12 +48,8 @@ abstract class Node implements \lang\Value {
   }
 
   /** @return string */
-  public function hashCode() {
-    return md5($this->__toString());
-  }
+  public function hashCode() { return md5($this->__toString()); }
 
   /** @return string */
-  public function toString() {
-    return nameof($this);
-  }
+  public function toString() { return nameof($this); }
 }

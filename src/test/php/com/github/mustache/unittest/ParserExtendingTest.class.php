@@ -10,7 +10,7 @@ class ParserExtendingTest extends \unittest\TestCase {
   #[@test]
   public function new_user_handler_as_function() {
     $node= newinstance(Node::class, [], '{
-      public function evaluate($context) { return "test"; }
+      public function write($context, $out) { $out->write("test"); }
       public function __toString() { return "*test"; }
     }');
 
