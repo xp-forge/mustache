@@ -15,7 +15,7 @@ abstract class Node implements Value {
    * @param  com.github.mustache.Context $context the rendering context
    * @return string
    */
-  public final function evaluate($context) {
+  public function evaluate($context) {
     $out= new MemoryOutputStream();
     $this->write($context, $out);
     return $out->getBytes();
@@ -28,7 +28,14 @@ abstract class Node implements Value {
    * @param  io.streams.OutputStream $out
    * @return void
    */
-  public abstract function write($context, $out);
+  public function write($context, $out) {
+
+    // BC: Subclasses of earlier versions of this class overwrote the
+    // evaluate() method, so keep this method non-abstract (and write()
+    // non-final, both of which prevent endless loops if incorrectly
+    // subclassed!) and provide a default behavior for the old way.
+    $out->write($this->evaluate($context));
+  }
 
   /**
    * Overload (string) cast. Overwrite this in implementing subclasses!
