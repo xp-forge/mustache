@@ -5,6 +5,7 @@ Mustache for XP Framework ChangeLog
 
 ## 5.3.0 / 2018-03-14
 
+* Added PHP 7.2 to test matrix - @thekid
 * Merged PR #9: Add MustacheEngine::write(), which is like evaluate()
   but writes to a stream instead of returning the contents as a string
   (@thekid)
