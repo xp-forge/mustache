@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.3.0 / 2018-03-14
+
+* Merged PR #9: Add MustacheEngine::write(), which is like evaluate()
+  but writes to a stream instead of returning the contents as a string
+  (@thekid)
+
 ## 5.2.0 / 2017-09-18
 
 * Made parsing target exchangeable by overriding `target()` method.
