@@ -47,10 +47,10 @@ class TextNode extends Node {
    * Evaluates this node
    *
    * @param  com.github.mustache.Context $context the rendering context
-   * @return string
+   * @param  io.streams.OutputStream $out
    */
-  public function evaluate($context) {
-    return $this->text;
+  public function write($context, $out) {
+    $out->write($this->text);
   }
 
   /**

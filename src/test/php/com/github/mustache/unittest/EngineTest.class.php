@@ -8,6 +8,8 @@ use com\github\mustache\Template;
 use com\github\mustache\NodeList;
 use com\github\mustache\TextNode;
 use com\github\mustache\VariableNode;
+use io\streams\MemoryInputStream;
+use io\streams\MemoryOutputStream;
 
 class EngineTest extends \unittest\TestCase {
 
@@ -70,11 +72,11 @@ class EngineTest extends \unittest\TestCase {
 
   #[@test]
   public function load_template() {
-    $loader= newinstance(TemplateLoader::class, [], '{
-      public function load($name) {
-        return new \io\streams\MemoryInputStream("Hello {{name}}");
+    $loader= newinstance(TemplateLoader::class, [], [
+      'load' => function($name) {
+        return new MemoryInputStream('Hello {{name}}');
       }
-    }');
+    ]);
     $this->assertEquals(
       new Template('test', new NodeList([new TextNode('Hello '), new VariableNode('name')])),
       (new MustacheEngine())->withTemplates($loader)->load('test')
@@ -84,18 +86,25 @@ class EngineTest extends \unittest\TestCase {
   #[@test]
   public function render_string_template() {
     $engine= new MustacheEngine();
-    $this->assertEquals(
-      'Hello World',
-      $engine->render('Hello {{name}}', ['name' => 'World'])
-    );
+    $out= $engine->render('Hello {{name}}', ['name' => 'World']);
+
+    $this->assertEquals('Hello World', $out);
   }
 
   #[@test]
-  public function render_compiled_template() {
+  public function evaluate_compiled_template() {
     $engine= new MustacheEngine();
-    $this->assertEquals(
-      'Hello World',
-      $engine->render($engine->compile('Hello {{name}}'), ['name' => 'World'])
-    );
+    $out= $engine->evaluate($engine->compile('Hello {{name}}'), ['name' => 'World']);
+
+    $this->assertEquals('Hello World', $out);
+  }
+
+  #[@test]
+  public function write_compiled_template() {
+    $engine= new MustacheEngine();
+    $out= new MemoryOutputStream();
+    $engine->write($engine->compile('Hello {{name}}'), ['name' => 'World'], $out);
+
+    $this->assertEquals('Hello World', $out->getBytes());
   }
 }

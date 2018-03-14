@@ -137,7 +137,26 @@ class MustacheEngine {
     } else {
       $c= new DataContext($context);
     }
+    
     return $template->evaluate($c->withEngine($this));
+  }
+
+  /**
+   * Evaluates a compiled template and writes to a given output stream
+   *
+   * @param  com.github.mustache.Template $template The template
+   * @param  com.github.mustache.Context|[:var] $context The context
+   * @param  io.streams.OutputStream $out
+   * @return void
+   */
+  public function write(Template $template, $context, $out) {
+    if ($context instanceof Context) {
+      $c= $context;
+    } else {
+      $c= new DataContext($context);
+    }
+    
+    $template->write($c->withEngine($this), $out);
   }
 
   /**

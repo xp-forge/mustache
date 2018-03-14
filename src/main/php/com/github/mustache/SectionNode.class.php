@@ -132,12 +132,12 @@ class SectionNode extends Node {
    * Evaluates this node
    *
    * @param  com.github.mustache.Context $context the rendering context
-   * @return string
+   * @param  io.streams.OutputStream $out
    */
-  public function evaluate($context) {
+  public function write($context, $out) {
     $value= $context->lookup('.' === $this->name ? null : $this->name);
     $truthy= $context->isTruthy($value);
-    if ($this->invert ? $truthy : !$truthy) return '';
+    if ($this->invert ? $truthy : !$truthy) return;
 
     // Have defined value, apply following:
     // * If the value is a function, call it
@@ -145,17 +145,15 @@ class SectionNode extends Node {
     // * If the value is a hash, use it as context
     // * Otherwise, simply delegate evaluation to node list
     if ($context->isCallable($value)) {
-      return $context->asRendering($value, $this->nodes, $this->options, $this->start, $this->end);
+      $out->write($context->asRendering($value, $this->nodes, $this->options, $this->start, $this->end));
     } else if ($context->isList($value)) {
-      $output= '';
       foreach ($context->asTraversable($value) as $element) {
-        $output.= $this->nodes->evaluate($context->asContext($element));
+        $this->nodes->write($context->asContext($element), $out);
       }
-      return $output;
     } else if ($context->isHash($value)) {
-      return $this->nodes->evaluate($context->asContext($value));
+      $this->nodes->write($context->asContext($value), $out);
     } else {
-      return $this->nodes->evaluate($context);
+      $this->nodes->write($context, $out);
     }
   }
 
