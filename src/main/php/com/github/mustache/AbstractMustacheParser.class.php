@@ -65,8 +65,8 @@ abstract class AbstractMustacheParser implements TemplateParser {
     if (null === $tokens) {
       $this->handlers[null]= $handler;
     } else for ($i= 0; $i < strlen($tokens); $i++) {
-      $this->handlers[$tokens{$i}]= $handler;
-      $standalone && $this->standalone[$tokens{$i}]= true;
+      $this->handlers[$tokens[$i]]= $handler;
+      $standalone && $this->standalone[$tokens[$i]]= true;
     }
     return $this;
   }
@@ -140,8 +140,8 @@ abstract class AbstractMustacheParser implements TemplateParser {
         // Handle tag
         if (null === $tag) {
           continue;
-        } else if (isset($this->handlers[$tag{0}])) {
-          $f= $this->handlers[$tag{0}];
+        } else if (isset($this->handlers[$tag[0]])) {
+          $f= $this->handlers[$tag[0]];
         } else {
           $f= $this->handlers[null];
         }

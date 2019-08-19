@@ -199,7 +199,7 @@ abstract class Context {
     if (null === $name) {                         // Current value
       $segments= [];
       $v= $this->variables;
-    } else if ('.' !== $name{0}) {                // This *and* parent (recursively)
+    } else if ('.' !== $name[0]) {                // This *and* parent (recursively)
       $v= null;
       $context= $this;
       $segments= explode('.', $name);

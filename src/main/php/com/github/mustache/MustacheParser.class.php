@@ -20,7 +20,7 @@ class MustacheParser extends AbstractMustacheParser {
   public function options($tag) {
     $parsed= [];
     for ($o= 0, $l= strlen($tag); $o < $l; $o+= $p + 1) {
-      if ('"' === $tag{$o}) {
+      if ('"' === $tag[$o]) {
         $p= strcspn($tag, '"', $o + 1) + 2;
         $parsed[]= substr($tag, $o + 1, $p - 2);
       } else {
@@ -44,7 +44,7 @@ class MustacheParser extends AbstractMustacheParser {
       $state->parents[]= $state->target;
       $state->target= $state->target->add(new SectionNode(
         array_shift($parsed),
-        '^' === $tag{0},
+        '^' === $tag[0],
         $parsed,
         null,
         $state->start,

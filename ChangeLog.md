@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.3.1 / 2019-08-20
+
+* Made compatible with PHP 7.4 - refrain using `{}` for string offsets
+  (@thekid)
+
 ## 5.3.0 / 2018-03-14
 
 * Added PHP 7.2 to test matrix - @thekid

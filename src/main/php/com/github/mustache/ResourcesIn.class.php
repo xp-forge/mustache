@@ -1,8 +1,8 @@
 <?php namespace com\github\mustache;
 
-use lang\IClassLoader;
 use lang\ClassLoader;
 use lang\ElementNotFoundException;
+use lang\IClassLoader;
 
 /**
  * Classloader template loading loads templates from the class path.
@@ -55,7 +55,7 @@ class ResourcesIn extends FileBasedTemplateLoader {
 
       $r= [];
       foreach ($resources as $entry) {
-        if ('/' === $entry{strlen($entry) - 1}) {
+        if ('/' === $entry[strlen($entry) - 1]) {
           $r[]= $prefix.$entry;
         } else foreach ($this->extensions as $extension) {
           $offset= -strlen($extension);

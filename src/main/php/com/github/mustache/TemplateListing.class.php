@@ -22,7 +22,7 @@ class TemplateListing {
   public function templates() {
     $result= [];
     foreach ($this->entries->__invoke($this->name) as $entry) {
-      if ('/' !== $entry{strlen($entry) - 1}) $result[]= $entry;
+      if ('/' !== $entry[strlen($entry) - 1]) $result[]= $entry;
     }
     return $result;
   }
@@ -35,7 +35,7 @@ class TemplateListing {
   public function packages() {
     $result= [];
     foreach ($this->entries->__invoke($this->name) as $entry) {
-      if ('/' === $entry{strlen($entry) - 1}) $result[]= $entry;
+      if ('/' === $entry[strlen($entry) - 1]) $result[]= $entry;
     }
     return $result;
   }
