@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.3.2 / 2019-12-01
+
+* Made compatible with XP 10 - @thekid
+
 ## 5.3.1 / 2019-08-20
 
 * Made compatible with PHP 7.4 - refrain using `{}` for string offsets
