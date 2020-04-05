@@ -14,7 +14,10 @@ class DeprecatedLoaderFunctionalityTest extends \unittest\TestCase {
     $this->assertEquals($content, Streams::readAll($loader->load('test')));
   }
 
-  #[@test, @expect(class= TemplateNotFoundException::class, withMessage= 'Cannot find template not-found')]
+  #[@test, @expect([
+  #  'class'       => TemplateNotFoundException::class,
+  #  'withMessage' => 'Cannot find template not-found'
+  #])]
   public function load_raises_error_for_nonexistant_templates() {
     (new InMemory())->load('not-found');
   }

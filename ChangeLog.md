@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 5.3.3 / 2020-04-05
+
+* Implemented RFC #335: Remove deprecated key/value pair annotation syntax
+  (@thekid)
+
 ## 5.3.2 / 2019-12-01
 
 * Made compatible with XP 10 - @thekid
