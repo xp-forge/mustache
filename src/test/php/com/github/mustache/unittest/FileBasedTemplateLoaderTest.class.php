@@ -12,20 +12,23 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
    * @return com.github.mustache.FileBasedTemplateLoader
    */
   protected function newFixture($args) {
-    return newinstance(FileBasedTemplateLoader::class, $args, [
-      'askedFor' => [],
-      'variantsOf' => function($name) {
+    return new class(...$args) extends FileBasedTemplateLoader {
+      public $askedFor= [];
+
+      public function variantsOf($name) {
         return array_merge(parent::variantsOf($name), ['test']);
-      },
-      'inputStreamFor' => function($name) {
+      }
+
+      public function inputStreamFor($name) {
         if ('test' === $name) {
           return new MemoryInputStream('test');
         } else {
           $this->askedFor[]= $name;
           return null;
         }
-      },
-      'entries' => function() {
+      }
+
+      public function entries() {
         return function($package) {
           if ('' === rtrim($package, '/')) {
             return ['test'];
@@ -34,7 +37,7 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
           }
         };
       }
-    ]);
+    };
   }
 
   #[@test]
