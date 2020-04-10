@@ -1,7 +1,6 @@
 <?php namespace com\github\mustache\templates;
 
-use com\github\mustache\TemplateLoader;
-use com\github\mustache\WithListing;
+use com\github\mustache\{TemplateLoader, WithListing};
 use io\streams\MemoryInputStream;
 
 /**

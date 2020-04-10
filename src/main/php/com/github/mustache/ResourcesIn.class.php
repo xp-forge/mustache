@@ -1,8 +1,6 @@
 <?php namespace com\github\mustache;
 
-use lang\ClassLoader;
-use lang\ElementNotFoundException;
-use lang\IClassLoader;
+use lang\{ClassLoader, ElementNotFoundException, IClassLoader};
 
 /**
  * Classloader template loading loads templates from the class path.

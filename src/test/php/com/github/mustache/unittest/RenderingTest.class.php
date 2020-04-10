@@ -1,8 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\Node;
-use com\github\mustache\Context;
+use com\github\mustache\{Context, MustacheEngine, Node};
 
 class RenderingTest extends \unittest\TestCase {
 

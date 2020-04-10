@@ -1,9 +1,7 @@
 <?php namespace com\github\mustache;
 
+use com\github\mustache\templates\{NotFound, Templates, Tokens};
 use text\StringTokenizer;
-use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\NotFound;
-use com\github\mustache\templates\Tokens;
 
 /**
  * Template loading

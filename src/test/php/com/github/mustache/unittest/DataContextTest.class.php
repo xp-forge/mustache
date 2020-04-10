@@ -1,7 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\DataContext;
-use com\github\mustache\MustacheEngine;
+use com\github\mustache\{DataContext, MustacheEngine};
 
 class DataContextTest extends \unittest\TestCase {
 

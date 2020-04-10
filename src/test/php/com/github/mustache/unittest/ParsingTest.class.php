@@ -1,13 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\TemplateFormatException;
-use com\github\mustache\MustacheParser;
-use com\github\mustache\Template;
-use com\github\mustache\NodeList;
-use com\github\mustache\VariableNode;
-use com\github\mustache\TextNode;
-use com\github\mustache\SectionNode;
-use com\github\mustache\IteratorNode;
+use com\github\mustache\{IteratorNode, MustacheParser, NodeList, SectionNode, Template, TemplateFormatException, TextNode, VariableNode};
 use text\StringTokenizer;
 
 class ParsingTest extends \unittest\TestCase {

@@ -1,7 +1,6 @@
 <?php namespace com\github\mustache;
 
-use io\Folder;
-use io\File;
+use io\{File, Folder};
 
 /**
  * File-based template loading loads templates from a given folder

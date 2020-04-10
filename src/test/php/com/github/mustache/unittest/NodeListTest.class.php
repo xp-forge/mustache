@@ -1,9 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
-use lang\IndexOutOfBoundsException;
-use lang\IllegalArgumentException;
-use com\github\mustache\NodeList;
-use com\github\mustache\TextNode;
+use com\github\mustache\{NodeList, TextNode};
+use lang\{IllegalArgumentException, IndexOutOfBoundsException};
 
 class NodeListTest extends \unittest\TestCase {
 

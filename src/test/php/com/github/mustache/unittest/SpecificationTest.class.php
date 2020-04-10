@@ -1,11 +1,8 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\InMemory;
-use io\collections\iterate\ExtensionEqualsFilter;
-use io\collections\iterate\FilteredIOCollectionIterator;
-use io\collections\FileCollection;
-use io\collections\FileElement;
+use com\github\mustache\{InMemory, MustacheEngine};
+use io\collections\{FileCollection, FileElement};
+use io\collections\iterate\{ExtensionEqualsFilter, FilteredIOCollectionIterator};
 use text\json\StreamInput;
 
 /**

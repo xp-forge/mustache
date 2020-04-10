@@ -1,8 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\Source;
-use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\FromLoader;
+use com\github\mustache\templates\{FromLoader, Source, Templates};
 use text\StringTokenizer;
 
 /**

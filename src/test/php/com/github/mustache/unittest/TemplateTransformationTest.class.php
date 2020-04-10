@@ -1,8 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\TemplateNotFoundException;
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\InMemory;
+use com\github\mustache\{InMemory, MustacheEngine, TemplateNotFoundException};
 
 class TemplateTransformationTest extends \unittest\TestCase {
   protected $loader;

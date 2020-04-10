@@ -1,9 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
+use com\github\mustache\{NodeList, SectionNode, TextNode};
 use lang\IndexOutOfBoundsException;
-use com\github\mustache\SectionNode;
-use com\github\mustache\NodeList;
-use com\github\mustache\TextNode;
 
 class SectionNodeTest extends \unittest\TestCase {
   

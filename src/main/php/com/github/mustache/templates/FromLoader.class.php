@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\templates;
 
-use text\StreamTokenizer;
-use lang\IllegalAccessException;
 use com\github\mustache\WithListing;
 use com\github\mustache\templates\Tokens;
+use lang\IllegalAccessException;
+use text\StreamTokenizer;
 
 /**
  * Adapter for TemplateLoaders

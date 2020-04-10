@@ -1,7 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\VariableNode;
+use com\github\mustache\{MustacheEngine, VariableNode};
 
 class HelpersTest extends \unittest\TestCase {
 

@@ -1,11 +1,8 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\FilesIn;
-use com\github\mustache\TemplateNotFoundException;
+use com\github\mustache\{FilesIn, TemplateNotFoundException};
+use io\{File, FileUtil, Folder};
 use lang\System;
-use io\Folder;
-use io\File;
-use io\FileUtil;
 
 class FilesInTest extends \unittest\TestCase {
   private static $temp;

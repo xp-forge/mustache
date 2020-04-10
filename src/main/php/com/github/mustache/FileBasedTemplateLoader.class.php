@@ -1,10 +1,8 @@
 <?php namespace com\github\mustache;
 
-use util\Objects;
+use com\github\mustache\templates\{NotFound, Templates, Tokens};
 use text\StreamTokenizer;
-use com\github\mustache\templates\Templates;
-use com\github\mustache\templates\Tokens;
-use com\github\mustache\templates\NotFound;
+use util\Objects;
 
 /**
  * File-based template loading loads templates from the file system.

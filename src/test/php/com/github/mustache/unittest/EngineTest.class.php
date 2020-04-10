@@ -1,15 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\TemplateLoader;
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\MustacheParser;
-use com\github\mustache\FilesIn;
-use com\github\mustache\Template;
-use com\github\mustache\NodeList;
-use com\github\mustache\TextNode;
-use com\github\mustache\VariableNode;
-use io\streams\MemoryInputStream;
-use io\streams\MemoryOutputStream;
+use com\github\mustache\{FilesIn, MustacheEngine, MustacheParser, NodeList, Template, TemplateLoader, TextNode, VariableNode};
+use io\streams\{MemoryInputStream, MemoryOutputStream};
 
 class EngineTest extends \unittest\TestCase {
 
