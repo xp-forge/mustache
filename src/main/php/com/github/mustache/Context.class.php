@@ -70,7 +70,7 @@ abstract class Context {
       }
       return null;
     } else {
-      return isset($ptr[$segment]) ? $ptr[$segment] : null;
+      return $ptr[$segment] ?? null;
     }
   }
 
