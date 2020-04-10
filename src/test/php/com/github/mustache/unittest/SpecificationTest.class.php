@@ -1,9 +1,10 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{InMemory, MustacheEngine};
-use io\collections\{FileCollection, FileElement};
 use io\collections\iterate\{ExtensionEqualsFilter, FilteredIOCollectionIterator};
+use io\collections\{FileCollection, FileElement};
 use text\json\StreamInput;
+use unittest\TestCase;
 
 /**
  * Executes the Mustache specifications
@@ -17,8 +18,8 @@ use text\json\StreamInput;
  *
  * @see https://github.com/mustache/spec
  */
-class SpecificationTest extends \unittest\TestCase {
-  protected $target= null;
+class SpecificationTest extends TestCase {
+  private $target;
 
   /**
    * Constructor
