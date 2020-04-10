@@ -7,13 +7,13 @@
   "keywords": ["module", "xp"],
   "require" : {
     "xp-framework/core": "^10.0 | ^9.0 | ^8.0 | ^8.0 | ^7.0 | ^6.5",
-    "xp-framework/tokenize": "^8.0 | ^7.0 | ^6.6",
-    "php" : ">=5.6.0"
+    "xp-framework/tokenize": "^9.0 | ^8.0 | ^7.0 | ^6.6",
+    "php" : ">=7.0.0"
   },
   "require-dev": {
     "xp-framework/unittest": "^11.0 | ^10.0 | ^9.0 | ^8.0 | ^7.0 | ^6.5",
-    "xp-framework/io-collections": "^8.0 | ^7.0 | ^6.5",
-    "xp-forge/json": "^3.0 | ^2.0"
+    "xp-framework/io-collections": "^9.0 | ^8.0 | ^7.0 | ^6.5",
+    "xp-forge/json": "^4.0 | ^3.0 | ^2.0"
   },
   "autoload" : {
     "files" : ["src/main/php/autoload.php"]
