@@ -2,6 +2,7 @@
 
 use com\github\mustache\{IteratorNode, MustacheParser, NodeList, SectionNode, Template, TemplateFormatException, TextNode, VariableNode};
 use text\StringTokenizer;
+use unittest\{Expect, Test, Values};
 
 class ParsingTest extends \unittest\TestCase {
 
@@ -29,7 +30,7 @@ class ParsingTest extends \unittest\TestCase {
     ];
   }
 
-  #[@test]
+  #[Test]
   public function empty_string() {
     $this->assertEquals(
       new NodeList(),
@@ -37,7 +38,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function text() {
     $this->assertEquals(
       new NodeList([new TextNode('Hello World')]),
@@ -45,7 +46,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function variable() {
     $this->assertEquals(
       new NodeList([new VariableNode('name')]),
@@ -53,7 +54,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function variable_without_escaping_ampersand() {
     $this->assertEquals(
       new NodeList([new VariableNode('name', false)]),
@@ -61,7 +62,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function variable_without_escaping_triple_mustache() {
     $this->assertEquals(
       new NodeList([new VariableNode('name', false)]),
@@ -69,7 +70,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function section() {
     $this->assertEquals(
       new NodeList([new SectionNode('section')]),
@@ -77,7 +78,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function inverted_section() {
     $this->assertEquals(
       new NodeList([new SectionNode('section', true)]),
@@ -85,7 +86,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function section_with_content() {
     $this->assertEquals(
       new NodeList([new SectionNode('section', false, [], new NodeList([
@@ -95,17 +96,17 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(TemplateFormatException::class)]
+  #[Test, Expect(TemplateFormatException::class)]
   public function unclosed_tag() {
     $this->parse('Hello {{name, how are you?');
   }
 
-  #[@test, @expect(TemplateFormatException::class)]
+  #[Test, Expect(TemplateFormatException::class)]
   public function incorrectly_closed_tag() {
     $this->parse('Hello {{name}], how are you?');
   }
 
-  #[@test]
+  #[Test]
   public function non_mustache_syntax() {
     $this->assertEquals(
       new NodeList([new TextNode('Hello {name}')]),
@@ -113,7 +114,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nested_sections() {
     $this->assertEquals(
       new NodeList([new SectionNode('parent', false, [], new NodeList([
@@ -123,12 +124,12 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(TemplateFormatException::class)]
+  #[Test, Expect(TemplateFormatException::class)]
   public function incorrectly_nested_sections() {
     $this->parse('{{#parent}}{{#child}}{{/parent}}{{/child}}');
   }
 
-  #[@test, @expect(TemplateFormatException::class)]
+  #[Test, Expect(TemplateFormatException::class)]
   public function incorrectly_deeply_nested_sections() {
     $this->parse('
       {{#a}}
@@ -142,12 +143,12 @@ class ParsingTest extends \unittest\TestCase {
     ');
   }
 
-  #[@test, @expect(TemplateFormatException::class)]
+  #[Test, Expect(TemplateFormatException::class)]
   public function unclosed_section() {
     $this->parse('{{#parent}}');
   }
 
-  #[@test, @values('tags')]
+  #[Test, Values('tags')]
   public function variable_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList([new VariableNode('var', true, $parsed)]),
@@ -155,7 +156,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values('tags')]
+  #[Test, Values('tags')]
   public function unescaped_variable_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList([new VariableNode('var', false, $parsed)]),
@@ -163,7 +164,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values('tags')]
+  #[Test, Values('tags')]
   public function triple_stash_variable_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList([new VariableNode('var', false, $parsed)]),
@@ -171,7 +172,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values('tags')]
+  #[Test, Values('tags')]
   public function section_with_options($source, $parsed) {
     $this->assertEquals(
       new NodeList([new SectionNode('section', false, $parsed, new NodeList())]),
@@ -179,7 +180,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function iterator_node() {
     $this->assertEquals(
       new NodeList([new IteratorNode(true)]),
@@ -187,7 +188,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @values(['{{& .}}', '{{{.}}}'])]
+  #[Test, Values(['{{& .}}', '{{{.}}}'])]
   public function unescaped_iterator_node($notation) {
     $this->assertEquals(
       new NodeList([new IteratorNode(false)]),
@@ -195,7 +196,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function two_lines() {
     $this->assertEquals(
       new NodeList([new TextNode("a\n"), new TextNode("b\n")]),
@@ -203,7 +204,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function two_lines_with_empty_line_between() {
     $this->assertEquals(
       new NodeList([new TextNode("a\n"), new TextNode("\n"), new TextNode("b\n")]),
@@ -211,7 +212,7 @@ class ParsingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function two_lines_with_empty_lines_between() {
     $this->assertEquals(
       new NodeList([new TextNode("a\n"), new TextNode("\n"), new TextNode("\n"), new TextNode("b\n")]),

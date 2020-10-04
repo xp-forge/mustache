@@ -1,34 +1,35 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\InMemory;
+use unittest\{Test, Values};
 
 class InMemoryTest extends \unittest\TestCase {
 
-  #[@test]
+  #[Test]
   public function source() {
     $content= 'Mustache template {{id}}';
     $loader= new InMemory(['test' => $content]);
     $this->assertEquals($content, $loader->source('test')->code());
   }
 
-  #[@test]
+  #[Test]
   public function source_non_existant() {
     $this->assertFalse((new InMemory())->source('@non.existant@')->exists());
   }
 
-  #[@test]
+  #[Test]
   public function templates_in_root() {
     $loader= new InMemory(['navigation' => 'Test']);
     $this->assertEquals(['navigation'], $loader->listing()->templates());
   }
 
-  #[@test]
+  #[Test]
   public function packages_in_packages() {
     $loader= new InMemory(['partials/navigation' => 'Test']);
     $this->assertEquals(['partials/'], $loader->listing()->packages());
   }
 
-  #[@test]
+  #[Test]
   public function packages_in_packages_not_fetched_recursively() {
     $loader= new InMemory([
       'partials/navigation/header' => 'Header',
@@ -38,19 +39,19 @@ class InMemoryTest extends \unittest\TestCase {
     $this->assertEquals(['partials/'], $loader->listing()->packages());
   }
 
-  #[@test, @values([null, '/'])]
+  #[Test, Values([null, '/'])]
   public function templates_in_root_explicitely($root) {
     $loader= new InMemory(['navigation' => 'Test']);
     $this->assertEquals(['navigation'], $loader->listing()->package($root)->templates());
   }
 
-  #[@test, @values(['partials', 'partials/'])]
+  #[Test, Values(['partials', 'partials/'])]
   public function templates_in_package($package) {
     $loader= new InMemory(['partials/navigation' => 'Test']);
     $this->assertEquals(['partials/navigation'], $loader->listing()->package($package)->templates());
   }
 
-  #[@test, @values([null, '/'])]
+  #[Test, Values([null, '/'])]
   public function templates_not_fetched_recursively_from_root($root) {
     $loader= new InMemory([
       'navigation'        => 'Global',
@@ -60,7 +61,7 @@ class InMemoryTest extends \unittest\TestCase {
     $this->assertEquals(['navigation'], $loader->listing()->package($root)->templates());
   }
 
-  #[@test, @values(['partials', 'partials/'])]
+  #[Test, Values(['partials', 'partials/'])]
   public function templates_not_fetched_recursively_from_package($package) {
     $loader= new InMemory([
       'partials/navigation'        => 'Global',

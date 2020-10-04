@@ -4,7 +4,7 @@ use com\github\mustache\{InMemory, MustacheEngine};
 use io\collections\iterate\{ExtensionEqualsFilter, FilteredIOCollectionIterator};
 use io\collections\{FileCollection, FileElement};
 use text\json\StreamInput;
-use unittest\TestCase;
+use unittest\{Test, TestCase, Values};
 
 /**
  * Executes the Mustache specifications
@@ -51,7 +51,7 @@ class SpecificationTest extends TestCase {
     }
   }
 
-  #[@test, @values('specifications')]
+  #[Test, Values('specifications')]
   public function specification_met($name, $test) {
 
     // Select correct lambda

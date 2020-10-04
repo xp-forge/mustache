@@ -3,6 +3,7 @@
 use com\github\mustache\{FilesIn, TemplateNotFoundException};
 use io\{File, FileUtil, Folder};
 use lang\System;
+use unittest\{AfterClass, BeforeClass, Test, Values};
 
 class FilesInTest extends \unittest\TestCase {
   private static $temp;
@@ -12,7 +13,7 @@ class FilesInTest extends \unittest\TestCase {
    *
    * @return void
    */
-  #[@beforeClass]
+  #[BeforeClass]
   public static function createFiles() {
     self::$temp= new Folder(System::tempDir(), uniqid(microtime(true)));
     self::$temp->create();
@@ -29,12 +30,12 @@ class FilesInTest extends \unittest\TestCase {
    *
    * @return void
    */
-  #[@afterClass]
+  #[AfterClass]
   public static function cleanupFiles() {
     self::$temp->unlink();
   }
 
-  #[@test]
+  #[Test]
   public function source_from_default_class_loader() {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(
@@ -43,30 +44,30 @@ class FilesInTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function source_non_existant() {
     $this->assertFalse((new FilesIn(self::$temp))->source('@non.existant@')->exists());
   }
 
-  #[@test]
+  #[Test]
   public function templates_in_root() {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(['test'], $loader->listing()->templates());
   }
 
-  #[@test]
+  #[Test]
   public function packages_in_root() {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(['partials/'], $loader->listing()->packages());
   }
 
-  #[@test, @values(['partials', 'partials/'])]
+  #[Test, Values(['partials', 'partials/'])]
   public function packages_in_package($package) {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals([], $loader->listing()->package($package)->packages());
   }
 
-  #[@test, @values(['partials', 'partials/'])]
+  #[Test, Values(['partials', 'partials/'])]
   public function templates_in_package($package) {
     $loader= new FilesIn(self::$temp);
     $this->assertEquals(['partials/navigation'], $loader->listing()->package($package)->templates());

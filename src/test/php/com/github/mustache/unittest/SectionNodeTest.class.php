@@ -2,58 +2,59 @@
 
 use com\github\mustache\{NodeList, SectionNode, TextNode};
 use lang\IndexOutOfBoundsException;
+use unittest\{Expect, Test, Values};
 
 class SectionNodeTest extends \unittest\TestCase {
   
-  #[@test]
+  #[Test]
   public function can_create() {
     new SectionNode('test');
   }
 
-  #[@test]
+  #[Test]
   public function name() {
     $this->assertEquals('test', (new SectionNode('test'))->name());
   }
 
-  #[@test]
+  #[Test]
   public function inverted_is_false_by_default() {
     $this->assertFalse((new SectionNode('test'))->inverted());
   }
 
-  #[@test, @values([false, true])]
+  #[Test, Values([false, true])]
   public function inverted($value) {
     $this->assertEquals($value, (new SectionNode('test', $value))->inverted());
   }
 
-  #[@test]
+  #[Test]
   public function options_is_empty_by_default() {
     $this->assertEquals([], (new SectionNode('test'))->options());
   }
 
-  #[@test, @values([[[]], [['a']], [['a', 'b']]])]
+  #[Test, Values([[[]], [['a']], [['a', 'b']]])]
   public function options($value) {
     $this->assertEquals($value, (new SectionNode('test', false, $value))->options());
   }
 
-  #[@test]
+  #[Test]
   public function add_returns_node_added() {
     $node= new TextNode('test');
     $this->assertEquals($node, (new SectionNode('test'))->add($node));
   }
 
-  #[@test]
+  #[Test]
   public function length_initially_zero() {
     $this->assertEquals(0, (new SectionNode('test'))->length());
   }
 
-  #[@test]
+  #[Test]
   public function length_after_adding_a_node() {
     $fixture= new SectionNode('test');
     $fixture->add(new TextNode('test'));
     $this->assertEquals(1, $fixture->length());
   }
 
-  #[@test]
+  #[Test]
   public function length_after_adding_two_nodes() {
     $fixture= new SectionNode('test');
     $fixture->add(new TextNode('test1'));
@@ -61,19 +62,19 @@ class SectionNodeTest extends \unittest\TestCase {
     $this->assertEquals(2, $fixture->length());
   }
 
-  #[@test]
+  #[Test]
   public function nodes_initially_empty() {
     $this->assertEquals([], (new SectionNode('test'))->nodes());
   }
 
-  #[@test]
+  #[Test]
   public function nodes_after_adding_a_node() {
     $fixture= new SectionNode('test');
     $node= $fixture->add(new TextNode('test'));
     $this->assertEquals([$node], $fixture->nodes());
   }
 
-  #[@test]
+  #[Test]
   public function nodes_after_adding_two_nodes() {
     $fixture= new SectionNode('test');
     $node1= $fixture->add(new TextNode('test1'));
@@ -81,26 +82,26 @@ class SectionNodeTest extends \unittest\TestCase {
     $this->assertEquals([$node1, $node2], $fixture->nodes());
   }
 
-  #[@test, @expect(IndexOutOfBoundsException::class), @values([0, -1, 1])]
+  #[Test, Expect(IndexOutOfBoundsException::class), Values([0, -1, 1])]
   public function nodeAt_raises_exception_on_empty_list($offset) {
     (new SectionNode('test'))->nodeAt($offset);
   }
 
-  #[@test, @expect(IndexOutOfBoundsException::class), @values([-1, 1, 2])]
+  #[Test, Expect(IndexOutOfBoundsException::class), Values([-1, 1, 2])]
   public function nodeAt_raises_exception($offset) {
     $fixture= new SectionNode('test');
     $fixture->add(new TextNode('test'));
     $fixture->nodeAt($offset);
   }
 
-  #[@test]
+  #[Test]
   public function nodeAt_returns_added_node() {
     $fixture= new SectionNode('test');
     $node= $fixture->add(new TextNode('test'));
     $this->assertEquals($node, $fixture->nodeAt(0));
   }
 
-  #[@test]
+  #[Test]
   public function nodeAt_returns_added_nodes() {
     $fixture= new SectionNode('test');
     $node1= $fixture->add(new TextNode('test1'));
@@ -108,22 +109,17 @@ class SectionNodeTest extends \unittest\TestCase {
     $this->assertEquals([$node1, $node2], [$fixture->nodeAt(0), $fixture->nodeAt(1)]);
   }
 
-  #[@test]
+  #[Test]
   public function string_representation() {
     $this->assertEquals("{{#test}}\n\n{{/test}}\n", (string)new SectionNode('test', false));
   }
 
-  #[@test]
+  #[Test]
   public function string_representation_when_inverted() {
     $this->assertEquals("{{^test}}\n\n{{/test}}\n", (string)new SectionNode('test', true));
   }
 
-  #[@test, @values([
-  #  ['', []],
-  #  [' a', ['a']],
-  #  [' a b', ['a', 'b']],
-  #  [' a b "c d"', ['a', 'b', 'c d']],
-  #])]
+  #[Test, Values([['', []], [' a', ['a']], [' a b', ['a', 'b']], [' a b "c d"', ['a', 'b', 'c d']],])]
   public function string_representation_with_options($string, $options) {
     $this->assertEquals(
       "{{#test".$string."}}\n\n{{/test}}\n",
@@ -131,7 +127,7 @@ class SectionNodeTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function string_representation_with_sub_nodes() {
     $this->assertEquals(
       "{{#test}}\nTest\n{{/test}}\n",

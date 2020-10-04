@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{InMemory, MustacheEngine, TemplateNotFoundException};
+use unittest\{Expect, Test};
 
 class TemplateTransformationTest extends \unittest\TestCase {
   protected $loader;
@@ -14,7 +15,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
     $this->engine= (new MustacheEngine())->withTemplates($this->loader);
   }
 
-  #[@test]
+  #[Test]
   public function transform_loads_the_template() {
     $this->loader->add('helloworld', 'Hello {{name}}');
 
@@ -24,7 +25,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function partials_loads_both_templates() {
     $this->loader->add('base',
       "<h2>Names</h2>\n".
@@ -43,7 +44,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
     );
   }
 
-  #[@test, @expect(TemplateNotFoundException::class)]
+  #[Test, Expect(TemplateNotFoundException::class)]
   public function non_existant_template_causes_exception() {
     $this->engine->transform('nonexistant', []);
   }

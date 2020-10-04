@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\MustacheEngine;
+use unittest\Test;
 
 /**
  * @see  http://www.vodori.com/blog/helpful-mustache-template-tips.html
@@ -18,7 +19,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
     return (new MustacheEngine())->render($template, $variables);
   }
 
-  #[@test]
+  #[Test]
   public function nr_1_render_a_block_ONCE_if_an_array_is_not_empty() {
     $this->assertEquals(
       "<h3>The images: this should only be rendered once.</h3>\n".
@@ -51,7 +52,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nr_2_render_simple_elements_in_a_list() {
     $this->assertEquals(
       "Color Objects:\n".
@@ -86,7 +87,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
   }
 
 
-  #[@test]
+  #[Test]
   public function nr_3_default_values() {
     $this->assertEquals(
       "<h1>Title: Real Title</h1>\n".
@@ -108,7 +109,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nr_4_access_the_parent_context() {
     $this->assertEquals(
       "<ul>\n".

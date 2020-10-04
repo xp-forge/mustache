@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{Context, MustacheEngine, Node};
+use unittest\Test;
 
 class RenderingTest extends \unittest\TestCase {
 
@@ -15,7 +16,7 @@ class RenderingTest extends \unittest\TestCase {
     return (new MustacheEngine())->render($template, $variables);
   }
 
-  #[@test]
+  #[Test]
   public function replace_single_variable() {
     $this->assertEquals(
       'Hello World',
@@ -23,7 +24,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function replace_two_variables() {
     $this->assertEquals(
       'The color of bananas is yellow',
@@ -31,7 +32,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function typical_mustache_template() {
     $this->assertEquals(
       "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.\n",
@@ -51,7 +52,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function html_is_escaped() {
     $this->assertEquals(
       'The code for Mustache is hosted on &lt;b&gt;GitHub&lt;/b&gt;',
@@ -59,7 +60,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function triple_mustache_returns_unescaped_html() {
     $this->assertEquals(
       'The code for Mustache is hosted on <b>GitHub</b>',
@@ -67,7 +68,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function ampersand_returns_unescaped_html() {
     $this->assertEquals(
       'The code for Mustache is hosted on <b>GitHub</b>',
@@ -75,7 +76,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function non_existant_key_generates_empty_output() {
     $this->assertEquals(
       'There is  missing here',
@@ -83,7 +84,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function non_empty_list() {
     $this->assertEquals(
       "<b>resque</b>\n<b>hub</b>\n<b>rip</b>\n",
@@ -102,7 +103,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function lambda() {
     $this->assertEquals(
       "<b>Willy is awesome.</b>",
@@ -120,7 +121,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function lambda_render_inside() {
     $this->assertEquals(
       "<b>WILLY IS AWESOME.\n</b>",
@@ -138,7 +139,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function lambda_variable() {
     $this->assertEquals(
       'Willy is awesome.',
@@ -154,7 +155,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function hash_value_becomes_context() {
     $this->assertEquals(
       "Hi Jon!\n",
@@ -167,7 +168,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function inverted_sections() {
     $this->assertEquals(
       "No repos :(\n",
@@ -183,7 +184,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function comments_are_ignored() {
     $this->assertEquals(
       '<h1>Today.</h1>',
@@ -191,7 +192,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function nested_sections() {
     $this->assertEquals(
       'qux',
@@ -201,7 +202,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function dot_notation() {
     $this->assertEquals(
       'qux',
@@ -211,7 +212,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function implicit_iterator() {
     $this->assertEquals(
       "* red\n* green\n* blue\n",
@@ -224,7 +225,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function replace_single_variable_with_whitespace() {
     $this->assertEquals(
       'Hello World',
@@ -232,7 +233,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function replace_single_variable_in_triple_mustaches_with_whitespace() {
     $this->assertEquals(
       'Hello World',
@@ -240,7 +241,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_public_object_field_in_variables() {
     $this->assertEquals(
       'Hello World',
@@ -250,7 +251,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_public_object_field_in_sections() {
     $this->assertEquals(
       'Hello World',
@@ -260,7 +261,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_public_object_method_in_variables() {
     $this->assertEquals(
       'Hello World',
@@ -270,7 +271,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_public_object_method_in_sections() {
     $this->assertEquals(
       'Hello World',
@@ -280,7 +281,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function non_existant_object_member_in_variables() {
     $this->assertEquals(
       'Hello ',
@@ -288,7 +289,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function non_existant_object_member_in_sections() {
     $this->assertEquals(
       '',
@@ -296,7 +297,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_object_getter_with_protected_field_in_variables() {
     $this->assertEquals(
       'Hello World',
@@ -307,7 +308,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_object_getter_with_protected_field_in_sections() {
     $this->assertEquals(
       'Hello World',
@@ -318,7 +319,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_object_getter_in_variables() {
     $this->assertEquals(
       'Hello World',
@@ -328,7 +329,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function use_object_getter_in_sections() {
     $this->assertEquals(
       'Hello World',
@@ -338,7 +339,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function change_delimiters() {
     $this->assertEquals(
       '(Hey!)',
@@ -346,7 +347,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function change_delimiters_single_char() {
     $this->assertEquals(
       '(It worked!)',
@@ -354,7 +355,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function change_delimiters_trimmed() {
     $this->assertEquals(
       '(It worked!)',
@@ -362,7 +363,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function delimiters_partially_parsed() {
     $this->assertEquals(
       '<?=$var;?>',
@@ -370,7 +371,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function non_mustache_syntax_kept() {
     $this->assertEquals(
       'Hello {name}!',
@@ -378,7 +379,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function parent_context() {
     $this->assertEquals(
       "* Image test/one\n* Image test/two\n",
@@ -399,7 +400,7 @@ class RenderingTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function current_context() {
     $this->assertEquals(
       "* Image test/one\n* Image test/two\n",

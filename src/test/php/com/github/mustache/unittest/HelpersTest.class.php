@@ -1,6 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{MustacheEngine, VariableNode};
+use unittest\Test;
 
 class HelpersTest extends \unittest\TestCase {
 
@@ -19,7 +20,7 @@ class HelpersTest extends \unittest\TestCase {
     ;
   }
 
-  #[@test]
+  #[Test]
   public function replace_single_variable() {
     $this->assertEquals(
       'Hello <b>World</b>',
@@ -29,7 +30,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function replace_single_variable_with_node() {
     $this->assertEquals(
       'Hello World',
@@ -39,7 +40,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function dot_notation() {
     $this->assertEquals(
       'Hello world, this is BIG',
@@ -52,7 +53,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function invokeable() {
     $this->assertEquals(
       'Hello <i>World</i>',
@@ -64,7 +65,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function instance_method_as_helper() {
     $this->assertEquals(
       'My birthday @ 14.12.2013',
@@ -80,7 +81,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function log_section() {
     $this->assertEquals(
       'Hello [logged: info "Just a test"]',
@@ -92,7 +93,7 @@ class HelpersTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function log_helper() {
     $this->assertEquals(
       'Hello [logged: info Just a test]',
