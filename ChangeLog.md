@@ -5,7 +5,7 @@ Mustache for XP Framework ChangeLog
 
 ## 6.0.0 / 2020-10-18
 
-* Converted test suite to Assert DSL and baseless tests - @thekid
+* Converted test suite to PHP 8 attributes and Assert DSL - @thekid
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
   . **Heads up:** Minimum required PHP version now is PHP 7.0.0
   . Rewrote code base, grouping use statements
