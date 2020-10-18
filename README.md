@@ -78,8 +78,7 @@ Template loading
 Per default, templates are loaded from the current working directory. This can be changed by passing a template loader instance to the engine:
 
 ```php
-use com\github\mustache\MustacheEngine;
-use com\github\mustache\FilesIn;
+use com\github\mustache\{MustacheEngine, FilesIn};
 use io\Folder;
 
 $engine= new MustacheEngine();
@@ -96,6 +95,8 @@ Compiled templates
 If you wish to apply variables to a template more than once, you can speed that process up by precompiling templates and using them later on:
 
 ```php
+use com\github\mustache\MustacheEngine;
+
 $engine= new MustacheEngine();
 $template= $engine->compile($template);
 
@@ -117,6 +118,8 @@ Think of helpers as "omnipresent" context. They are added to the engine instance
 
 ### Call
 ```php
+use com\github\mustache\MustacheEngine;
+
 $engine= new MustacheEngine();
 $engine->withHelper('bold', function($text) {
   return '<b>'.$text.'</b>';
