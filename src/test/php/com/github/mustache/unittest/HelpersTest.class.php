@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{MustacheEngine, VariableNode};
-use unittest\Test;
+use unittest\{Assert, Test};
 
-class HelpersTest extends \unittest\TestCase {
+class HelpersTest {
 
   /**
    * Render
@@ -22,7 +22,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_single_variable() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello <b>World</b>',
       $this->render('Hello {{#bold}}{{name}}{{/bold}}', ['name' => 'World'], [
         'bold' => function($text) { return '<b>'.$text.'</b>'; }
@@ -32,7 +32,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_single_variable_with_node() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{#var}}name{{/var}}', ['name' => 'World'], [
         'var' => function($in) { return new VariableNode((string)$in); }
@@ -42,7 +42,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function dot_notation() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello world, this is BIG',
       $this->render('Hello {{#case.lower}}World{{/case.lower}}, this is {{#case.upper}}big{{/case.upper}}', [], [
         'case' => [
@@ -55,7 +55,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function invokeable() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello <i>World</i>',
       $this->render('Hello {{#i}}{{name}}{{/i}}', ['name' => 'World'], [
         'i' => new class() extends Value {
@@ -67,7 +67,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function instance_method_as_helper() {
-    $this->assertEquals(
+    Assert::equals(
       'My birthday @ 14.12.2013',
       $this->render(
         'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
@@ -83,7 +83,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function log_section() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello [logged: info "Just a test"]',
       $this->render('Hello {{#log info}}Just a test{{/log}}', [], [
         'log' => function($in, $context, $options) {
@@ -95,7 +95,7 @@ class HelpersTest extends \unittest\TestCase {
 
   #[Test]
   public function log_helper() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello [logged: info Just a test]',
       $this->render('Hello {{log info "Just a test"}}', [], [
         'log' => function($in, $context, $options) {

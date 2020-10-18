@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\TextNode;
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 
-class TextNodeTest extends \unittest\TestCase {
+class TextNodeTest {
   
   #[Test]
   public function can_create() {
@@ -12,11 +12,11 @@ class TextNodeTest extends \unittest\TestCase {
 
   #[Test]
   public function text() {
-    $this->assertEquals('test', (new TextNode('test'))->text());
+    Assert::equals('test', (new TextNode('test'))->text());
   }
 
   #[Test, Values(['', 'test', 'Hello World'])]
   public function string_representation($text) {
-    $this->assertEquals($text, (string)new TextNode($text));
+    Assert::equals($text, (string)new TextNode($text));
   }
 }

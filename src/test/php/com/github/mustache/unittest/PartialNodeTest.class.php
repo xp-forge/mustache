@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\PartialNode;
-use unittest\Test;
+use unittest\{Assert, Test};
 
-class PartialNodeTest extends \unittest\TestCase {
+class PartialNodeTest {
   
   #[Test]
   public function can_create() {
@@ -12,11 +12,11 @@ class PartialNodeTest extends \unittest\TestCase {
 
   #[Test]
   public function template() {
-    $this->assertEquals('test', (new PartialNode('test'))->template());
+    Assert::equals('test', (new PartialNode('test'))->template());
   }
 
   #[Test]
   public function string_representation() {
-    $this->assertEquals('{{> test}}', (string)new PartialNode('test'));
+    Assert::equals('{{> test}}', (string)new PartialNode('test'));
   }
 }

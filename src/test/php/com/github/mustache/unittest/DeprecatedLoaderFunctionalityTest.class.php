@@ -2,16 +2,16 @@
 
 use com\github\mustache\{InMemory, TemplateNotFoundException};
 use io\streams\Streams;
-use unittest\{Expect, Test};
+use unittest\{Assert, Expect, Test};
 
 /** @deprecated */
-class DeprecatedLoaderFunctionalityTest extends \unittest\TestCase {
+class DeprecatedLoaderFunctionalityTest {
 
   #[Test]
   public function load_returns_stream() {
     $content= 'Mustache template {{id}}';
     $loader= new InMemory(['test' => $content]);
-    $this->assertEquals($content, Streams::readAll($loader->load('test')));
+    Assert::equals($content, Streams::readAll($loader->load('test')));
   }
 
   #[Test, Expect(['class'       => TemplateNotFoundException::class, 'withMessage' => 'Cannot find template not-found'])]

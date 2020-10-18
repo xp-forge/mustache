@@ -2,9 +2,9 @@
 
 use com\github\mustache\FileBasedTemplateLoader;
 use io\streams\MemoryInputStream;
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 
-class FileBasedTemplateLoaderTest extends \unittest\TestCase {
+class FileBasedTemplateLoaderTest {
 
   /**
    * Returns a new FileBasedTemplateLoader instance
@@ -45,31 +45,31 @@ class FileBasedTemplateLoaderTest extends \unittest\TestCase {
   public function load_asks_for_mustache_extension_by_default() {
     $loader= $this->newFixture(['base']);
     $loader->source('template');
-    $this->assertEquals(['template.mustache'], $loader->askedFor);
+    Assert::equals(['template.mustache'], $loader->askedFor);
   }
 
   #[Test]
   public function load_asks_for_all_given_variants() {
     $loader= $this->newFixture(['base', ['.mustache', '.ms']]);
     $loader->source('template');
-    $this->assertEquals(['template.mustache', 'template.ms'], $loader->askedFor);
+    Assert::equals(['template.mustache', 'template.ms'], $loader->askedFor);
   }
 
   #[Test]
   public function templates_in_root() {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals(['test'], $loader->listing()->templates());
+    Assert::equals(['test'], $loader->listing()->templates());
   }
 
   #[Test, Values([null, '/'])]
   public function templates_in_root_explicitely($root) {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals(['test'], $loader->listing()->package($root)->templates());
+    Assert::equals(['test'], $loader->listing()->package($root)->templates());
   }
 
   #[Test, Values(['partials', 'partials/'])]
   public function templates_in_package($package) {
     $loader= $this->newFixture(['base']);
-    $this->assertEquals([], $loader->listing()->package($package)->templates());
+    Assert::equals([], $loader->listing()->package($package)->templates());
   }
 }

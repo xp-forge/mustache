@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\IteratorNode;
-use unittest\{Test, Values};
+use unittest\{Assert, Test, Values};
 
-class IteratorNodeTest extends \unittest\TestCase {
+class IteratorNodeTest {
   
   #[Test]
   public function can_create() {
@@ -12,21 +12,21 @@ class IteratorNodeTest extends \unittest\TestCase {
 
   #[Test]
   public function escaped_is_true_by_default() {
-    $this->assertTrue((new IteratorNode())->escaped());
+    Assert::true((new IteratorNode())->escaped());
   }
 
   #[Test, Values([false, true])]
   public function escaped($value) {
-    $this->assertEquals($value, (new IteratorNode($value))->escaped());
+    Assert::equals($value, (new IteratorNode($value))->escaped());
   }
 
   #[Test]
   public function string_representation() {
-    $this->assertEquals('{{.}}', (string)new IteratorNode(true));
+    Assert::equals('{{.}}', (string)new IteratorNode(true));
   }
 
   #[Test]
   public function string_representation_when_not_escaped() {
-    $this->assertEquals('{{& .}}', (string)new IteratorNode(false));
+    Assert::equals('{{& .}}', (string)new IteratorNode(false));
   }
 }

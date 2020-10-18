@@ -1,9 +1,9 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{Context, MustacheEngine, Node};
-use unittest\Test;
+use unittest\{Assert, Test};
 
-class RenderingTest extends \unittest\TestCase {
+class RenderingTest {
 
   /**
    * Renders a given template with some variables
@@ -18,7 +18,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_single_variable() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{name}}', ['name' => 'World'])
     );
@@ -26,7 +26,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_two_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'The color of bananas is yellow',
       $this->render('The color of {{fruit}}s is {{color}}', ['fruit' => 'banana', 'color' => 'yellow'])
     );
@@ -34,7 +34,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function typical_mustache_template() {
-    $this->assertEquals(
+    Assert::equals(
       "Hello Chris\nYou have just won \$10000!\nWell, \$6000, after taxes.\n",
       $this->render(
         "Hello {{name}}\n".
@@ -54,7 +54,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function html_is_escaped() {
-    $this->assertEquals(
+    Assert::equals(
       'The code for Mustache is hosted on &lt;b&gt;GitHub&lt;/b&gt;',
       $this->render('The code for Mustache is hosted on {{site}}', ['site' => '<b>GitHub</b>'])
     );
@@ -62,7 +62,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function triple_mustache_returns_unescaped_html() {
-    $this->assertEquals(
+    Assert::equals(
       'The code for Mustache is hosted on <b>GitHub</b>',
       $this->render('The code for Mustache is hosted on {{{site}}}', ['site' => '<b>GitHub</b>'])
     );
@@ -70,7 +70,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function ampersand_returns_unescaped_html() {
-    $this->assertEquals(
+    Assert::equals(
       'The code for Mustache is hosted on <b>GitHub</b>',
       $this->render('The code for Mustache is hosted on {{& site}}', ['site' => '<b>GitHub</b>'])
     );
@@ -78,7 +78,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function non_existant_key_generates_empty_output() {
-    $this->assertEquals(
+    Assert::equals(
       'There is  missing here',
       $this->render('There is {{something}} missing here', [])
     );
@@ -86,7 +86,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function non_empty_list() {
-    $this->assertEquals(
+    Assert::equals(
       "<b>resque</b>\n<b>hub</b>\n<b>rip</b>\n",
       $this->render(
         "{{#repo}}\n".
@@ -105,7 +105,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function lambda() {
-    $this->assertEquals(
+    Assert::equals(
       "<b>Willy is awesome.</b>",
       $this->render(
         "{{#wrapped}}\n".
@@ -123,7 +123,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function lambda_render_inside() {
-    $this->assertEquals(
+    Assert::equals(
       "<b>WILLY IS AWESOME.\n</b>",
       $this->render(
         "{{#wrapped}}\n".
@@ -141,7 +141,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function lambda_variable() {
-    $this->assertEquals(
+    Assert::equals(
       'Willy is awesome.',
       $this->render(
         '{{lambda}}',
@@ -157,7 +157,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function hash_value_becomes_context() {
-    $this->assertEquals(
+    Assert::equals(
       "Hi Jon!\n",
       $this->render(
         "{{#person?}}\n".
@@ -170,7 +170,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function inverted_sections() {
-    $this->assertEquals(
+    Assert::equals(
       "No repos :(\n",
       $this->render(
         "{{#repo}}\n".
@@ -186,7 +186,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function comments_are_ignored() {
-    $this->assertEquals(
+    Assert::equals(
       '<h1>Today.</h1>',
       $this->render('<h1>Today{{! ignore me }}.</h1>', [])
     );
@@ -194,7 +194,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function nested_sections() {
-    $this->assertEquals(
+    Assert::equals(
       'qux',
       $this->render('{{#foo}}{{#bar}}{{baz}}{{/bar}}{{/foo}}', [
         'foo' => ['bar' => ['baz' => 'qux']]
@@ -204,7 +204,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function dot_notation() {
-    $this->assertEquals(
+    Assert::equals(
       'qux',
       $this->render('{{foo.bar.baz}}', [
         'foo' => ['bar' => ['baz' => 'qux']]
@@ -214,7 +214,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function implicit_iterator() {
-    $this->assertEquals(
+    Assert::equals(
       "* red\n* green\n* blue\n",
       $this->render(
         "{{#colors}}\n".
@@ -227,7 +227,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_single_variable_with_whitespace() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{ name }}', ['name' => 'World'])
     );
@@ -235,7 +235,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function replace_single_variable_in_triple_mustaches_with_whitespace() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{{ name }}}', ['name' => 'World'])
     );
@@ -243,7 +243,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_public_object_field_in_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{name}}', new class() extends Value {
         public $name= 'World';
@@ -253,7 +253,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_public_object_field_in_sections() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('{{#render}}Hello World{{/render}}', new class() extends Value {
         public $render= true;
@@ -263,7 +263,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_public_object_method_in_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{name}}', new class() extends Value {
         public function name() { return 'World'; }
@@ -273,7 +273,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_public_object_method_in_sections() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('{{#render}}Hello World{{/render}}', new class() extends Value {
         public function render() { return true; }
@@ -283,7 +283,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function non_existant_object_member_in_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello ',
       $this->render('Hello {{name}}', new Value())
     );
@@ -291,7 +291,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function non_existant_object_member_in_sections() {
-    $this->assertEquals(
+    Assert::equals(
       '',
       $this->render('{{#render}}Hello World{{/render}}', new Value())
     );
@@ -299,7 +299,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_object_getter_with_protected_field_in_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{name}}', new class() extends Value {
         protected $name= 'World';
@@ -310,7 +310,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_object_getter_with_protected_field_in_sections() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('{{#render}}Hello World{{/render}}', new class() extends Value {
         protected $render= true;
@@ -321,7 +321,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_object_getter_in_variables() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('Hello {{name}}', new class() extends Value {
         public function getName() { return 'World'; }
@@ -331,7 +331,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function use_object_getter_in_sections() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->render('{{#render}}Hello World{{/render}}', new class() extends Value {
         public function getRender() { return true; }
@@ -341,7 +341,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function change_delimiters() {
-    $this->assertEquals(
+    Assert::equals(
       '(Hey!)',
       $this->render('{{=<% %>=}}(<%text%>)', ['text' => 'Hey!'])
     );
@@ -349,7 +349,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function change_delimiters_single_char() {
-    $this->assertEquals(
+    Assert::equals(
       '(It worked!)',
       $this->render('({{=[ ]=}}[text])', ['text' => 'It worked!'])
     );
@@ -357,7 +357,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function change_delimiters_trimmed() {
-    $this->assertEquals(
+    Assert::equals(
       '(It worked!)',
       $this->render('({{= | | =}}|text|)', ['text' => 'It worked!'])
     );
@@ -365,7 +365,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function delimiters_partially_parsed() {
-    $this->assertEquals(
+    Assert::equals(
       '<?=$var;?>',
       $this->render('{{=<% %>=}}<?=$var;?>', [])
     );
@@ -373,7 +373,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function non_mustache_syntax_kept() {
-    $this->assertEquals(
+    Assert::equals(
       'Hello {name}!',
       $this->render('Hello {name}!', [])
     );
@@ -381,7 +381,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function parent_context() {
-    $this->assertEquals(
+    Assert::equals(
       "* Image test/one\n* Image test/two\n",
       $this->render(
         "{{#album}}\n".
@@ -402,7 +402,7 @@ class RenderingTest extends \unittest\TestCase {
 
   #[Test]
   public function current_context() {
-    $this->assertEquals(
+    Assert::equals(
       "* Image test/one\n* Image test/two\n",
       $this->render(
         "{{#album}}\n".

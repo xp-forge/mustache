@@ -4,7 +4,7 @@ use com\github\mustache\{InMemory, MustacheEngine};
 use io\collections\iterate\{ExtensionEqualsFilter, FilteredIOCollectionIterator};
 use io\collections\{FileCollection, FileElement};
 use text\json\StreamInput;
-use unittest\{Test, TestCase, Values};
+use unittest\{Assert, Test, TestCase, Values};
 
 /**
  * Executes the Mustache specifications
@@ -18,17 +18,15 @@ use unittest\{Test, TestCase, Values};
  *
  * @see https://github.com/mustache/spec
  */
-class SpecificationTest extends TestCase {
+class SpecificationTest {
   private $target;
 
   /**
    * Constructor
    *
-   * @param string $name
-   * @param string $target The directory in which the spec files exist
+   * @param  string $target The directory in which the spec files exist
    */
-  public function __construct($name, $target= null) {
-    parent::__construct($name);
+  public function __construct($target= null) {
     $this->target= $target;
   }
 
@@ -63,7 +61,7 @@ class SpecificationTest extends TestCase {
     }
 
     // Render, and assert result
-    $this->assertEquals($test['expected'], (new MustacheEngine())
+    Assert::equals($test['expected'], (new MustacheEngine())
       ->withTemplates(new InMemory(isset($test['partials']) ? $test['partials'] : []))
       ->render($test['template'], $test['data'])
     );

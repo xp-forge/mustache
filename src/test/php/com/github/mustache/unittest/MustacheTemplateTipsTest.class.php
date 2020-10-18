@@ -1,12 +1,12 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\MustacheEngine;
-use unittest\Test;
+use unittest\{Assert, Test};
 
 /**
  * @see  http://www.vodori.com/blog/helpful-mustache-template-tips.html
  */
-class MustacheTemplateTipsTest extends \unittest\TestCase {
+class MustacheTemplateTipsTest {
 
   /**
    * Renders a given template with some variables
@@ -21,7 +21,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
 
   #[Test]
   public function nr_1_render_a_block_ONCE_if_an_array_is_not_empty() {
-    $this->assertEquals(
+    Assert::equals(
       "<h3>The images: this should only be rendered once.</h3>\n".
       "<ul>\n".
       "    <li><img src=\"http://www.fpoimg.com/20x20\"/></li>\n".
@@ -54,7 +54,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
 
   #[Test]
   public function nr_2_render_simple_elements_in_a_list() {
-    $this->assertEquals(
+    Assert::equals(
       "Color Objects:\n".
       "    <span style=\"color: red\">red</span>\n".
       "      <span style=\"color: green\">green</span>\n".
@@ -89,7 +89,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
 
   #[Test]
   public function nr_3_default_values() {
-    $this->assertEquals(
+    Assert::equals(
       "<h1>Title: Real Title</h1>\n".
       "<h2>Sub-title: Default Sub-title</h2>\n".
       "<h3>Third title: Default Third Title</h3>\n".
@@ -111,7 +111,7 @@ class MustacheTemplateTipsTest extends \unittest\TestCase {
 
   #[Test]
   public function nr_4_access_the_parent_context() {
-    $this->assertEquals(
+    Assert::equals(
       "<ul>\n".
       "  <li>\n".
       "    Title: Hat <br/>\n".

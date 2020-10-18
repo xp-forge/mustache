@@ -2,9 +2,9 @@
 
 use com\github\mustache\{MustacheParser, Node, NodeList};
 use text\StringTokenizer;
-use unittest\{Test, TestCase};
+use unittest\{Assert, Test, TestCase};
 
-class ParserExtendingTest extends TestCase {
+class ParserExtendingTest {
 
   #[Test]
   public function new_user_handler_as_function() {
@@ -16,7 +16,7 @@ class ParserExtendingTest extends TestCase {
     $parser= (new MustacheParser())->withHandler('*', true, function($tag, $state) use($node) {
       $state->target->add($node);
     });
-    $this->assertEquals(new NodeList([$node]), $parser->parse(new StringTokenizer('{{*test}}')));
+    Assert::equals(new NodeList([$node]), $parser->parse(new StringTokenizer('{{*test}}')));
   }
 
   #[Test]
@@ -29,6 +29,6 @@ class ParserExtendingTest extends TestCase {
     $parser= (new MustacheParser())->withHandler('*', true, function($tag, $state) use($node) {
       $state->target->add($node);
     });
-    $this->assertEquals(new NodeList([$node]), $parser->parse(new StringTokenizer('{{*test}}')));
+    Assert::equals(new NodeList([$node]), $parser->parse(new StringTokenizer('{{*test}}')));
   }
 }

@@ -1,15 +1,16 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{InMemory, MustacheEngine, TemplateNotFoundException};
-use unittest\{Expect, Test};
+use unittest\{Assert, Expect, Test};
 
-class TemplateTransformationTest extends \unittest\TestCase {
+class TemplateTransformationTest {
   protected $loader;
   protected $engine;
 
   /**
    * Sets up unittest
    */
+  #[Before]
   public function setUp() {
     $this->loader= new InMemory();
     $this->engine= (new MustacheEngine())->withTemplates($this->loader);
@@ -19,7 +20,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
   public function transform_loads_the_template() {
     $this->loader->add('helloworld', 'Hello {{name}}');
 
-    $this->assertEquals(
+    Assert::equals(
       'Hello World',
       $this->engine->transform('helloworld', ['name' => 'World'])
     );
@@ -35,7 +36,7 @@ class TemplateTransformationTest extends \unittest\TestCase {
     );
     $this->loader->add('user', "<strong>{{name}}</strong>\n");
 
-    $this->assertEquals(
+    Assert::equals(
       "<h2>Names</h2>\n  <strong>John</strong>\n  <strong>Jack</strong>\n",
       $this->engine->transform('base', ['names' => [
         ['name' => 'John'],

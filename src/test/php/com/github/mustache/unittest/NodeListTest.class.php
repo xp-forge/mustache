@@ -2,9 +2,9 @@
 
 use com\github\mustache\{NodeList, TextNode};
 use lang\{IllegalArgumentException, IndexOutOfBoundsException};
-use unittest\{Expect, Test, Values};
+use unittest\{Assert, Expect, Test, Values};
 
-class NodeListTest extends \unittest\TestCase {
+class NodeListTest {
 
   #[Test]
   public function can_create_without_argument() {
@@ -23,14 +23,14 @@ class NodeListTest extends \unittest\TestCase {
 
   #[Test]
   public function initially_empty() {
-    $this->assertEquals(0, (new NodeList())->length());
+    Assert::equals(0, (new NodeList())->length());
   }
 
   #[Test]
   public function length_after_adding_a_node() {
     $list= new NodeList();
     $list->add(new TextNode('test'));
-    $this->assertEquals(1, $list->length());
+    Assert::equals(1, $list->length());
   }
 
   #[Test]
@@ -38,19 +38,19 @@ class NodeListTest extends \unittest\TestCase {
     $list= new NodeList();
     $list->add(new TextNode('test1'));
     $list->add(new TextNode('test2'));
-    $this->assertEquals(2, $list->length());
+    Assert::equals(2, $list->length());
   }
 
   #[Test]
   public function add_returns_added_node() {
     $node= new TextNode('test');
-    $this->assertEquals($node, (new NodeList())->add($node));
+    Assert::equals($node, (new NodeList())->add($node));
   }
 
   #[Test]
   public function nodeAt_returns_node_at_offset() {
     $node= new TextNode('test');
-    $this->assertEquals($node, (new NodeList([$node]))->nodeAt(0));
+    Assert::equals($node, (new NodeList([$node]))->nodeAt(0));
   }
 
   #[Test, Values([-1, 1, 2]), Expect(IndexOutOfBoundsException::class)]
@@ -60,7 +60,7 @@ class NodeListTest extends \unittest\TestCase {
 
   #[Test]
   public function nodes_initially_returns_empty_list() {
-    $this->assertEquals([], (new NodeList())->nodes());
+    Assert::equals([], (new NodeList())->nodes());
   }
 
   #[Test]
@@ -69,20 +69,20 @@ class NodeListTest extends \unittest\TestCase {
     $nodes= [];
     $nodes[]= $list->add(new TextNode('test1'));
     $nodes[]= $list->add(new TextNode('test2'));
-    $this->assertEquals($nodes, $list->nodes());
+    Assert::equals($nodes, $list->nodes());
   }
 
   #[Test]
   public function reading_offsets() {
     $node= new TextNode('test');
     $list= new NodeList([$node]);
-    $this->assertEquals($node, $list[0]);
+    Assert::equals($node, $list[0]);
   }
 
   #[Test]
   public function testing_offsets() {
     $list= new NodeList([new TextNode('test')]);
-    $this->assertEquals([true, false], [isset($list[0]), isset($list[1])]);
+    Assert::equals([true, false], [isset($list[0]), isset($list[1])]);
   }
 
   #[Test]
@@ -90,7 +90,7 @@ class NodeListTest extends \unittest\TestCase {
     $node= new TextNode('test');
     $list= new NodeList();
     $list[]= $node;
-    $this->assertEquals($node, $list[0]);
+    Assert::equals($node, $list[0]);
   }
 
   #[Test, Expect(IllegalArgumentException::class)]
@@ -109,6 +109,6 @@ class NodeListTest extends \unittest\TestCase {
   public function can_be_used_in_foreach() {
     $nodes= [new TextNode('test')];
     $list= new NodeList($nodes);
-    $this->assertEquals($nodes, iterator_to_array($list));
+    Assert::equals($nodes, iterator_to_array($list));
   }
 }
