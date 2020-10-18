@@ -26,7 +26,7 @@ Features supported
 ------------------
 This implementation supports all standard features of the [current specification](https://github.com/mustache/spec):
 
-* Interpolation: `{{var}}` (`{{&var}}` and triple mustaches for unescaped) and the dot-notation. By default misses will be replaced by empty strongs.
+* Interpolation: `{{var}}` (`{{&var}}` and triple mustaches for unescaped) and the dot-notation. By default misses will be replaced by empty strings.
 * Comments: `{{! comment }}`. Comments will appear in the parse tree but of course will be excluded when rendering.
 * Delimiters: `{{=@ @=}}` will change the starting and ending delimiter to the `@` sign. Arbitrary length delimiters are supported.
 * Sections: `{{#section}}` as well as inverted sections: `{{^section}}` are supported.
