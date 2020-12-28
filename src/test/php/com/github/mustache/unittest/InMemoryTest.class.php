@@ -70,4 +70,11 @@ class InMemoryTest {
     ]);
     Assert::equals(['partials/navigation'], $loader->listing()->package($package)->templates());
   }
+
+  #[Test]
+  public function issue_10() {
+    $content= 'Mustache template #1 {{id}}';
+    $loader= new InMemory(['test' => $content]);
+    Assert::equals($content, $loader->source('test')->code());
+  }
 }

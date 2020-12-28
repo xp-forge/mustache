@@ -18,11 +18,16 @@ class Tokens extends Source {
 
   /** @return string */
   public function code() {
-    $s= '';
-    while ($this->tokens->hasMoreTokens()) {
-      $s.= $this->tokens->nextToken(true);
+    $this->tokens->returnDelims= true;
+    try {
+      $s= '';
+      while ($this->tokens->hasMoreTokens()) {
+        $s.= $this->tokens->nextToken();
+      }
+      return $s;
+    } finally {
+      $this->tokens->returnDelims= false;
     }
-    return $s;
   }
 
   /**
