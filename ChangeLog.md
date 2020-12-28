@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.0.1 / 2020-12-28
+
+* Fixed issue #10: Template code missing `1` - @thekid
+
 ## 6.0.0 / 2020-10-18
 
 * Converted test suite to PHP 8 attributes and Assert DSL - @thekid
