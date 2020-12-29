@@ -2,6 +2,7 @@
 
 use com\github\mustache\Template;
 
+/** @deprecated Replaced by FromStream and InString classes */
 class Tokens extends Source {
   private $source, $tokens;
 
@@ -18,6 +19,8 @@ class Tokens extends Source {
 
   /** @return string */
   public function code() {
+
+    // Detour: Tokenize input, concatenating it back into a string
     $this->tokens->returnDelims= true;
     try {
       $s= '';

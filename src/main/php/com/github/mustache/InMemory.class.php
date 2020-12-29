@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{NotFound, Templates, Tokens};
+use com\github\mustache\templates\{NotFound, Templates, InString};
 use text\StringTokenizer;
 
 /**
@@ -63,7 +63,7 @@ class InMemory extends Templates {
    */
   public function source($name) {
     if (isset($this->templates[$name])) {
-      return new Tokens($name, new StringTokenizer($this->templates[$name]));
+      return new InString($name, $this->templates[$name]);
     } else {
       return new NotFound('Cannot find template '.$name);
     }
