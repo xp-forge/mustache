@@ -161,7 +161,7 @@ Spec compliance
 Whether this implementation is compliant with the official spec can be tested as follows:
 
 ```sh
-$ wget 'https://github.com/mustache/spec/archive/master.zip' -O master.zip
+$ curl -sSL https://github.com/mustache/spec/archive/master.zip -o master.zip
 $ unzip master.zip && rm master.zip
 $ xp test com.github.mustache.** -a spec-master/specs/
 ```
