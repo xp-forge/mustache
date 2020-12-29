@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{NotFound, Templates, Tokens};
+use com\github\mustache\templates\{NotFound, Templates, FromStream};
 use text\StreamTokenizer;
 use util\Objects;
 
@@ -54,7 +54,7 @@ abstract class FileBasedTemplateLoader extends Templates {
   public function source($name) {
     $variants= $this->variantsOf($name);
     foreach ($variants as $variant) {
-      if ($stream= $this->inputStreamFor($variant)) return new Tokens($variant, new StreamTokenizer($stream));
+      if ($stream= $this->inputStreamFor($variant)) return new FromStream($variant, $stream);
     }
 
     return new NotFound('Cannot find template ['.implode(', ', $variants).'] in '.Objects::stringOf($this->base));

@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\templates;
 
 use com\github\mustache\WithListing;
-use com\github\mustache\templates\Tokens;
+use com\github\mustache\templates\FromStream;
 use lang\IllegalAccessException;
 use text\StreamTokenizer;
 
@@ -22,11 +22,11 @@ class FromLoader extends Templates {
    * Load a template by a given name
    *
    * @param  string $name The template name, not including the file extension
-   * @return com.github.mustache.TemplateSource
+   * @return com.github.mustache.templates.Source
    */
   public function source($name) {
     try {
-      return new Tokens($name, new StreamTokenizer($this->loader->load($name)));
+      return new FromStream($name, $this->loader->load($name));
     } catch (TemplateNotFoundException $e) {
       return new NotFound($e->getMessage());
     }
