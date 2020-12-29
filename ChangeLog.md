@@ -3,6 +3,13 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.1.0 / 2020-12-29
+
+* Merged PR #11: Replace Tokens class by two separate & use-case optimized
+  versions. Includes a 10x performance improvement for loading templates'
+  source code
+  (@thekid)
+
 ## 6.0.1 / 2020-12-28
 
 * Fixed issue #10: Template code missing `1` - @thekid
