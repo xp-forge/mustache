@@ -3,7 +3,7 @@
   "type" : "library",
   "homepage" : "http://xp-framework.net/",
   "license" : "BSD-3-Clause",
-  "description" : "The mustache template language implemented for the XP Framework",
+  "description" : "The Mustache template language implemented for the XP Framework",
   "keywords": ["module", "xp"],
   "require" : {
     "xp-framework/core": "^10.0 | ^9.0 | ^8.0 | ^8.0 | ^7.0 | ^6.5",
