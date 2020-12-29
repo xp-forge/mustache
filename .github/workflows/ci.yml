@@ -51,9 +51,12 @@ jobs:
 
     - name: Install dependencies
       run: >
-        curl -sSL https://dl.bintray.com/xp-runners/generic/xp-run-8.2.0.sh > xp-run &&
+        curl -sSL https://dl.bintray.com/xp-runners/generic/xp-run-8.2.0.sh -o xp-run &&
+        curl -sSL https://github.com/mustache/spec/archive/master.zip -o master.zip &&
         composer install --prefer-dist &&
-        echo "vendor/autoload.php" > composer.pth
+        echo "vendor/autoload.php" > composer.pth &&
+        unzip master.zip &&
+        rm master.zip
 
     - name: Run test suite
       run: sh xp-run xp.unittest.TestRunner src/test/php
