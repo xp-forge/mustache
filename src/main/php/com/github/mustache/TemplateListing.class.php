@@ -9,7 +9,7 @@ class TemplateListing {
    * @param  string $name
    * @param  function(string): string[] $entries
    */
-  public function __construct($name, \Closure $entries) {
+  public function __construct(string $name, \Closure $entries) {
     $this->name= rtrim($name, '/');
     $this->entries= $entries;
   }
@@ -47,6 +47,6 @@ class TemplateListing {
    * @return  self
    */
   public function package($name) {
-    return new self('' === $this->name ? $name : $this->name.'/'.$name, $this->entries);
+    return new self('' === $this->name ? (string)$name : $this->name.'/'.$name, $this->entries);
   }
 }

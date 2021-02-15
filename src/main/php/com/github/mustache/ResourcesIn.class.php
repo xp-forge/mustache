@@ -44,7 +44,7 @@ class ResourcesIn extends FileBasedTemplateLoader {
   protected function entries() {
     return function($package) {
       if ('' === $package) {
-        $resources= $this->base->packageContents(null);
+        $resources= $this->base->packageContents('');
         $prefix= '';
       } else {
         $resources= $this->base->packageContents(strtr($package, '/', '.'));

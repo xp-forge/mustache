@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.1.1 / 2021-02-15
+
+* Fixed *Passing null to parameter ... of type string is deprecated* 
+  warnings in PHP 8.1
+  (@thekid)
+
 ## 6.1.0 / 2020-12-29
 
 * Merged PR #11: Replace Tokens class by two separate & use-case optimized

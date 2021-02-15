@@ -74,7 +74,7 @@ abstract class FileBasedTemplateLoader extends Templates {
    */
   public function listing() {
     if (null === $this->listing) {
-      $this->listing= new TemplateListing(null, $this->entries());
+      $this->listing= new TemplateListing('', $this->entries());
     }
     return $this->listing;
   }

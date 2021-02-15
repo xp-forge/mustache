@@ -76,7 +76,7 @@ class InMemory extends Templates {
    */
   public function listing() {
     if (null === $this->listing) {
-      $this->listing= new TemplateListing(null, function($package) {
+      $this->listing= new TemplateListing('', function($package) {
         return array_keys($this->paths['' === $package ? '.' : $package]);
       });
     }
