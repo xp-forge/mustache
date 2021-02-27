@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{Sources, Source};
+use com\github\mustache\templates\{Sources, Source, InString};
 
 /**
  * The templating mechanism consists of template sources, which are
@@ -59,13 +59,18 @@ class Templating {
    * Compiles a given template source, optionally passing in start and end tags
    * (defaulting to `{{` and `}}`, respectively) as well as an indentation.
    *
-   * @param  com.github.mustache.templates.Source $source
+   * @param  string|com.github.mustache.templates.Source $source
    * @param  string $start
    * @param  string $end
    * @param  string $indent
    * @return com.github.mustache.Template
    */
-  public function compile(Source $source, $start= '{{', $end= '}}', $indent= '') {
-    return $source->compile($this->parser, $start, $end, $indent);
+  public function compile($source, $start= '{{', $end= '}}', $indent= '') {
+    return ($source instanceof Source ? $source : new InString('<string>', $source))->compile(
+      $this->parser,
+      $start,
+      $end,
+      $indent
+    );
   }
 }

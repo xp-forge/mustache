@@ -64,12 +64,7 @@ class MustacheEngine extends Scope {
    * @return com.github.mustache.Template
    */
   public function compile($source, $start= '{{', $end= '}}', $indent= '') {
-    return $this->templates->compile(
-      $source instanceof Source ? $source : new InString('<string>', $source),
-      $start,
-      $end,
-      $indent
-    );
+    return $this->templates->compile($source, $start, $end, $indent);
   }
 
   /**
@@ -82,12 +77,7 @@ class MustacheEngine extends Scope {
    * @return com.github.mustache.Template
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return $this->templates->compile(
-      $this->templates->load($name),
-      $start,
-      $end,
-      $indent
-    );
+    return $this->templates->compile($this->templates->load($name), $start, $end, $indent);
   }
 
   /**
