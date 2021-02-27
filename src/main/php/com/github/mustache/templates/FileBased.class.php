@@ -1,6 +1,5 @@
 <?php namespace com\github\mustache\templates;
 
-use com\github\mustache\TemplateListing;
 use text\StreamTokenizer;
 use util\Objects;
 
@@ -70,11 +69,11 @@ abstract class FileBased extends Sources {
   /**
    * Returns listing of templates
    *
-   * @return  com.github.mustache.TemplateListing
+   * @return  com.github.mustache.templates.Listing
    */
   public function listing() {
     if (null === $this->listing) {
-      $this->listing= new TemplateListing('', $this->entries());
+      $this->listing= new Listing('', $this->entries());
     }
     return $this->listing;
   }

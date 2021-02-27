@@ -19,7 +19,7 @@ abstract class Sources {
   /**
    * Returns available templates
    *
-   * @return com.github.mustache.TemplateListing
+   * @return com.github.mustache.templates.Listing
    */
   public abstract function listing();
 

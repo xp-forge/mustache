@@ -1,6 +1,6 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\templates;
 
-class TemplateListing {
+class Listing {
   private $name, $entries;
 
   /**
