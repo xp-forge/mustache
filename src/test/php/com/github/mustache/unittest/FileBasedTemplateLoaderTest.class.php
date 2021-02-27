@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\FileBasedTemplateLoader;
+use com\github\mustache\templates\FileBased;
 use io\streams\MemoryInputStream;
 use unittest\{Assert, Test, Values};
 
@@ -13,7 +13,7 @@ class FileBasedTemplateLoaderTest {
    * @return com.github.mustache.FileBasedTemplateLoader
    */
   protected function newFixture($args) {
-    return new class(...$args) extends FileBasedTemplateLoader {
+    return new class(...$args) extends FileBased {
       public $askedFor= [];
 
       public function variantsOf($name) {

@@ -1,6 +1,6 @@
-<?php namespace com\github\mustache;
+<?php namespace com\github\mustache\templates;
 
-use com\github\mustache\templates\{NotFound, Templates, FromStream};
+use com\github\mustache\TemplateListing;
 use text\StreamTokenizer;
 use util\Objects;
 
@@ -9,7 +9,7 @@ use util\Objects;
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBasedTemplateLoader extends Templates {
+abstract class FileBased extends Templates {
   protected $base, $extensions, $listing;
 
   /**
