@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{NotFound, Templates, InString};
+use com\github\mustache\templates\{NotFound, Sources, InString};
 use text\StringTokenizer;
 
 /**
@@ -8,7 +8,7 @@ use text\StringTokenizer;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory extends Templates {
+class InMemory extends Sources {
   protected $templates, $listing;
 
   /**

@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{FromLoader, Source, Templates};
+use com\github\mustache\templates\Source;
 use text\StringTokenizer;
 
 /**
@@ -36,15 +36,11 @@ class MustacheEngine extends Scope {
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.templates.Templates|com.github.mustache.TemplateLoader $l
+   * @param  com.github.mustache.templates.Source $l
    * @return self this
    */
   public function withTemplates($l) {
-    if ($l instanceof Templates) {
-      $this->templates= $l;
-    } else {
-      $this->templates= new FromLoader($l);
-    }
+    $this->templates= $l;
     return $this;
   }
 

@@ -1,20 +1,18 @@
 <?php namespace com\github\mustache\templates;
 
-use io\streams\MemoryInputStream;
-
 /**
- * Template loading
+ * Template sources
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class Templates {
+abstract class Sources {
 
   /**
    * Load a template by a given name
    *
    * @param  string $name The template name, not including the file extension
-   * @return com.github.mustache.templates.Input
+   * @return com.github.mustache.templates.Source
    */
   public abstract function source($name);
 

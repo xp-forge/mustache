@@ -9,7 +9,7 @@ use util\Objects;
  *
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class FileBased extends Templates {
+abstract class FileBased extends Sources {
   protected $base, $extensions, $listing;
 
   /**
