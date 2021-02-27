@@ -1,6 +1,5 @@
 <?php namespace com\github\mustache\templates;
 
-use com\github\mustache\{TemplateLoader, WithListing};
 use io\streams\MemoryInputStream;
 
 /**
@@ -8,9 +7,8 @@ use io\streams\MemoryInputStream;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
- * @test  xp://com.github.mustache.unittest.DeprecatedLoaderFunctionalityTest
  */
-abstract class Templates implements TemplateLoader, WithListing {
+abstract class Templates {
 
   /**
    * Load a template by a given name
@@ -27,15 +25,4 @@ abstract class Templates implements TemplateLoader, WithListing {
    */
   public abstract function listing();
 
-  /**
-   * Load a template by a given name
-   *
-   * @deprecated Use source() instead
-   * @param  string $name The template name, not including the ".mustache" extension
-   * @return io.streams.InputStream
-   * @throws com.github.mustache.TemplateNotFoundException
-   */
-  public function load($name) {
-    return new MemoryInputStream($this->source($name)->code());
-  }
 }
