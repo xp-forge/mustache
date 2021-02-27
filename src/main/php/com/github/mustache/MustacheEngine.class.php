@@ -29,7 +29,7 @@ class MustacheEngine extends Scope {
    * directory and use the `MustacheParser` implementation.
    */
   public function __construct() {
-    $this->templates= new Templating(new FilesIn('.'), new MustacheParser());
+    parent::__construct(new Templating(new FilesIn('.'), new MustacheParser()));
   }
 
   /**

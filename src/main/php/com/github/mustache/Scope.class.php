@@ -2,8 +2,19 @@
 
 /** Base class for template transformation scope */
 abstract class Scope {
-  public $helpers= [];
-  public $templates= null;
+  public $helpers;
+  public $templates;
+
+  /**
+   * Creates a new scope
+   *
+   * @param  com.github.mustache.Templating $templates
+   * @param  [:var] $helpers
+   */
+  public function __construct(Templating $templates, $helpers= []) {
+    $this->templates= $templates;
+    $this->helpers= $helpers;
+  }
 
   /**
    * Adds a helper with a given name
