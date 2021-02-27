@@ -2,7 +2,7 @@
 
 use com\github\mustache\{FilesIn, TemplateNotFoundException};
 use io\{File, FileUtil, Folder};
-use lang\System;
+use lang\Environment;
 use unittest\{Assert, AfterClass, BeforeClass, Test, Values};
 
 class FilesInTest {
@@ -10,7 +10,7 @@ class FilesInTest {
 
   #[Before]
   public function createFiles() {
-    $this->temp= new Folder(System::tempDir(), uniqid(microtime(true)));
+    $this->temp= new Folder(Environment::tempDir(), uniqid(microtime(true)));
     $this->temp->create();
 
     $partials= new Folder($this->temp, 'partials');
