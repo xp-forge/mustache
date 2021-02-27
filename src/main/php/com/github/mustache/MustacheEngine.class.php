@@ -45,16 +45,6 @@ class MustacheEngine extends Scope {
   }
 
   /**
-   * Gets used template loader
-   *
-   * @deprecated Use public member instead
-   * @return com.github.mustache.Templates
-   */
-  public function getTemplates() {
-    return $this->templates;
-  }
-
-  /**
    * Sets template parser to be used
    *
    * @param  com.github.mustache.TemplateParser $p

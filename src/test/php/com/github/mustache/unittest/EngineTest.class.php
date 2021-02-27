@@ -40,7 +40,7 @@ class EngineTest {
   public function getTemplates_returns_templates_previously_set() {
     $engine= new MustacheEngine();
     $templates= new FilesIn('.');
-    Assert::equals($templates, $engine->withTemplates($templates)->getTemplates());
+    Assert::equals($templates, $engine->withTemplates($templates)->templates);
   }
 
   #[Test]
