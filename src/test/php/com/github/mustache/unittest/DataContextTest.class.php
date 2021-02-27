@@ -145,24 +145,24 @@ class DataContextTest {
   }
 
   #[Test]
-  public function newInstance_sets_itself_as_parent_for_new_context_by_default() {
+  public function asContext_sets_itself_as_parent_for_new_context_by_default() {
     $parent= $this->newFixture([]);
-    $child= $parent->newInstance([]);
+    $child= $parent->asContext([]);
     Assert::equals($parent, $child->parent);
   }
 
   #[Test]
-  public function newInstance_sets_itself_as_parent_for_new_context_when_passed_null() {
+  public function asContext_sets_itself_as_parent_for_new_context_when_passed_null() {
     $parent= $this->newFixture([]);
-    $child= $parent->newInstance([], null);
+    $child= $parent->asContext([], null);
     Assert::equals($parent, $child->parent);
   }
 
   #[Test]
-  public function newInstance_uses_given_value_as_parent() {
+  public function asContext_uses_given_value_as_parent() {
     $parent= $this->newFixture([]);
-    $child= $parent->newInstance([]);
-    $parallel= $child->newInstance([], $parent);
+    $child= $parent->asContext([]);
+    $parallel= $child->asContext([], $parent);
     Assert::equals($parent, $parallel->parent);
   }
 }

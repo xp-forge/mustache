@@ -155,10 +155,10 @@ abstract class Context {
    * from this context.
    *
    * @param  var $result
-   * @param  self $parent
+   * @param  ?self $parent
    * @return self
    */
-  public function newInstance($result, self $parent= null) {
+  public function asContext($result, $parent= null) {
     return new static($result, $parent ?: $this);
   }
 
