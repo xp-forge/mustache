@@ -145,7 +145,12 @@ abstract class Context {
       $pass[$key]= $this->isCallable($option) ? $option($node, $this, $pass) : $option;
     }
 
-    return $this->scope->compile($closure($node, $this, $pass), $start, $end)->evaluate($this);
+    $source= $closure($node, $this, $pass);
+    if ($source instanceof Node) {
+      return $source->evaluate($this);
+    } else {
+      return $this->scope->templates->compile($source, $start, $end)->evaluate($this);
+    }
   }
 
   /**
