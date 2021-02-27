@@ -156,7 +156,8 @@ abstract class Context {
     foreach ($options as $key => $option) {
       $pass[$key]= $this->isCallable($option) ? $option($node, $this, $pass) : $option;
     }
-    return $this->scope->render($closure($node, $this, $pass), $this, $start, $end);
+
+    return $this->scope->compile($closure($node, $this, $pass), $start, $end)->evaluate($this);
   }
 
   /**
