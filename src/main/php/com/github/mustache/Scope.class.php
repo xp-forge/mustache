@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-class Scope {
+abstract class Scope {
   public $helpers= [];
   public $templates= null;
 
