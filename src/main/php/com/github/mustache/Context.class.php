@@ -8,7 +8,7 @@
 abstract class Context {
   public $variables= [];
   public $parent= null;
-  public $engine= null;
+  public $scope= null;
 
   /**
    * Creates a new context instance
@@ -20,21 +20,18 @@ abstract class Context {
     $this->variables= $variables;
     if ($parent) {
       $this->parent= $parent;
-      $this->engine= $parent->engine;
-    } else {
-      $this->parent= null;
-      $this->engine= null;
+      $this->scope= $parent->scope;
     }
   }
 
   /**
-   * Sets engine and returns this context instance.
+   * Sets scope and returns this context instance.
    *
-   * @param  com.github.mustache.MustacheEngine $engine
+   * @param  com.github.mustache.Scope $scope
    * @return self
    */
-  public function withEngine($engine) {
-    $this->engine= $engine;
+  public function inScope($scope) {
+    $this->scope= $scope;
     return $this;
   }
 
@@ -159,7 +156,7 @@ abstract class Context {
     foreach ($options as $key => $option) {
       $pass[$key]= $this->isCallable($option) ? $option($node, $this, $pass) : $option;
     }
-    return $this->engine->render($closure($node, $this, $pass), $this, $start, $end);
+    return $this->scope->render($closure($node, $this, $pass), $this, $start, $end);
   }
 
   /**
@@ -219,7 +216,7 @@ abstract class Context {
 
     // Last resort: Check helpers
     if (null === $v && $helpers) {
-      $v= $this->engine->helpers;
+      $v= $this->scope->helpers;
       foreach ($segments as $segment) {
         if ($v !== null) $v= $this->helper($v, $segment);
       }

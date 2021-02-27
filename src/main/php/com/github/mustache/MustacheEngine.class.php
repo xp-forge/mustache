@@ -22,9 +22,8 @@ use text\StringTokenizer;
  * @see  https://github.com/mustache/spec
  * @see  http://mustache.github.io/mustache.5.html
  */
-class MustacheEngine {
-  protected $templates, $parser;
-  public $helpers= [];
+class MustacheEngine extends Scope {
+  protected $parser;
 
   /**
    * Constructor. Initializes template loader
@@ -52,6 +51,7 @@ class MustacheEngine {
   /**
    * Gets used template loader
    *
+   * @deprecated Use public member instead
    * @return com.github.mustache.Templates
    */
   public function getTemplates() {
@@ -130,13 +130,8 @@ class MustacheEngine {
    * @return string The rendered output
    */
   public function evaluate(Template $template, $context) {
-    if ($context instanceof Context) {
-      $c= $context;
-    } else {
-      $c= new DataContext($context);
-    }
-    
-    return $template->evaluate($c->withEngine($this));
+    $c= $context instanceof Context ? $context : new DataContext($context);
+    return $template->evaluate($c->inScope($this));
   }
 
   /**
@@ -148,13 +143,8 @@ class MustacheEngine {
    * @return void
    */
   public function write(Template $template, $context, $out) {
-    if ($context instanceof Context) {
-      $c= $context;
-    } else {
-      $c= new DataContext($context);
-    }
-    
-    $template->write($c->withEngine($this), $out);
+    $c= $context instanceof Context ? $context : new DataContext($context);
+    $template->write($c->inScope($this), $out);
   }
 
   /**

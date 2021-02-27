@@ -13,7 +13,7 @@ class DataContextTest {
    * @return com.github.mustache.Context
    */
   public function newFixture($variables, $helpers= []) {
-    return (new DataContext($variables))->withEngine((new MustacheEngine())->withHelpers($helpers));
+    return (new DataContext($variables))->inScope((new MustacheEngine())->withHelpers($helpers));
   }
 
   #[Test]

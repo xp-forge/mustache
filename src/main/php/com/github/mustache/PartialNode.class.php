@@ -45,7 +45,7 @@ class PartialNode extends Node {
    */
   public function write($context, $out) {
     try {
-      $template= $context->engine->load($this->name, '{{', '}}', $this->indent);
+      $template= $context->scope->load($this->name, '{{', '}}', $this->indent);
       $template->write($context, $out);
     } catch (TemplateNotFoundException $e) {
       // Spec dictates this, though I think this is not good behaviour.
