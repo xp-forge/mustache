@@ -44,10 +44,9 @@ class PartialNode extends Node {
    * @param  io.streams.OutputStream $out
    */
   public function write($context, $out) {
-    try {
-      $context->scope->load($this->name, '{{', '}}', $this->indent)->write($context, $out);
-    } catch (TemplateNotFoundException $e) {
-      // Spec dictates this, though I think this is not good behaviour.
+    $source= $context->scope->templates->load($this->name);
+    if ($source->exists()) {
+      $context->scope->templates->compile($source, '{{', '}}', $this->indent)->write($context, $out);
     }
   }
 
