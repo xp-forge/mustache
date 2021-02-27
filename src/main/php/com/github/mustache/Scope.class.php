@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache;
 
+/** Base class for template transformation scope */
 abstract class Scope {
   public $helpers= [];
   public $templates= null;
@@ -9,7 +10,7 @@ abstract class Scope {
    *
    * @param  string $name
    * @param  var $helper
-   * @return self this
+   * @return self
    */
   public function withHelper($name, $helper) {
     $this->helpers[$name]= $helper;
@@ -20,7 +21,7 @@ abstract class Scope {
    * Sets helpers
    *
    * @param  [:var] $helpers
-   * @return self this
+   * @return self
    */
   public function withHelpers(array $helpers) {
     $this->helpers= $helpers;
