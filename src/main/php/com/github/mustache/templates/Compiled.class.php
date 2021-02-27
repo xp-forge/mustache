@@ -1,12 +1,15 @@
 <?php namespace com\github\mustache\templates;
 
 class Compiled extends Source {
-  private $tokens;
+  private $template;
 
   /** @param com.github.mustache.Template */
   public function __construct($template) {
     $this->template= $template;
   }
+
+  /** @return com.github.mustache.Template */
+  public function template() { return $this->template; }
 
   /** @return string */
   public function code() { return (string)$this->template; }
