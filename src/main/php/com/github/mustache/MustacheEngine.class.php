@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\Source;
+use com\github\mustache\templates\{Source, InString};
 use text\StringTokenizer;
 
 /**
@@ -23,58 +23,34 @@ use text\StringTokenizer;
  * @see  http://mustache.github.io/mustache.5.html
  */
 class MustacheEngine extends Scope {
-  protected $parser;
 
   /**
-   * Constructor. Initializes template loader
+   * Creates new engine which by default loads templates from the current
+   * directory and use the `MustacheParser` implementation.
    */
   public function __construct() {
-    $this->templates= new FilesIn('.');
-    $this->parser= new MustacheParser();
+    $this->templates= new Templating(new FilesIn('.'), new MustacheParser());
   }
 
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.templates.Source $l
+   * @param  com.github.mustache.templates.Sources $sources
    * @return self this
    */
-  public function withTemplates($l) {
-    $this->templates= $l;
+  public function withTemplates($sources) {
+    $this->templates->from($sources);
     return $this;
   }
 
   /**
    * Sets template parser to be used
    *
-   * @param  com.github.mustache.TemplateParser $p
+   * @param  com.github.mustache.TemplateParser $parser
    * @return self this
    */
-  public function withParser(TemplateParser $p) {
-    $this->parser= $p;
-    return $this;
-  }
-
-  /**
-   * Adds a helper with a given name
-   *
-   * @param  string $name
-   * @param  var $helper
-   * @return self this
-   */
-  public function withHelper($name, $helper) {
-    $this->helpers[$name]= $helper;
-    return $this;
-  }
-
-  /**
-   * Sets helpers
-   *
-   * @param  [:var] $helpers
-   * @return self this
-   */
-  public function withHelpers(array $helpers) {
-    $this->helpers= $helpers;
+  public function withParser(TemplateParser $parser) {
+    $this->templates->use($parser);
     return $this;
   }
 
@@ -88,11 +64,12 @@ class MustacheEngine extends Scope {
    * @return com.github.mustache.Template
    */
   public function compile($source, $start= '{{', $end= '}}', $indent= '') {
-    if ($source instanceof Source) {
-      return $source->compile($this->parser, $start, $end, $indent);
-    } else {
-      return new Template('<string>', $this->parser->parse(new StringTokenizer($source), $start, $end, $indent));
-    }
+    return $this->templates->compile(
+      $source instanceof Source ? $source : new InString('<string>', $source),
+      $start,
+      $end,
+      $indent
+    );
   }
 
   /**
@@ -105,7 +82,12 @@ class MustacheEngine extends Scope {
    * @return com.github.mustache.Template
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return $this->templates->source($name)->compile($this->parser, $start, $end, $indent);
+    return $this->templates->compile(
+      $this->templates->load($name),
+      $start,
+      $end,
+      $indent
+    );
   }
 
   /**
