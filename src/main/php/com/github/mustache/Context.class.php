@@ -58,11 +58,9 @@ abstract class Context {
     if ($ptr instanceof \Closure) {
       return $ptr;
     } else if (is_object($ptr)) {
-      $class= typeof($ptr);
-      if ($class->hasMethod($segment)) {
-        $method= $class->getMethod($segment);
-        return function($in, $ctx, $options) use($ptr, $method) {
-          return $method->invoke($ptr, [$in, $ctx, $options]);
+      if (method_exists($ptr, $segment)) {
+        return function($in, $ctx, $options) use($ptr, $segment) {
+          return $ptr->{$segment}($in, $ctx, $options);
         };
       }
       return null;
