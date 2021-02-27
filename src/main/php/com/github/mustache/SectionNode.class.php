@@ -148,10 +148,10 @@ class SectionNode extends Node {
       $out->write($context->asRendering($value, $this->nodes, $this->options, $this->start, $this->end));
     } else if ($context->isList($value)) {
       foreach ($context->asTraversable($value) as $element) {
-        $this->nodes->write($context->asContext($element), $out);
+        $this->nodes->write($context->newInstance($element), $out);
       }
     } else if ($context->isHash($value)) {
-      $this->nodes->write($context->asContext($value), $out);
+      $this->nodes->write($context->newInstance($value), $out);
     } else {
       $this->nodes->write($context, $out);
     }

@@ -132,16 +132,6 @@ abstract class Context {
   }
 
   /**
-   * Returns a context inherited from this context
-   *
-   * @param  var $result
-   * @return self
-   */
-  public function asContext($result) {
-    return new static($result, $this);
-  }
-
-  /**
    * Returns a rendering of a given helper closure
    *
    * @param  var $closure
