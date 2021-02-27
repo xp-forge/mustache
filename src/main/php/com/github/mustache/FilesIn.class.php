@@ -13,7 +13,7 @@ class FilesIn extends FileBased {
   /**
    * Creates a new file-based template loader
    *
-   * @param  string|io.Folder $base The base folder
+   * @param  string|io.Path|io.Folder $base The base folder
    * @param  string[] $extensions File extensions to check, including leading "."
    */
   public function __construct($arg, $extensions= ['.mustache']) {
