@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache;
 
 /** Base class for template transformation scope */
-abstract class Scope {
+class Scope {
   public $helpers;
   public $templates;
 
