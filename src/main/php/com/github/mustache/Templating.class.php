@@ -11,6 +11,7 @@ use com\github\mustache\templates\{Sources, Source};
 class Templating {
   private $sources, $parser;
 
+  /** Creates a new templating instance, optionally supplying sources and parser */
   public function __construct(Sources $sources= null, TemplateParser $parser= null) {
     $this->sources= $sources;
     $this->parser= $parser;
@@ -23,7 +24,7 @@ class Templating {
   public function parser() { return $this->parser; }
 
   /**
-   * Exchange where templates are loaded from
+   * Exchanges where templates are loaded from
    *
    * @param  com.github.mustache.templates.Sources
    * @return self
@@ -34,7 +35,7 @@ class Templating {
   }
 
   /**
-   * Exchange the parser used to parse templates
+   * Exchanges the parser used to parse templates
    *
    * @param  com.github.mustache.TemplateParser
    * @return self
