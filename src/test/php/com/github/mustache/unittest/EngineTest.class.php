@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{FilesIn, InMemory, MustacheEngine, MustacheParser, NodeList, Template, TextNode, VariableNode};
-use io\streams\{MemoryInputStream, MemoryOutputStream};
+use io\streams\MemoryOutputStream;
 use unittest\{Assert, Test};
 
 class EngineTest {
