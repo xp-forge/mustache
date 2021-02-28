@@ -15,7 +15,7 @@ abstract class Source {
    * @param  string $start
    * @param  string $end
    * @param  string $indent
-   * @return com.github.mustache.Node
+   * @return com.github.mustache.Template
    */
   public abstract function compile($parser, $start, $end, $indent);
 }

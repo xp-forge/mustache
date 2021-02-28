@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
-use com\github\mustache\{FilesIn, MustacheEngine, MustacheParser, NodeList, Template, TemplateLoader, TextNode, VariableNode};
-use io\streams\{MemoryInputStream, MemoryOutputStream};
+use com\github\mustache\{FilesIn, InMemory, MustacheEngine, MustacheParser, NodeList, Template, TextNode, VariableNode};
+use io\streams\MemoryOutputStream;
 use unittest\{Assert, Test};
 
 class EngineTest {
@@ -37,10 +37,10 @@ class EngineTest {
   }
 
   #[Test]
-  public function getTemplates_returns_templates_previously_set() {
+  public function sources_returns_templates_previously_set() {
     $engine= new MustacheEngine();
     $templates= new FilesIn('.');
-    Assert::equals($templates, $engine->withTemplates($templates)->getTemplates());
+    Assert::equals($templates, $engine->withTemplates($templates)->templates->sources());
   }
 
   #[Test]
@@ -65,11 +65,7 @@ class EngineTest {
 
   #[Test]
   public function load_template() {
-    $loader= newinstance(TemplateLoader::class, [], [
-      'load' => function($name) {
-        return new MemoryInputStream('Hello {{name}}');
-      }
-    ]);
+    $loader= new InMemory(['test' => 'Hello {{name}}']);
     Assert::equals(
       new Template('test', new NodeList([new TextNode('Hello '), new VariableNode('name')])),
       (new MustacheEngine())->withTemplates($loader)->load('test')

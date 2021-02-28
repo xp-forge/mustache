@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache;
 
+use com\github\mustache\templates\FileBased;
 use io\{File, Folder};
 
 /**
@@ -7,12 +8,12 @@ use io\{File, Folder};
  *
  * @test  xp://com.github.mustache.unittest.FilesInTest
  */
-class FilesIn extends FileBasedTemplateLoader {
+class FilesIn extends FileBased {
 
   /**
    * Creates a new file-based template loader
    *
-   * @param  string|io.Folder $base The base folder
+   * @param  string|io.Path|io.Folder $base The base folder
    * @param  string[] $extensions File extensions to check, including leading "."
    */
   public function __construct($arg, $extensions= ['.mustache']) {

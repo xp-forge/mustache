@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{NotFound, Templates, InString};
+use com\github\mustache\templates\{NotFound, Sources, Listing, InString};
 use text\StringTokenizer;
 
 /**
@@ -8,7 +8,7 @@ use text\StringTokenizer;
  *
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
-class InMemory extends Templates {
+class InMemory extends Sources {
   protected $templates, $listing;
 
   /**
@@ -72,11 +72,11 @@ class InMemory extends Templates {
   /**
    * Returns listing of templates
    *
-   * @return  com.github.mustache.TemplateListing
+   * @return  com.github.mustache.templates.Listing
    */
   public function listing() {
     if (null === $this->listing) {
-      $this->listing= new TemplateListing('', function($package) {
+      $this->listing= new Listing('', function($package) {
         return array_keys($this->paths['' === $package ? '.' : $package]);
       });
     }

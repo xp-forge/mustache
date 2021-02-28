@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache;
 
+use com\github\mustache\templates\FileBased;
 use lang\{ClassLoader, ElementNotFoundException, IClassLoader};
 
 /**
@@ -7,7 +8,7 @@ use lang\{ClassLoader, ElementNotFoundException, IClassLoader};
  *
  * @test  xp://com.github.mustache.unittest.ResourcesInTest
  */
-class ResourcesIn extends FileBasedTemplateLoader {
+class ResourcesIn extends FileBased {
 
   /**
    * Creates a new class loader based template loader

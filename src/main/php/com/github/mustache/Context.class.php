@@ -8,7 +8,7 @@
 abstract class Context {
   public $variables= [];
   public $parent= null;
-  public $engine= null;
+  public $scope= null;
 
   /**
    * Creates a new context instance
@@ -20,21 +20,18 @@ abstract class Context {
     $this->variables= $variables;
     if ($parent) {
       $this->parent= $parent;
-      $this->engine= $parent->engine;
-    } else {
-      $this->parent= null;
-      $this->engine= null;
+      $this->scope= $parent->scope;
     }
   }
 
   /**
-   * Sets engine and returns this context instance.
+   * Sets scope and returns this context instance.
    *
-   * @param  com.github.mustache.MustacheEngine $engine
+   * @param  com.github.mustache.Scope $scope
    * @return self
    */
-  public function withEngine($engine) {
-    $this->engine= $engine;
+  public function inScope(Scope $scope) {
+    $this->scope= $scope;
     return $this;
   }
 
@@ -61,11 +58,9 @@ abstract class Context {
     if ($ptr instanceof \Closure) {
       return $ptr;
     } else if (is_object($ptr)) {
-      $class= typeof($ptr);
-      if ($class->hasMethod($segment)) {
-        $method= $class->getMethod($segment);
-        return function($in, $ctx, $options) use($ptr, $method) {
-          return $method->invoke($ptr, [$in, $ctx, $options]);
+      if (method_exists($ptr, $segment)) {
+        return function($in, $ctx, $options) use($ptr, $segment) {
+          return $ptr->{$segment}($in, $ctx, $options);
         };
       }
       return null;
@@ -135,16 +130,6 @@ abstract class Context {
   }
 
   /**
-   * Returns a context inherited from this context
-   *
-   * @param  var $result
-   * @return self
-   */
-  public function asContext($result) {
-    return new static($result, $this);
-  }
-
-  /**
    * Returns a rendering of a given helper closure
    *
    * @param  var $closure
@@ -159,7 +144,13 @@ abstract class Context {
     foreach ($options as $key => $option) {
       $pass[$key]= $this->isCallable($option) ? $option($node, $this, $pass) : $option;
     }
-    return $this->engine->render($closure($node, $this, $pass), $this, $start, $end);
+
+    $source= $closure($node, $this, $pass);
+    if ($source instanceof Node) {
+      return $source->evaluate($this);
+    } else {
+      return $this->scope->templates->compile($source, $start, $end)->evaluate($this);
+    }
   }
 
   /**
@@ -167,10 +158,10 @@ abstract class Context {
    * from this context.
    *
    * @param  var $result
-   * @param  self $parent
+   * @param  ?self $parent
    * @return self
    */
-  public function newInstance($result, self $parent= null) {
+  public function asContext($result, $parent= null) {
     return new static($result, $parent ?: $this);
   }
 
@@ -219,7 +210,7 @@ abstract class Context {
 
     // Last resort: Check helpers
     if (null === $v && $helpers) {
-      $v= $this->engine->helpers;
+      $v= $this->scope->helpers;
       foreach ($segments as $segment) {
         if ($v !== null) $v= $this->helper($v, $segment);
       }

@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{FromLoader, Source, Templates};
+use com\github\mustache\templates\{Source, InString};
 use text\StringTokenizer;
 
 /**
@@ -22,50 +22,35 @@ use text\StringTokenizer;
  * @see  https://github.com/mustache/spec
  * @see  http://mustache.github.io/mustache.5.html
  */
-class MustacheEngine {
-  protected $templates, $parser;
-  public $helpers= [];
+class MustacheEngine extends Scope {
 
   /**
-   * Constructor. Initializes template loader
+   * Creates new engine which by default loads templates from the current
+   * directory and use the `MustacheParser` implementation.
    */
   public function __construct() {
-    $this->templates= new FilesIn('.');
-    $this->parser= new MustacheParser();
+    parent::__construct(new Templating(new FilesIn('.'), new MustacheParser()));
   }
 
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.templates.Templates|com.github.mustache.TemplateLoader $l
+   * @param  com.github.mustache.templates.Sources $sources
    * @return self this
    */
-  public function withTemplates($l) {
-    if ($l instanceof Templates) {
-      $this->templates= $l;
-    } else {
-      $this->templates= new FromLoader($l);
-    }
+  public function withTemplates($sources) {
+    $this->templates->from($sources);
     return $this;
-  }
-
-  /**
-   * Gets used template loader
-   *
-   * @return com.github.mustache.Templates
-   */
-  public function getTemplates() {
-    return $this->templates;
   }
 
   /**
    * Sets template parser to be used
    *
-   * @param  com.github.mustache.TemplateParser $p
+   * @param  com.github.mustache.TemplateParser $parser
    * @return self this
    */
-  public function withParser(TemplateParser $p) {
-    $this->parser= $p;
+  public function withParser(TemplateParser $parser) {
+    $this->templates->use($parser);
     return $this;
   }
 
@@ -74,7 +59,7 @@ class MustacheEngine {
    *
    * @param  string $name
    * @param  var $helper
-   * @return self this
+   * @return self
    */
   public function withHelper($name, $helper) {
     $this->helpers[$name]= $helper;
@@ -85,7 +70,7 @@ class MustacheEngine {
    * Sets helpers
    *
    * @param  [:var] $helpers
-   * @return self this
+   * @return self
    */
   public function withHelpers(array $helpers) {
     $this->helpers= $helpers;
@@ -102,11 +87,7 @@ class MustacheEngine {
    * @return com.github.mustache.Template
    */
   public function compile($source, $start= '{{', $end= '}}', $indent= '') {
-    if ($source instanceof Source) {
-      return $source->compile($this->parser, $start, $end, $indent);
-    } else {
-      return new Template('<string>', $this->parser->parse(new StringTokenizer($source), $start, $end, $indent));
-    }
+    return $this->templates->compile($source, $start, $end, $indent);
   }
 
   /**
@@ -119,7 +100,7 @@ class MustacheEngine {
    * @return com.github.mustache.Template
    */
   public function load($name, $start= '{{', $end= '}}', $indent= '') {
-    return $this->templates->source($name)->compile($this->parser, $start, $end, $indent);
+    return $this->templates->compile($this->templates->load($name), $start, $end, $indent);
   }
 
   /**
@@ -130,13 +111,8 @@ class MustacheEngine {
    * @return string The rendered output
    */
   public function evaluate(Template $template, $context) {
-    if ($context instanceof Context) {
-      $c= $context;
-    } else {
-      $c= new DataContext($context);
-    }
-    
-    return $template->evaluate($c->withEngine($this));
+    $c= $context instanceof Context ? $context : new DataContext($context);
+    return $template->evaluate($c->inScope($this));
   }
 
   /**
@@ -148,13 +124,8 @@ class MustacheEngine {
    * @return void
    */
   public function write(Template $template, $context, $out) {
-    if ($context instanceof Context) {
-      $c= $context;
-    } else {
-      $c= new DataContext($context);
-    }
-    
-    $template->write($c->withEngine($this), $out);
+    $c= $context instanceof Context ? $context : new DataContext($context);
+    $template->write($c->inScope($this), $out);
   }
 
   /**
