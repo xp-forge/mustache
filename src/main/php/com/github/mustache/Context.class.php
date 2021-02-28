@@ -30,7 +30,7 @@ abstract class Context {
    * @param  com.github.mustache.Scope $scope
    * @return self
    */
-  public function inScope($scope) {
+  public function inScope(Scope $scope) {
     $this->scope= $scope;
     return $this;
   }
