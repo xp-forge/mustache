@@ -15,27 +15,4 @@ class Scope {
     $this->templates= $templates;
     $this->helpers= $helpers;
   }
-
-  /**
-   * Adds a helper with a given name
-   *
-   * @param  string $name
-   * @param  var $helper
-   * @return self
-   */
-  public function withHelper($name, $helper) {
-    $this->helpers[$name]= $helper;
-    return $this;
-  }
-
-  /**
-   * Sets helpers
-   *
-   * @param  [:var] $helpers
-   * @return self
-   */
-  public function withHelpers(array $helpers) {
-    $this->helpers= $helpers;
-    return $this;
-  }
 }
