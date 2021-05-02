@@ -60,12 +60,12 @@ class RenderingTest {
     );
   }
 
-  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "'"])]
+  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "&#039;"])]
   public function html_special_chars_for_variables($chars, $expected) {
     Assert::equals($expected, $this->render('{{input}}', ['input' => $chars]));
   }
 
-  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "'"])]
+  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "&#039;"])]
   public function html_special_chars_for_iterator($chars, $expected) {
     Assert::equals($expected, $this->render('{{#input}}{{.}}{{/input}}', ['input' => [$chars]]));
   }

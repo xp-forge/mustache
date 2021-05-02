@@ -48,7 +48,7 @@ class IteratorNode extends Node {
     } else {
       $v= $value;
     }
-    $out->write($this->escape ? htmlspecialchars($v, ENT_COMPAT) : $v);
+    $out->write($this->escape ? htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE) : $v);
   }
 
   /**

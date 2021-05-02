@@ -3,6 +3,13 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.0.0 / 2021-05-02
+
+* Changed single quotes to be emitted as `&#039;` for all PHP versions.
+  This breaks backwards compatiblity but ensure there are no security
+  risks with expressions such as `<a href='{{url}}'>...</a>`.
+  (@thekid)
+
 ## 6.1.2 / 2021-05-02
 
 * Fixed single quotes being output as `&#039;` in PHP 8.1, which changed

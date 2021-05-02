@@ -93,7 +93,7 @@ class VariableNode extends Node {
     } else {
       $rendered= $context->asString($value);
     }
-    $out->write($this->escape ? htmlspecialchars($rendered, ENT_COMPAT) : $rendered);
+    $out->write($this->escape ? htmlspecialchars($rendered, ENT_QUOTES | ENT_SUBSTITUTE) : $rendered);
   }
 
   /**
