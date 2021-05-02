@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.1.2 / 2021-05-02
+
+* Fixed single quotes being output as `&#039;` in PHP 8.1, which changed
+  the flags' argument default, see php/php-src#6583
+  (@thekid)
+
 ## 6.1.1 / 2021-02-15
 
 * Fixed *Passing null to parameter ... of type string is deprecated* 
