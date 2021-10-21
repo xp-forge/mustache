@@ -18,7 +18,7 @@ abstract class Node implements Value {
   public function evaluate($context) {
     $out= new MemoryOutputStream();
     $this->write($context, $out);
-    return $out->getBytes();
+    return $out->bytes();
   }
 
   /**

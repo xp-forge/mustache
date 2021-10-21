@@ -1,5 +1,6 @@
 <?php namespace com\github\mustache;
 
+use ArrayAccess, IteratorAggregate, ReturnTypeWillChange, Traversable;
 use lang\IllegalArgumentException;
 use util\Objects;
 
@@ -10,7 +11,7 @@ use util\Objects;
  * @see   xp://com.github.mustache.SectionNode
  * @test  xp://com.github.mustache.unittest.NodeListTest
  */
-class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
+class NodeList extends Node implements ArrayAccess, IteratorAggregate {
   protected $nodes;
 
   /**
@@ -106,6 +107,7 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
    * @param  int $offset
    * @return bool
    */
+  #[ReturnTypeWillChange]
   public function offsetExists($offset) {
     return $offset >= 0 && $offset < sizeof($this->nodes);
   }
@@ -116,6 +118,7 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
    * @param  int $offset
    * @return void
    */
+  #[ReturnTypeWillChange]
   public function offsetUnset($offset) {
     throw new IllegalArgumentException('Cannot remove by offset');
   }
@@ -126,6 +129,7 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
    * @param  int $offset
    * @return bool
    */
+  #[ReturnTypeWillChange]
   public function offsetGet($offset) {
     return $this->nodes[$offset];
   }
@@ -137,6 +141,7 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
    * @param  var $value
    * @return void
    */
+  #[ReturnTypeWillChange]
   public function offsetSet($offset, $value) {
     if (null === $offset) {
       $this->nodes[]= $value;
@@ -146,7 +151,7 @@ class NodeList extends Node implements \ArrayAccess, \IteratorAggregate {
   }
 
   /** @return iterable */
-  public function getIterator() {
+  public function getIterator(): Traversable {
     foreach ($this->nodes as $node) {
       yield $node;
     }

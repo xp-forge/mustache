@@ -3,6 +3,13 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.0 / 2021-10-21
+
+* Made compatible with PHP 8.1 - add `ReturnTypeWillChange` attributes to
+  iterator, see https://wiki.php.net/rfc/internal_method_return_types
+* Implemented xp-framework/rfc#341, dropping compatibility with XP 9
+  (@thekid)
+
 ## 7.0.0 / 2021-05-02
 
 * Changed single quotes to be emitted as `&#039;` for all PHP versions.

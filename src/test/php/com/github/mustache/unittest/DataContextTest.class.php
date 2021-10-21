@@ -114,9 +114,13 @@ class DataContextTest {
   #[Test]
   public function supports_array_access_overloading() {
     $fixture= $this->newFixture(newinstance(\ArrayAccess::class, [], '{
+      #[\ReturnTypeWillChange]
       public function offsetExists($h) { return "test" === $h; }
+      #[\ReturnTypeWillChange]
       public function offsetGet($h) { return "test" === $h ? "data" : null; }
+      #[\ReturnTypeWillChange]
       public function offsetSet($h, $v) { /* Empty */ }
+      #[\ReturnTypeWillChange]
       public function offsetUnset($h) { /* Empty */ }
     }'));
     Assert::equals('data', $fixture->lookup('test'));

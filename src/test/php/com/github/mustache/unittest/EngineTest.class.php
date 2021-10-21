@@ -98,6 +98,6 @@ class EngineTest {
     $out= new MemoryOutputStream();
     $engine->write($engine->compile('Hello {{name}}'), ['name' => 'World'], $out);
 
-    Assert::equals('Hello World', $out->getBytes());
+    Assert::equals('Hello World', $out->bytes());
   }
 }
