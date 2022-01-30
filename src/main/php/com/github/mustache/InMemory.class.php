@@ -9,7 +9,9 @@ use text\StringTokenizer;
  * @test  xp://com.github.mustache.unittest.InMemoryTest
  */
 class InMemory extends Templates {
-  protected $templates, $listing;
+  protected $templates= [];
+  protected $paths= ['.' => []];
+  protected $listing= null;
 
   /**
    * Creates a new in-memory template loader
@@ -17,7 +19,6 @@ class InMemory extends Templates {
    * @param  [:string] $templates
    */
   public function __construct($templates= []) {
-    $this->clear();
     foreach ($templates as $name => $bytes) {
       $this->add($name, $bytes);
     }

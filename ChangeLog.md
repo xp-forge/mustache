@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.1 / 2022-01-30
+
+* Fixed issue #13: Creation of dynamic property ... is deprecated, thereby
+  adding compatibility with PHP 8.2
+  (@thekid)
+
 ## 8.0.0 / 2021-10-21
 
 * Made compatible with PHP 8.1 - add `ReturnTypeWillChange` attributes to
