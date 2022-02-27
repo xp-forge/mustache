@@ -3,6 +3,11 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.2 / 2022-02-27
+
+* Fixed member declaration in `com.github.mustache.templates.Compiled`
+  (@thekid)
+
 ## 8.0.1 / 2022-01-30
 
 * Fixed issue #13: Creation of dynamic property ... is deprecated, thereby

@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\templates;
 
 class Compiled extends Source {
-  private $tokens;
+  private $template;
 
   /** @param com.github.mustache.Template */
   public function __construct($template) {
