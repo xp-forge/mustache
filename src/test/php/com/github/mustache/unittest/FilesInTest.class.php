@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{FilesIn, TemplateNotFoundException};
-use io\{File, FileUtil, Folder};
+use io\{File, Files, Folder};
 use lang\Environment;
 use unittest\{Assert, AfterClass, BeforeClass, Test, Values};
 
@@ -16,8 +16,8 @@ class FilesInTest {
     $partials= new Folder($this->temp, 'partials');
     $partials->create();
 
-    FileUtil::setContents(new File($this->temp, 'test.mustache'), 'Mustache template {{id}}');
-    FileUtil::setContents(new File($partials, 'navigation.mustache'), '{{#if nav}}nav{{/if}}');
+    Files::write(new File($this->temp, 'test.mustache'), 'Mustache template {{id}}');
+    Files::write(new File($partials, 'navigation.mustache'), '{{#if nav}}nav{{/if}}');
   }
 
   #[After]
