@@ -3,7 +3,7 @@
 use com\github\mustache\{FilesIn, TemplateNotFoundException};
 use io\{File, Files, Folder};
 use lang\Environment;
-use unittest\{Assert, AfterClass, BeforeClass, Test, Values};
+use test\{Assert, Before, Test, Values};
 
 class FilesInTest {
   private $temp;

@@ -2,7 +2,7 @@
 
 use com\github\mustache\ResourcesIn;
 use lang\ClassLoader;
-use unittest\{Assert, Test, Values};
+use test\{Assert, Test, Values};
 
 class ResourcesInTest {
 

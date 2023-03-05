@@ -2,7 +2,7 @@
 
 use com\github\mustache\{InMemory, TemplateNotFoundException};
 use io\streams\Streams;
-use unittest\{Assert, Expect, Test};
+use test\{Assert, Expect, Test};
 
 /** @deprecated */
 class DeprecatedLoaderFunctionalityTest {
@@ -14,7 +14,7 @@ class DeprecatedLoaderFunctionalityTest {
     Assert::equals($content, Streams::readAll($loader->load('test')));
   }
 
-  #[Test, Expect(['class'       => TemplateNotFoundException::class, 'withMessage' => 'Cannot find template not-found'])]
+  #[Test, Expect(class: TemplateNotFoundException::class, message: 'Cannot find template not-found')]
   public function load_raises_error_for_nonexistant_templates() {
     (new InMemory())->load('not-found');
   }

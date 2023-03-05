@@ -2,7 +2,7 @@
 
 use com\github\mustache\FileBasedTemplateLoader;
 use io\streams\MemoryInputStream;
-use unittest\{Assert, Test, Values};
+use test\{Assert, Test, Values};
 
 class FileBasedTemplateLoaderTest {
 

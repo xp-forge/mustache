@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{Context, MustacheEngine, Node};
-use unittest\{Assert, Test};
+use test\{Assert, Test, Values};
 
 class RenderingTest {
 
@@ -60,12 +60,12 @@ class RenderingTest {
     );
   }
 
-  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "&#039;"])]
+  #[Test, Values([['"', '&quot;'], ['<', '&lt;'], ['>', '&gt;'], ['&', '&amp;'], ["'", "&#039;"]])]
   public function html_special_chars_for_variables($chars, $expected) {
     Assert::equals($expected, $this->render('{{input}}', ['input' => $chars]));
   }
 
-  #[Test, Values(map: ['"' => '&quot;', '<' => '&lt;', '>' => '&gt;', '&' => '&amp;', "'" => "&#039;"])]
+  #[Test, Values([['"', '&quot;'], ['<', '&lt;'], ['>', '&gt;'], ['&', '&amp;'], ["'", "&#039;"]])]
   public function html_special_chars_for_iterator($chars, $expected) {
     Assert::equals($expected, $this->render('{{#input}}{{.}}{{/input}}', ['input' => [$chars]]));
   }
