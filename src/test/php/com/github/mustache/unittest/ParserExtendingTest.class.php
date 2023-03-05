@@ -2,7 +2,7 @@
 
 use com\github\mustache\{MustacheParser, Node, NodeList};
 use text\StringTokenizer;
-use unittest\{Assert, Test, TestCase};
+use test\{Assert, Test, TestCase};
 
 class ParserExtendingTest {
 

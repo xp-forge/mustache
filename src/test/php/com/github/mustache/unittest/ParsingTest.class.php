@@ -2,7 +2,7 @@
 
 use com\github\mustache\{IteratorNode, MustacheParser, NodeList, SectionNode, Template, TemplateFormatException, TextNode, VariableNode};
 use text\StringTokenizer;
-use unittest\{Assert, Expect, Test, Values};
+use test\{Assert, Expect, Test, Values};
 
 class ParsingTest {
 
@@ -148,7 +148,7 @@ class ParsingTest {
     $this->parse('{{#parent}}');
   }
 
-  #[Test, Values('tags')]
+  #[Test, Values(from: 'tags')]
   public function variable_with_options($source, $parsed) {
     Assert::equals(
       new NodeList([new VariableNode('var', true, $parsed)]),
@@ -156,7 +156,7 @@ class ParsingTest {
     );
   }
 
-  #[Test, Values('tags')]
+  #[Test, Values(from: 'tags')]
   public function unescaped_variable_with_options($source, $parsed) {
     Assert::equals(
       new NodeList([new VariableNode('var', false, $parsed)]),
@@ -164,7 +164,7 @@ class ParsingTest {
     );
   }
 
-  #[Test, Values('tags')]
+  #[Test, Values(from: 'tags')]
   public function triple_stash_variable_with_options($source, $parsed) {
     Assert::equals(
       new NodeList([new VariableNode('var', false, $parsed)]),
@@ -172,7 +172,7 @@ class ParsingTest {
     );
   }
 
-  #[Test, Values('tags')]
+  #[Test, Values(from: 'tags')]
   public function section_with_options($source, $parsed) {
     Assert::equals(
       new NodeList([new SectionNode('section', false, $parsed, new NodeList())]),

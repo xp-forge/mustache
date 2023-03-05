@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\PartialNode;
-use unittest\{Assert, Test};
+use test\{Assert, Test};
 
 class PartialNodeTest {
   

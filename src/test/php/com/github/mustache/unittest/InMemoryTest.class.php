@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\InMemory;
-use unittest\{Assert, Test, Values};
+use test\{Assert, Test, Values};
 
 class InMemoryTest {
 

@@ -1,7 +1,7 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\MustacheEngine;
-use unittest\{Assert, Test};
+use test\{Assert, Test};
 
 /**
  * @see  http://www.vodori.com/blog/helpful-mustache-template-tips.html

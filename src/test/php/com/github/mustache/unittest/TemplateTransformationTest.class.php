@@ -1,15 +1,11 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{InMemory, MustacheEngine, TemplateNotFoundException};
-use unittest\{Assert, Expect, Test};
+use test\{Assert, Before, Expect, Test};
 
 class TemplateTransformationTest {
-  protected $loader;
-  protected $engine;
+  protected $loader, $engine;
 
-  /**
-   * Sets up unittest
-   */
   #[Before]
   public function setUp() {
     $this->loader= new InMemory();

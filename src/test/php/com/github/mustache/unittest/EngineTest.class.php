@@ -2,7 +2,7 @@
 
 use com\github\mustache\{FilesIn, MustacheEngine, MustacheParser, NodeList, Template, TemplateLoader, TextNode, VariableNode};
 use io\streams\{MemoryInputStream, MemoryOutputStream};
-use unittest\{Assert, Test};
+use test\{Assert, Test};
 
 class EngineTest {
 
