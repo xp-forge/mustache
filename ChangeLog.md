@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #14: Migrate to new testing library - @thekid
+
 ## 8.0.2 / 2022-02-27
 
 * Fixed member declaration in `com.github.mustache.templates.Compiled`
