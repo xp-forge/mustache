@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.3 / 2023-03-18
+
+* Fixed *Call to undefined method xp::stringOf()* - @thekid
 * Merged PR #14: Migrate to new testing library - @thekid
 
 ## 8.0.2 / 2022-02-27

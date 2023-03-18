@@ -2,9 +2,7 @@
 
 use util\Objects;
 
-/**
- * Represents a template
- */
+/** Represents a template */
 class Template extends Node {
   protected $source;
   protected $root;
@@ -35,7 +33,7 @@ class Template extends Node {
    * @return string
    */
   public function toString() {
-    return nameof($this).'(source= '.$this->source.')@'.\xp::stringOf($this->root);
+    return nameof($this).'(source= '.$this->source.')@'.Objects::stringOf($this->root);
   }
 
   /**
