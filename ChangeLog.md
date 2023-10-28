@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.4 / 2023-10-28
+
 * Fixed `com.github.mustache.Template` string representation to include
   root node's string representation
   (@thekid)
