@@ -2,9 +2,13 @@
 
 use util\Objects;
 
-/** Represents a template */
+/**
+ * Represents a template
+ *
+ * @test  com.github.mustache.unittest.TemplateTest
+ */
 class Template extends Node {
-  protected $source;
+  public $source;
   protected $root;
 
   /**
@@ -18,14 +22,8 @@ class Template extends Node {
     $this->source= $source;
   }
 
-  /**
-   * Return template's root node
-   *
-   * @return com.github.mustache.Node
-   */
-  public function root() {
-    return $this->root;
-  }
+  /** @return com.github.mustache.Node */
+  public function root() { return $this->root; }
 
   /**
    * Creates a string representation of this node
@@ -33,7 +31,7 @@ class Template extends Node {
    * @return string
    */
   public function toString() {
-    return nameof($this).'(source= '.$this->source.')@'.Objects::stringOf($this->root);
+    return nameof($this).'(source= '.$this->source.')@'.$this->root->toString();
   }
 
   /**

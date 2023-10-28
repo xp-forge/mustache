@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Fixed `com.github.mustache.Template` string representation to include
+  root node's string representation
+  (@thekid)
+
 ## 8.0.3 / 2023-03-18
 
 * Fixed *Call to undefined method xp::stringOf()* - @thekid
