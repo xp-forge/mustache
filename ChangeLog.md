@@ -3,6 +3,8 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.4 to the test matrix - @thekid
+
 ## 8.0.4 / 2023-10-28
 
 * Fixed `com.github.mustache.Template` string representation to include
