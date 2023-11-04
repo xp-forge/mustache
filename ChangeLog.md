@@ -3,6 +3,7 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #15: Refactor code base to no longer use reflection - @thekid
 * Added PHP 8.4 to the test matrix - @thekid
 
 ## 8.0.4 / 2023-10-28
