@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use ArrayAccess, ReflectionObject;
+
 /**
  * Context subclass to work with any data (arrays, hashes, objects,
  * ...) generically.
@@ -17,34 +19,21 @@ class DataContext extends Context {
    * @return var
    */
   protected function pointer($ptr, $segment) {
-    if ($ptr instanceof \ArrayAccess) {
+    if ($ptr instanceof ArrayAccess) {
       return $ptr->offsetExists($segment) ? $ptr->offsetGet($segment) : null;
     } else if (is_object($ptr)) {
-      $class= typeof($ptr);
+      $p= get_object_vars($ptr);
 
       // 1. Try public field named <segment>
-      if ($class->hasField($segment)) {
-        $field= $class->getField($segment);
-        if ($field->getModifiers() & MODIFIER_PUBLIC) {
-          return $field->get($ptr);
-        }
-      }
+      if (array_key_exists($segment, $p)) return $p[$segment];
+
+      $m= get_class_methods($ptr);
 
       // 2. Try public method named <segment>
-      if ($class->hasMethod($segment)) {
-        $method= $class->getMethod($segment);
-        if ($method->getModifiers() & MODIFIER_PUBLIC) {
-          return $method->invoke($ptr);
-        }
-      }
+      if (in_array($segment, $m)) return $ptr->$segment();
 
-      // 3. Try accessor named get<segment>()
-      if ($class->hasMethod($getter= 'get'.$segment)) {
-        $method= $class->getMethod($getter);
-        if ($method->getModifiers() & MODIFIER_PUBLIC) {
-          return $method->invoke($ptr);
-        }
-      }
+      // 3. Try accessor named get<Segment>()
+      if (in_array($getter= 'get'.ucfirst($segment), $m)) return $ptr->$getter();
 
       // Non applicable - give up
       return null;

@@ -1,5 +1,7 @@
 <?php namespace com\github\mustache;
 
+use Closure;
+
 /**
  * The context passed to evaluation process consists of the variables
  * forming the view context and a reference to the engine for template
@@ -58,17 +60,15 @@ abstract class Context {
    * @return var
    */
   protected function helper($ptr, $segment) {
-    if ($ptr instanceof \Closure) {
+    if ($ptr instanceof Closure) {
       return $ptr;
     } else if (is_object($ptr)) {
-      $class= typeof($ptr);
-      if ($class->hasMethod($segment)) {
-        $method= $class->getMethod($segment);
-        return function($in, $ctx, $options) use($ptr, $method) {
-          return $method->invoke($ptr, [$in, $ctx, $options]);
-        };
-      }
-      return null;
+      return method_exists($ptr, $segment)
+        ? function($in, $ctx, $options) use($ptr, $segment) {
+            return $ptr->$segment($in, $ctx, $options);
+          }
+        : null
+      ;
     } else {
       return $ptr[$segment] ?? null;
     }
