@@ -41,73 +41,81 @@ class DataContextTest {
 
   #[Test]
   public function lookup_from_object_public_field() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      public $test = "data";
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      public $test = 'data';
+    });
     Assert::equals('data', $fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_protected_field() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      protected $test = "data";
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      protected $test = 'data';
+    });
     Assert::null($fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_private_field() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      private $test = "data";
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      private $test = 'data';
+    });
     Assert::null($fixture->lookup('test'));
   }
 
   #[Test]
+  public function lookup_from___get() {
+    $fixture= $this->newFixture(new class() extends Value {
+      public function __get($name) { return 'data'; }
+    });
+    Assert::equals('data', $fixture->lookup('test'));
+  }
+
+  #[Test]
   public function lookup_from_object_public_method() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      public function test() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      public function test() { return 'data'; }
+    });
     Assert::equals('data', $fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_private_method() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      private function test() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      private function test() { return 'data'; }
+    });
     Assert::null($fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_protected_method() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      protected function test() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      protected function test() { return 'data'; }
+    });
     Assert::null($fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_public_getter() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      public function getTest() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      public function getTest() { return 'data'; }
+    });
     Assert::equals('data', $fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_private_getter() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      private function getTest() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      private function getTest() { return 'data'; }
+    });
     Assert::null($fixture->lookup('test'));
   }
 
   #[Test]
   public function lookup_from_object_protected_getter() {
-    $fixture= $this->newFixture(newinstance(Value::class, [], '{
-      protected function getTest() { return "data"; }
-    }'));
+    $fixture= $this->newFixture(new class() extends Value {
+      protected function getTest() { return 'data'; }
+    });
     Assert::null($fixture->lookup('test'));
   }
 
