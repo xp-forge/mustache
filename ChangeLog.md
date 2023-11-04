@@ -3,6 +3,9 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.1.0 / 2023-11-04
+
+* Merged PR #16: Try using `__get()` to retrieve pointer - @thekid
 * Merged PR #15: Refactor code base to no longer use reflection - @thekid
 * Added PHP 8.4 to the test matrix - @thekid
 
