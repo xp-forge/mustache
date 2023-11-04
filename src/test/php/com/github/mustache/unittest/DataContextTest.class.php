@@ -64,6 +64,14 @@ class DataContextTest {
   }
 
   #[Test]
+  public function lookup_from___get() {
+    $fixture= $this->newFixture(new class() extends Value {
+      public function __get($name) { return 'data'; }
+    });
+    Assert::equals('data', $fixture->lookup('test'));
+  }
+
+  #[Test]
   public function lookup_from_object_public_method() {
     $fixture= $this->newFixture(new class() extends Value {
       public function test() { return 'data'; }

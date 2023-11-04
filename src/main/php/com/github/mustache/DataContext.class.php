@@ -35,6 +35,9 @@ class DataContext extends Context {
       // 3. Try accessor named get<Segment>()
       if (in_array($getter= 'get'.ucfirst($segment), $m)) return $ptr->$getter();
 
+      // 4. Try __get()
+      if (in_array('__get', $m)) return $ptr->__get($segment);
+
       // Non applicable - give up
       return null;
     } else if (isset($ptr[$segment])) {
