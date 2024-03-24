@@ -16,9 +16,9 @@ abstract class Context {
    * Creates a new context instance
    *
    * @param  [:var] $variables The view context
-   * @param  self parent The optional parent context
+   * @param  ?self parent The optional parent context
    */
-  public function __construct($variables, self $parent= null) {
+  public function __construct($variables, $parent= null) {
     $this->variables= $variables;
     if ($parent) {
       $this->parent= $parent;
@@ -167,10 +167,10 @@ abstract class Context {
    * from this context.
    *
    * @param  var $result
-   * @param  self $parent
+   * @param  ?self $parent
    * @return self
    */
-  public function newInstance($result, self $parent= null) {
+  public function newInstance($result, $parent= null) {
     return new static($result, $parent ?: $this);
   }
 

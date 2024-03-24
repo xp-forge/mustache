@@ -22,11 +22,11 @@ class SectionNode extends Node {
    * @param string $name
    * @param bool $invert
    * @param string[] $options
-   * @param com.github.mustache.NodeList $nodes
+   * @param ?com.github.mustache.NodeList $nodes
    * @param string $start
    * @param string $end
    */
-  public function __construct($name, $invert= false, $options= [], NodeList $nodes= null, $start= '{{', $end= '}}') {
+  public function __construct($name, $invert= false, $options= [], $nodes= null, $start= '{{', $end= '}}') {
     $this->name= $name;
     $this->invert= $invert;
     $this->options= $options;
