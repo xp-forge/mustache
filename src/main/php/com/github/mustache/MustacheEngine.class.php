@@ -1,6 +1,6 @@
 <?php namespace com\github\mustache;
 
-use com\github\mustache\templates\{FromLoader, Source, Templates};
+use com\github\mustache\templates\{Source, Templates};
 use text\StringTokenizer;
 
 /**
@@ -15,12 +15,12 @@ use text\StringTokenizer;
  * ]);
  * ```
  *
- * @test xp://com.github.mustache.unittest.EngineTest
- * @test xp://com.github.mustache.unittest.RenderingTest
- * @test xp://com.github.mustache.unittest.HelpersTest
- * @test xp://com.github.mustache.unittest.SpecificationTest
- * @see  https://github.com/mustache/spec
- * @see  http://mustache.github.io/mustache.5.html
+ * @see   https://github.com/mustache/spec
+ * @see   http://mustache.github.io/mustache.5.html
+ * @test  com.github.mustache.unittest.EngineTest
+ * @test  com.github.mustache.unittest.RenderingTest
+ * @test  com.github.mustache.unittest.HelpersTest
+ * @test  com.github.mustache.unittest.SpecificationTest
  */
 class MustacheEngine {
   protected $templates, $parser;
@@ -37,15 +37,11 @@ class MustacheEngine {
   /**
    * Sets template loader to be used
    *
-   * @param  com.github.mustache.templates.Templates|com.github.mustache.TemplateLoader $l
+   * @param  com.github.mustache.templates.Templates $l
    * @return self this
    */
-  public function withTemplates($l) {
-    if ($l instanceof Templates) {
-      $this->templates= $l;
-    } else {
-      $this->templates= new FromLoader($l);
-    }
+  public function withTemplates(Templates $l) {
+    $this->templates= $l;
     return $this;
   }
 
