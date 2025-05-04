@@ -1,16 +1,14 @@
 <?php namespace com\github\mustache\templates;
 
-use com\github\mustache\{TemplateLoader, WithListing};
 use io\streams\MemoryInputStream;
 
 /**
  * Template loading
  *
- * @test  xp://com.github.mustache.unittest.InMemoryTest
- * @test  xp://com.github.mustache.unittest.FileBasedTemplateLoaderTest
- * @test  xp://com.github.mustache.unittest.DeprecatedLoaderFunctionalityTest
+ * @test  com.github.mustache.unittest.InMemoryTest
+ * @test  com.github.mustache.unittest.FileBasedTemplateLoaderTest
  */
-abstract class Templates implements TemplateLoader, WithListing {
+abstract class Templates {
 
   /**
    * Load a template by a given name
