@@ -123,9 +123,7 @@ class RenderingTest {
         "{{/wrapped}}\n",
         [
           'name'    => 'Willy',
-          'wrapped' => function($text) {
-            return '<b>'.$text.'</b>';
-          }
+          'wrapped' => fn($text) => '<b>'.$text.'</b>'
         ]
       )
     );
@@ -141,9 +139,7 @@ class RenderingTest {
         "{{/wrapped}}\n",
         [
           'name'    => 'Willy',
-          'wrapped' => function(Node $node, Context $context) {
-            return '<b>'.strtoupper($node->evaluate($context)).'</b>';
-          }
+          'wrapped' => fn(Node $node, Context $context) => '<b>'.strtoupper($node->evaluate($context)).'</b>'
         ]
       )
     );
@@ -157,9 +153,7 @@ class RenderingTest {
         '{{lambda}}',
         [
           'name'    => 'Willy',
-          'lambda'  => function(Node $node, Context $context) {
-            return '{{name}} is awesome.';
-          }
+          'lambda'  => fn(Node $node, Context $context) => '{{name}} is awesome.'
         ]
       )
     );

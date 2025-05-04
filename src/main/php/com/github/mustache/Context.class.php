@@ -64,9 +64,7 @@ abstract class Context {
       return $ptr;
     } else if (is_object($ptr)) {
       return method_exists($ptr, $segment)
-        ? function($in, $ctx, $options) use($ptr, $segment) {
-            return $ptr->$segment($in, $ctx, $options);
-          }
+        ? fn($in, $ctx, $options) => $ptr->$segment($in, $ctx, $options)
         : null
       ;
     } else {

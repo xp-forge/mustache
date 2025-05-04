@@ -1,8 +1,8 @@
 <?php namespace com\github\mustache\unittest;
 
 use com\github\mustache\{MustacheParser, Node, NodeList};
-use text\StringTokenizer;
 use test\{Assert, Test, TestCase};
+use text\StringTokenizer;
 
 class ParserExtendingTest {
 

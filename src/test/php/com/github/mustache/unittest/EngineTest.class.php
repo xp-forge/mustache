@@ -32,7 +32,7 @@ class EngineTest {
   #[Test]
   public function withHelper_returns_engine() {
     $engine= new MustacheEngine();
-    $helper= function($text) { return '<b>'.$text.'</b>'; };
+    $helper= fn($text) => '<b>'.$text.'</b>';
     Assert::equals($engine, $engine->withHelper('bold', $helper));
   }
 
@@ -50,7 +50,7 @@ class EngineTest {
 
   #[Test]
   public function helpers_returns_aded_helper() {
-    $helper= function($text) { return '<b>'.$text.'</b>'; };
+    $helper= fn($text) => '<b>'.$text.'</b>';
     $engine= (new MustacheEngine())->withHelper('bold', $helper);
     Assert::equals(['bold' => $helper], $engine->helpers);
   }

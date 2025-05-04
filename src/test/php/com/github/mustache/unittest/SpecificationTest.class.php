@@ -3,8 +3,8 @@
 use com\github\mustache\{InMemory, MustacheEngine};
 use io\collections\iterate\{ExtensionEqualsFilter, FilteredIOCollectionIterator};
 use io\collections\{FileCollection, FileElement};
-use text\json\StreamInput;
 use test\{Assert, Test, TestCase, Values};
+use text\json\StreamInput;
 
 /**
  * Executes the Mustache specifications
@@ -54,10 +54,7 @@ class SpecificationTest {
 
     // Select correct lambda
     if (isset($test['data']['lambda'])) {
-      $php= $test['data']['lambda']['php'];
-      $test['data']['lambda']= function($text, $context) use($php) {
-        return eval($php);
-      };
+      $test['data']['lambda']= fn($text, $context) => eval($test['data']['lambda']['php']);
     }
 
     // Render, and assert result

@@ -2,6 +2,7 @@
 
 use com\github\mustache\{MustacheEngine, VariableNode};
 use test\{Assert, Test};
+use util\Date;
 
 class HelpersTest {
 
@@ -25,7 +26,7 @@ class HelpersTest {
     Assert::equals(
       'Hello <b>World</b>',
       $this->render('Hello {{#bold}}{{name}}{{/bold}}', ['name' => 'World'], [
-        'bold' => function($text) { return '<b>'.$text.'</b>'; }
+        'bold' => fn($text) => '<b>'.$text.'</b>'
       ])
     );
   }
@@ -35,7 +36,7 @@ class HelpersTest {
     Assert::equals(
       'Hello World',
       $this->render('Hello {{#var}}name{{/var}}', ['name' => 'World'], [
-        'var' => function($in) { return new VariableNode((string)$in); }
+        'var' => fn($in) => new VariableNode((string)$in)
       ])
     );
   }
@@ -46,8 +47,8 @@ class HelpersTest {
       'Hello world, this is BIG',
       $this->render('Hello {{#case.lower}}World{{/case.lower}}, this is {{#case.upper}}big{{/case.upper}}', [], [
         'case' => [
-          'lower' => function($text) { return strtolower($text); },
-          'upper' => function($text) { return strtoupper($text); }
+          'lower' => fn($text) => strtolower($text),
+          'upper' => fn($text) => strtoupper($text)
         ]
       ])
     );
@@ -71,7 +72,7 @@ class HelpersTest {
       'My birthday @ 14.12.2013',
       $this->render(
         'My birthday @ {{#format.date}}{{date}}{{/format.date}}',
-        ['date' => new \util\Date('14.12.2013 00:00:00')],
+        ['date'   => new Date('14.12.2013 00:00:00')],
         ['format' => new class() extends Value {
           public function date($in, $context, $options) {
             return $context->lookup($in->nodeAt(0)->name())->toString("d.m.Y");
@@ -86,9 +87,7 @@ class HelpersTest {
     Assert::equals(
       'Hello [logged: info "Just a test"]',
       $this->render('Hello {{#log info}}Just a test{{/log}}', [], [
-        'log' => function($in, $context, $options) {
-          return '[logged: '.$options[0].' "'.$in.'"]';
-        }
+        'log' => fn($in, $context, $options) => '[logged: '.$options[0].' "'.$in.'"]'
       ])
     );
   }
@@ -98,9 +97,7 @@ class HelpersTest {
     Assert::equals(
       'Hello [logged: info Just a test]',
       $this->render('Hello {{log info "Just a test"}}', [], [
-        'log' => function($in, $context, $options) {
-          return '[logged: '.implode(' ', $options).']';
-        }
+        'log' => fn($in, $context, $options) => '[logged: '.implode(' ', $options).']'
       ])
     );
   }
