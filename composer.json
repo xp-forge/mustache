@@ -8,7 +8,7 @@
   "require" : {
     "xp-framework/core": "^12.0 | ^11.0 | ^10.0",
     "xp-framework/tokenize": "^9.0 | ^8.0",
-    "php" : ">=7.0.0"
+    "php" : ">=7.4.0"
   },
   "require-dev": {
     "xp-framework/test": "^2.0 | ^1.0",

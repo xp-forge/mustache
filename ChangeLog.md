@@ -3,6 +3,10 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+**Heads up:** Dropped support for PHP < 7.4, see xp-framework/rfc#343
+  (@thekid)
+* Added PHP 8.5 to test matrix - @thekid
+
 ## 8.2.0 / 2024-03-24
 
 * Made compatible with XP 12 - @thekid
