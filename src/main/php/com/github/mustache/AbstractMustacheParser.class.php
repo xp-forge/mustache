@@ -12,7 +12,8 @@ use text\Tokenizer;
  * 
  * ```php
  * $handler= function($tag, $state[, $parse]) {
- * }
+ *   // Implementation
+ * };
  * ```
  *
  * - The tag variable contains the complete tag, that is, everything
@@ -30,9 +31,7 @@ abstract class AbstractMustacheParser implements TemplateParser {
   protected $standalone= [];
   protected $options;
 
-  /**
-   * Perform initialization.
-   */
+  /** Perform initialization */
   public function __construct() {
     $this->initialize();
   }
@@ -63,10 +62,11 @@ abstract class AbstractMustacheParser implements TemplateParser {
    */
   public function withHandler($tokens, $standalone, $handler) {
     if (null === $tokens) {
-      $this->handlers[null]= $handler;
+      $this->handlers['']= $handler;
     } else for ($i= 0; $i < strlen($tokens); $i++) {
-      $this->handlers[$tokens[$i]]= $handler;
-      $standalone && $this->standalone[$tokens[$i]]= true;
+      $t= $tokens[$i];
+      $this->handlers[$t]= $handler;
+      $standalone && $this->standalone[$t]= true;
     }
     return $this;
   }
@@ -140,10 +140,8 @@ abstract class AbstractMustacheParser implements TemplateParser {
         // Handle tag
         if (null === $tag) {
           continue;
-        } else if (isset($this->handlers[$tag[0]])) {
-          $f= $this->handlers[$tag[0]];
         } else {
-          $f= $this->handlers[null];
+          $f= $this->handlers[$tag[0]] ?? $this->handlers[''];
         }
         $offset+= $f($tag, $state, $this);
       } while ($offset < strlen($line));

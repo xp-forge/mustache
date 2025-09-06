@@ -3,6 +3,12 @@ Mustache for XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.1 / 2025-09-06
+
+* Fixed *E_DEPRECATED: Using null as an array offset is deprecated, use
+  an empty string instead* (PHP 8.5+)
+  (@thekid)
+
 ## 9.0.0 / 2025-05-04
 
 * **Heads up:** Remove deprecated template loader infrastructure, see #8
